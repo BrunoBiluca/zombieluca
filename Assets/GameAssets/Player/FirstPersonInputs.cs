@@ -1,27 +1,35 @@
-using Assets.UnityFoundation.EditorInspector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Zenject;
 using static UnityEngine.InputSystem.InputAction;
 
-public class FirstPersonInputs : MonoBehaviour
+public class FirstPersonInputs
 {
-    [SerializeField] [ShowOnly] private Vector2 move;
-    public Vector2 Move => move;
+    public Vector2 Move { get; private set; }
+    public bool Jump { get; private set; }
+    public Vector2 Look => inputActions.Player.Look.ReadValue<Vector2>();
 
     private FirstPersonInputActions inputActions;
 
-    private void Awake() {
-        inputActions = new FirstPersonInputActions();
+    public FirstPersonInputs(FirstPersonInputActions inputActions)
+    {
+        this.inputActions = inputActions;
+    }
 
+    public void Enable()
+    {
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.started += OnMove;
         inputActions.Player.Move.canceled += OnMove;
 
+        inputActions.Player.Jump.performed += OnJump;
+        inputActions.Player.Jump.started += OnJump;
+        inputActions.Player.Jump.canceled += OnJump;
+
         inputActions.Enable();
     }
+    private void OnMove(CallbackContext ctx) => Move = ctx.ReadValue<Vector2>();
 
-    private void OnMove(CallbackContext ctx) => move = ctx.ReadValue<Vector2>();
+    private void OnJump(CallbackContext ctx) => Jump = ctx.ReadValueAsButton();
 }
