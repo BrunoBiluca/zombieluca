@@ -9,6 +9,9 @@ public class FirstPersonInputs
     public Vector2 Move { get; private set; }
     public bool Jump { get; private set; }
     public Vector2 Look => inputActions.Player.Look.ReadValue<Vector2>();
+    public bool Aim => inputActions.Player.Aim.triggered;
+    public bool Fire => inputActions.Player.Fire.triggered;
+    public bool Reload => inputActions.Player.Reload.triggered;
 
     private FirstPersonInputActions inputActions;
 
@@ -27,7 +30,7 @@ public class FirstPersonInputs
         inputActions.Player.Jump.started += OnJump;
         inputActions.Player.Jump.canceled += OnJump;
 
-        inputActions.Enable();
+        inputActions.Player.Enable();
     }
     private void OnMove(CallbackContext ctx) => Move = ctx.ReadValue<Vector2>();
 

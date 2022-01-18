@@ -21,6 +21,7 @@ public class FirstPersonController : MonoBehaviour
     public float JumpTimeout = 0.50f;
 
     private FirstPersonInputs inputs;
+    private FirstPersonAnimationController animController;
     private Camera mainCamera;
     private Rigidbody rigBody;
 
@@ -31,10 +32,12 @@ public class FirstPersonController : MonoBehaviour
     [Inject]
     public void Init(
         FirstPersonInputs inputs,
+        FirstPersonAnimationController animController,
         Camera mainCamera
     )
     {
         this.inputs = inputs;
+        this.animController = animController;
         this.mainCamera = mainCamera;
     }
 
@@ -51,6 +54,30 @@ public class FirstPersonController : MonoBehaviour
         Rotate();
         Move();
         TryJump();
+        TryAim();
+        TryFire();
+        TryReload();
+    }
+
+    private void TryReload()
+    {
+        if(!inputs.Reload) return;
+
+        animController.Reload();
+    }
+
+    private void TryFire()
+    {
+        if(!inputs.Fire) return;
+
+        animController.Fire();
+    }
+
+    private void TryAim()
+    {
+        if(!inputs.Aim) return;
+
+        animController.Aim();
     }
 
     private bool CheckGround()
