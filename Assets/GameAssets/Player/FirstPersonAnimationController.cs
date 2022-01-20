@@ -3,10 +3,12 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-public class FirstPersonAnimationParams {
+public class FirstPersonAnimationParams
+{
     public const string AIM = "aim";
     public const string FIRE = "fire";
     public const string RELOAD = "reload";
+    public const string WALKING = "walking";
 }
 
 // TODO: transformar essa classe de Animation Controller em abstrata, para usar em outros projetos
@@ -35,20 +37,31 @@ public class FirstPersonAnimationController
         .Select(fi => (string)fi.GetValue(new object()))
         .ToList();
 
-        foreach(var param in animator.parameters){
+        foreach(var param in animator.parameters)
+        {
             if(!animParams.Contains(param.name))
                 Debug.LogWarning($"Parameter {param.name} was not mapped on {animator.name}");
         }
     }
 
-    public void Aim() {
+    public void Aim()
+    {
         animator.SetBool(
-            FirstPersonAnimationParams.AIM, 
+            FirstPersonAnimationParams.AIM,
             !animator.GetBool(FirstPersonAnimationParams.AIM)
         );
     }
 
-    public void Fire() {
+    public void Walking(bool state) {
+        animator.SetBool(FirstPersonAnimationParams.WALKING, state
+        );
+    }
+
+    public void Fire()
+    {
+        // TODO: corrigir os trigger para só ativarem a animação no momento que são ativados
+        // atualmente um trigger fica ativado até executar a animação, 
+        // mesmo que no momento o estado da animação não pode ser executada
         animator.SetTrigger(FirstPersonAnimationParams.FIRE);
     }
 
