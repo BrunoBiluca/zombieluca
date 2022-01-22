@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e294b4edfbe13f438969505a8832df6, type: 3}
   m_Name: default_player_settings
   m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 4874480355813262084, guid: bce513889c16aa747a5704a53961a013, type: 3}
   MoveSpeed: 2
   JumpHeight: 1.2
   JumpTimeout: 0.5
   FireSFX: {fileID: 8300000, guid: b168eaf70cff9434384804b5a0758917, type: 3}
+  WalkingStepsSFX:
+  - {fileID: 8300000, guid: 41cabf8e1b2bf41979caa467071a7c7b, type: 3}
+  - {fileID: 8300000, guid: 53dcb87c0d58147c6a32f226285470b7, type: 3}
+  - {fileID: 8300000, guid: 4deee5c4efdfb413f865fc2f740f7308, type: 3}
+  - {fileID: 8300000, guid: 3be44f8ee8a88445d9d23221fabacd32, type: 3}

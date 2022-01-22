@@ -30,7 +30,8 @@ public class FirstPersonAnimationController
     // e remover essas validação quando for publicar o jogo.
     private void ValidateParams()
     {
-        var animParams = typeof(FirstPersonAnimationParams).GetFields(
+        var animParams = typeof(FirstPersonAnimationParams)
+        .GetFields(
             BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy
         )
         .Where(fi => fi.IsLiteral && !fi.IsInitOnly)
@@ -52,9 +53,9 @@ public class FirstPersonAnimationController
         );
     }
 
-    public void Walking(bool state) {
-        animator.SetBool(FirstPersonAnimationParams.WALKING, state
-        );
+    public void Walking(bool state)
+    {
+        animator.SetBool(FirstPersonAnimationParams.WALKING, state);
     }
 
     public void Fire()

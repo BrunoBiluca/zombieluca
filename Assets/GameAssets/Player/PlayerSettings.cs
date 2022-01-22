@@ -7,6 +7,8 @@ public class PlayerSettings : ScriptableObject
 {
     [Header("Player")]
 
+    public GameObject PlayerPrefab;
+
     [Tooltip("Move speed of the character in m/s")]
     public float MoveSpeed = 2.0f;
 
@@ -19,4 +21,6 @@ public class PlayerSettings : ScriptableObject
     public float JumpTimeout = 0.50f;
 
     public AudioClip FireSFX;
+
+    public List<AudioClip> WalkingStepsSFX;
 }

@@ -53,6 +53,6 @@ public class IdlePlayerState : BaseCharacterState3D
         // TODO: utilizar factores para criar esses estados
         // criar uma factory com todos os estados do controller, 
         // dessa forma não precisamos de usar referências públicas
-        controller.TransitionToState(controller.walkPlayerState);
+        controller.TransitionToState(controller.WalkPlayerState);
     }
 }

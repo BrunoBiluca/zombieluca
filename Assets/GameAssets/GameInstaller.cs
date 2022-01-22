@@ -1,8 +1,12 @@
+using Cinemachine;
 using UnityEngine;
 using Zenject;
 
 public class GameInstaller : MonoInstaller
 {
+    [Inject]
+    private PlayerSettings playerSettings;
+
     public override void InstallBindings()
     {
         Container.BindInterfacesAndSelfTo<CursorLockHandler>().AsSingle();
@@ -12,20 +16,14 @@ public class GameInstaller : MonoInstaller
         // encapsulando assim todas as instancias de um player 
         // possibilitando um coop split/screen
         Container.Bind<Camera>().FromComponentInHierarchy().AsCached();
+        Container.Bind<CinemachineVirtualCamera>().FromComponentInHierarchy().AsCached();
 
-        Container.Bind<IdlePlayerState>().AsTransient();
-        Container.Bind<WalkPlayerState>().AsTransient();
-
-        Container.Bind<FirstPersonInputs>().FromNew().AsSingle();
-
-        // TODO: FromComponentInHierarchy só funciona porque só existe 1 na cena
-        // mudar isso para garantir que funcione com mais Animators
-        // talvez será necessário criar um prefab para o player
-        Container.Bind<FirstPersonController>().FromComponentInHierarchy().AsCached();
-        Container.Bind<Animator>().FromComponentInHierarchy().AsCached();
-        Container.Bind<AudioSource>().FromComponentInHierarchy().AsCached();
-
-        Container.Bind<FirstPersonAnimationController>().AsSingle();
+        Container.Bind<FirstPersonInputs>().AsSingle();
         Container.BindInterfacesAndSelfTo<FirstPersonInputActions>().AsSingle();
+
+        Container.Bind<FirstPersonController>()
+            .FromSubContainerResolve()
+            .ByNewPrefabInstaller<PlayerInstaller>(playerSettings.PlayerPrefab)
+            .AsCached();
     }
 }

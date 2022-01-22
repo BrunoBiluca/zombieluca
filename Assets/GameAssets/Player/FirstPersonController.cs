@@ -17,14 +17,14 @@ public class FirstPersonController : BaseCharacter3D
     public bool IsGrounded { get; private set; }
 
     [Inject] private PlayerSettings settings;
-    [Inject] public IdlePlayerState idlePlayerState;
-    [Inject] public WalkPlayerState walkPlayerState;
+    [Inject] public IdlePlayerState IdlePlayerState;
+    [Inject] public WalkPlayerState WalkPlayerState;
 
     [Inject]
     public void Init(
         FirstPersonInputs inputs,
         FirstPersonAnimationController animController,
-        AudioSource audioSource
+        [Inject(Id = AudioSources.PlayerWeapon)] AudioSource audioSource
     )
     {
         this.inputs = inputs;
@@ -38,7 +38,7 @@ public class FirstPersonController : BaseCharacter3D
         rigBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
-        TransitionToState(idlePlayerState);
+        TransitionToState(IdlePlayerState);
     }
 
     protected override void OnUpdate()
@@ -106,5 +106,9 @@ public class FirstPersonController : BaseCharacter3D
         if(!inputs.Jump) return;
 
         rigBody.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+    }
+
+    public class Factory : PlaceholderFactory<FirstPersonController> {
+
     }
 }
