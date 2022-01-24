@@ -1,4 +1,4 @@
-using Assets.UnityFoundation.Code;
+using Assets.UnityFoundation.Code.PhysicsUtils;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
 using Zenject;
@@ -11,10 +11,11 @@ public class FirstPersonController : BaseCharacter3D
     private FirstPersonInputs inputs;
     private FirstPersonAnimationController animController;
     private AudioSource audioSource;
+    private CheckGroundHandler checkGroundHandler;
     private Rigidbody rigBody;
     private CapsuleCollider capsuleCollider;
 
-    public bool IsGrounded { get; private set; }
+    public bool IsGrounded => checkGroundHandler.IsGrounded;
 
     [Inject] private PlayerSettings settings;
     [Inject] public IdlePlayerState IdlePlayerState;
@@ -24,12 +25,14 @@ public class FirstPersonController : BaseCharacter3D
     public void Init(
         FirstPersonInputs inputs,
         FirstPersonAnimationController animController,
-        [Inject(Id = AudioSources.PlayerWeapon)] AudioSource audioSource
+        [Inject(Id = AudioSources.PlayerWeapon)] AudioSource audioSource,
+        CheckGroundHandler checkGroundHandler
     )
     {
         this.inputs = inputs;
         this.animController = animController;
         this.audioSource = audioSource;
+        this.checkGroundHandler = checkGroundHandler;
     }
 
     private void Start()
@@ -43,7 +46,7 @@ public class FirstPersonController : BaseCharacter3D
 
     protected override void OnUpdate()
     {
-        CheckGround();
+        checkGroundHandler.CheckGround();
         TryJump();
 
         // TODO: separar as classes de movimento e mira já que 
@@ -82,30 +85,14 @@ public class FirstPersonController : BaseCharacter3D
             audioSource.PlayOneShot(settings.FireSFX);
     }
 
-    private bool CheckGround()
-    {
-        IsGrounded = Physics.Raycast(
-            capsuleCollider.bounds.center,
-            transform.Down(),
-            capsuleCollider.height + 0.05f
-        );
-
-        Debug.DrawRay(
-            capsuleCollider.bounds.center,
-            transform.Down() * (capsuleCollider.height + 0.05f),
-            IsGrounded ? Color.green : Color.red
-        );
-
-        return IsGrounded;
-    }
-
     private void TryJump()
     {
         if(!IsGrounded) return;
 
         if(!inputs.Jump) return;
 
-        rigBody.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+        // TODO: corrigir para só chamar o add force uma única vez
+        rigBody.AddForce(Vector3.up, ForceMode.Impulse);
     }
 
     public class Factory : PlaceholderFactory<FirstPersonController> {

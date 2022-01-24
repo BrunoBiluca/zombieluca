@@ -42,6 +42,7 @@ public class WalkPlayerState : BaseCharacterState3D
         var clipIdx = UnityEngine.Random.Range(0, playerSettings.WalkingStepsSFX.Count - 1);
         walkStepAudio.clip = playerSettings.WalkingStepsSFX[clipIdx];
         walkStepAudio.Play();
+        walkStepAudio.loop = true;
     }
 
     public override void EnterState()
@@ -50,7 +51,6 @@ public class WalkPlayerState : BaseCharacterState3D
 
         walkStepTimer.Start();
         walkStepAudio.Play();
-        walkStepAudio.loop = true;
     }
 
     public override void Update()
