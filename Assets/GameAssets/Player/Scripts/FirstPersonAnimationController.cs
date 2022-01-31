@@ -1,4 +1,4 @@
-using System;
+using Assets.GameAssets.UnityBase;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -16,33 +16,11 @@ public class FirstPersonAnimationParams
 // e a garantir desacoplamento do comportamento do objeto da animação que ele está desempenhando
 public class FirstPersonAnimationController
 {
-    private readonly Animator animator;
+    private readonly IAnimator animator;
 
-    public FirstPersonAnimationController(Animator animator)
+    public FirstPersonAnimationController(IAnimator animator)
     {
         this.animator = animator;
-
-        ValidateParams();
-    }
-
-    // TODO: transformar esse parâmetro em uma classe que é injetada na validação do projeto
-    // dessa forma é posso adicionar classes de validação no container do projeto para build 
-    // e remover essas validação quando for publicar o jogo.
-    private void ValidateParams()
-    {
-        var animParams = typeof(FirstPersonAnimationParams)
-        .GetFields(
-            BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy
-        )
-        .Where(fi => fi.IsLiteral && !fi.IsInitOnly)
-        .Select(fi => (string)fi.GetValue(new object()))
-        .ToList();
-
-        foreach(var param in animator.parameters)
-        {
-            if(!animParams.Contains(param.name))
-                Debug.LogWarning($"Parameter {param.name} was not mapped on {animator.name}");
-        }
     }
 
     public void Aim()
@@ -60,13 +38,10 @@ public class FirstPersonAnimationController
 
     public void Fire()
     {
-        // TODO: corrigir os trigger para só ativarem a animação no momento que são ativados
-        // atualmente um trigger fica ativado até executar a animação, 
-        // mesmo que no momento o estado da animação não pode ser executada
         animator.SetTrigger(FirstPersonAnimationParams.FIRE);
     }
 
-    internal void Reload()
+    public void Reload()
     {
         animator.SetTrigger(FirstPersonAnimationParams.RELOAD);
     }

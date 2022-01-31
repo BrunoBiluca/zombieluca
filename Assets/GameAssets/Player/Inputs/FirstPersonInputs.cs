@@ -32,6 +32,12 @@ public class FirstPersonInputs
 
         inputActions.Player.Enable();
     }
+
+    public void Disable()
+    {
+        inputActions.Player.Disable();
+    }
+
     private void OnMove(CallbackContext ctx) => Move = ctx.ReadValue<Vector2>();
 
     private void OnJump(CallbackContext ctx) => Jump = ctx.ReadValueAsButton();

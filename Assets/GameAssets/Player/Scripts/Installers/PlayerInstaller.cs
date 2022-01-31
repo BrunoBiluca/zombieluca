@@ -1,3 +1,4 @@
+using Assets.GameAssets.UnityBase;
 using Assets.UnityFoundation.Code.PhysicsUtils;
 using UnityEngine;
 using Zenject;
@@ -27,6 +28,8 @@ public class PlayerInstaller : Installer<PlayerInstaller>
         Container.Bind<Animator>()
             .FromComponentInHierarchy()
             .AsCached();
+
+        Container.Bind<IAnimator>().To<AnimatorController>().AsCached();
 
         Container.Bind<FirstPersonAnimationController>().AsSingle();
     }
