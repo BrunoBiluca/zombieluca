@@ -1,3 +1,4 @@
+using Assets.GameAssets.Items;
 using Cinemachine;
 using UnityEngine;
 using Zenject;
@@ -25,5 +26,9 @@ public class GameInstaller : MonoInstaller
             .FromSubContainerResolve()
             .ByNewPrefabInstaller<PlayerInstaller>(playerSettings.PlayerPrefab)
             .AsCached();
+
+        Container.Bind<HealItem>().AsTransient().WithArguments(10f);
+
+        Container.Bind<AmmoItem>().AsTransient().WithArguments(5);
     }
 }

@@ -1,5 +1,7 @@
+using Assets.GameAssets.AmmoStorage;
 using Assets.GameAssets.UnityBase;
 using Assets.UnityFoundation.Code.PhysicsUtils;
+using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +9,8 @@ public class PlayerInstaller : Installer<PlayerInstaller>
 {
     public override void InstallBindings()
     {
+        // TODO: instalar os componentes no prefab pelo installer, não ter no prefab
+
         Container.Bind<Transform>().FromComponentOnRoot().AsSingle();
         Container.Bind<FirstPersonController>().FromComponentOnRoot().AsSingle();
 
@@ -28,6 +32,10 @@ public class PlayerInstaller : Installer<PlayerInstaller>
         Container.Bind<Animator>()
             .FromComponentInHierarchy()
             .AsCached();
+
+        Container.BindInterfacesAndSelfTo<HealthSystem>().AsSingle();
+
+        Container.BindInterfacesAndSelfTo<AmmoStorage>().AsSingle().WithArguments(10);
 
         Container.Bind<IAnimator>().To<AnimatorController>().AsCached();
 

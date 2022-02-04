@@ -18,13 +18,11 @@ namespace Assets.GameAssets.Player.Tests
         [Test]
         public void ShouldPlayAim_WhenCalledAim()
         {
-            var initialAimParameter = false;
-
             var animMock = new Mock<IAnimator>();
             animMock.SetupSequence(m => m.GetBool(FirstPersonAnimationParams.AIM))
-                .Returns(initialAimParameter)
-                .Returns(!initialAimParameter)
-                .Returns(!initialAimParameter);
+                .Returns(false)
+                .Returns(true)
+                .Returns(false);
 
             var firstPlayerAnimController = new FirstPersonAnimationController(animMock.Object);
 
