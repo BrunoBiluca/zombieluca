@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60da77061996d484abbd7a143a2d9b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupAmmoSFX: {fileID: 8300000, guid: aeaf5e33e8f40d44dbbab2cf3a4ecd6f, type: 3}
 --- !u!1 &4022848710415164492
 GameObject:
   m_ObjectHideFlags: 0

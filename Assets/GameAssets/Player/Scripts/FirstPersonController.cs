@@ -3,9 +3,6 @@ using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
 using Zenject;
 
-// TODO: FirstPersonController não é o player, é só um modo de controle do jogo.
-// o player pode alterar entre first person e outro modo, 
-// logo temos que separar a classe de controle da classe de player
 public class FirstPersonController : BaseCharacter3D
 {
     private FirstPersonInputs inputs;

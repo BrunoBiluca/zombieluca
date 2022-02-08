@@ -1,7 +1,4 @@
-using Assets.GameAssets.UnityBase;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
+using Assets.UnityFoundation.UnityAdapter;
 
 public class FirstPersonAnimationParams
 {

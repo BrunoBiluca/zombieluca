@@ -4,12 +4,18 @@ using Zenject;
 
 public class AmmoStorageMonoBehaviour : MonoBehaviour, IAmmoStorage
 {
+    private IAmmoStorage storage;
+
     [Inject]
-    private readonly IAmmoStorage ammoStorage;
+    public AmmoStorageMonoBehaviour Setup(IAmmoStorage storage)
+    {
+        this.storage = storage;
+        return this;
+    }
 
-    public int CurrentAmount => ammoStorage.CurrentAmount;
+    public int CurrentAmount => storage.CurrentAmount;
 
-    public int MaxAmount => ammoStorage.MaxAmount;
+    public int MaxAmount => storage.MaxAmount;
 
-    public void Recover(int amount) => ammoStorage.Recover(amount);
+    public void Recover(int amount) => storage.Recover(amount);
 }

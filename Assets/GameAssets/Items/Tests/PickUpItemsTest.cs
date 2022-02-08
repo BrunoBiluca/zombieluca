@@ -1,11 +1,19 @@
 using Assets.GameAssets.AmmoStorage;
 using Assets.UnityFoundation.Systems.HealthSystem;
+using Assets.UnityFoundation.UnityAdapter;
 using Moq;
 using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Remoting.Messaging;
+using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Assets.GameAssets.Items.Tests
 {
-    public class PickUpItemsTest
+    [TestFixture]
+    public partial class PickUpItemsTest
     {
         [Test]
         [TestCase(0f)]
@@ -13,15 +21,17 @@ namespace Assets.GameAssets.Items.Tests
         public void ShouldRecoverXHealth_WhenUseHealItem(float healAmount)
         {
             var healItem = new HealItem(healAmount);
+            var currentHealthExpected = 0f;
 
             var healthSystem = new Mock<IHealable>();
 
-            healthSystem.SetupGet(hs => hs.CurrentHealth).Returns(healAmount);
+            healthSystem.Setup(hs => hs.Heal(It.IsAny<float>()))
+                .Callback<float>(amount => currentHealthExpected += amount);
 
             healItem.SetHealable(healthSystem.Object).Use();
 
             healthSystem.Verify(hs => hs.Heal(It.IsAny<float>()), Times.Once);
-            Assert.That(healthSystem.Object.CurrentHealth, Is.EqualTo(healAmount));
+            Assert.That(currentHealthExpected, Is.EqualTo(healAmount));
         }
 
         [Test]
@@ -30,16 +40,19 @@ namespace Assets.GameAssets.Items.Tests
         [TestCase(3)]
         public void HealItemsShouldBeUsedOnlyOnce(int healUses)
         {
+            var currentHealthExpected = 0f;
             var healthSystem = new Mock<IHealable>();
+            healthSystem.Setup(hs => hs.Heal(It.IsAny<float>()))
+                .Callback<float>(amount => currentHealthExpected += amount);
 
             var healItem = new HealItem(10f);
-
             for(int use = 0; use < healUses; use++)
             {
                 healItem.SetHealable(healthSystem.Object).Use();
             }
 
             healthSystem.Verify(hs => hs.Heal(It.IsAny<float>()), Times.Once);
+            Assert.That(currentHealthExpected, Is.EqualTo(10f));
         }
 
         [Test]
@@ -57,7 +70,7 @@ namespace Assets.GameAssets.Items.Tests
             ammoItem.SetAmmoStorage(ammoStorage.Object).Use();
 
             ammoStorage.Verify(
-                ammoStorage => ammoStorage.Recover(It.IsAny<int>()), 
+                ammoStorage => ammoStorage.Recover(It.IsAny<int>()),
                 Times.Once
             );
             Assert.That(ammoStorage.Object.CurrentAmount, Is.EqualTo(refillAmount));
@@ -75,9 +88,51 @@ namespace Assets.GameAssets.Items.Tests
             ammoItem.SetAmmoStorage(ammoStorage.Object).Use();
 
             ammoStorage.Verify(
-                ammoStorage => ammoStorage.Recover(It.IsAny<int>()), 
+                ammoStorage => ammoStorage.Recover(It.IsAny<int>()),
                 Times.Once
             );
+        }
+
+        [UnityTest]
+        [RequiresPlayMode]
+        [TestCaseSource(nameof(MockConsumableItems))]
+        public IEnumerator ItemXShouldBeUsed_WhenCollideWithY(
+            IConsumableItemFactory itemFactory,
+            IItemUserFactory itemUserFactory,
+            bool expectedConsume
+        )
+        {
+            yield return null;
+
+            var collision = new Collision();
+            var field = typeof(Collision).GetField(
+                "m_Body", BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            field.SetValue(collision, itemUserFactory.Create()); // Set non-public field
+
+            var item = itemFactory.Create();
+            item.OnCollisionEnter(collision);
+
+            Assert.AreEqual(expectedConsume, itemFactory.GetConsumableItem().WasConsumed);
+        }
+
+        public static IEnumerable<TestCaseData> MockConsumableItems()
+        {
+            yield return new TestCaseData(new AmmoItemFactory(), new StorageFactory(), true)
+                .SetName("Ammo Item should be used when collide with Ammo Storage")
+                .Returns(null);
+
+            yield return new TestCaseData(new AmmoItemFactory(), new HealthSystemFactory(), false)
+                .SetName("Ammo Item should not be used when collide with Health System")
+                .Returns(null);
+
+            yield return new TestCaseData(new HealItemFactory(), new StorageFactory(), false)
+                .SetName("Heal item should not be used when collide with Ammo Storage")
+                .Returns(null);
+
+            yield return new TestCaseData(new HealItemFactory(), new HealthSystemFactory(), true)
+                .SetName("Heal item should be used when collide with Healable")
+                .Returns(null);
         }
     }
 }

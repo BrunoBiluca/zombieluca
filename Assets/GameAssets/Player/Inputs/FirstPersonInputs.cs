@@ -13,7 +13,7 @@ public class FirstPersonInputs
     public bool Fire => inputActions.Player.Fire.triggered;
     public bool Reload => inputActions.Player.Reload.triggered;
 
-    private FirstPersonInputActions inputActions;
+    private readonly FirstPersonInputActions inputActions;
 
     public FirstPersonInputs(FirstPersonInputActions inputActions)
     {

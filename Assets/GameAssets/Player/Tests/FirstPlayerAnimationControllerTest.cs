@@ -1,4 +1,4 @@
-using Assets.GameAssets.UnityBase;
+using Assets.UnityFoundation.UnityAdapter;
 using Moq;
 using NUnit.Framework;
 

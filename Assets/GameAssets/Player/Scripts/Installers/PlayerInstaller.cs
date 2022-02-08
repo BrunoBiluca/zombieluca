@@ -1,7 +1,7 @@
 using Assets.GameAssets.AmmoStorage;
-using Assets.GameAssets.UnityBase;
 using Assets.UnityFoundation.Code.PhysicsUtils;
 using Assets.UnityFoundation.Systems.HealthSystem;
+using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using Zenject;
 

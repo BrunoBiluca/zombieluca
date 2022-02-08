@@ -7,12 +7,18 @@ using Zenject;
 
 namespace Assets.GameAssets.Items
 {
-    public class HealItemMonoBehaviour : MonoBehaviour
+    public class HealItemMonoBehaviour : MonoBehaviour, ICollisionObject
     {
-        [Inject]
-        private readonly HealItem healItem;
+        private HealItem healItem;
 
-        private void OnCollisionEnter(Collision collision)
+        [Inject]
+        public HealItemMonoBehaviour Setup(HealItem healItem)
+        {
+            this.healItem = healItem;
+            return this;
+        }
+
+        public void OnCollisionEnter(Collision collision)
         {
             if(!collision.gameObject.TryGetComponent(out IHealable healable))
                 return;

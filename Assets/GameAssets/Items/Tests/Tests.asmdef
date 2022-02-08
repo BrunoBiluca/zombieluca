@@ -6,7 +6,9 @@
         "UnityEditor.TestRunner",
         "Items",
         "AmmoStorage",
-        "UnityFoundation.HealthSystem"
+        "UnityFoundation.Code",
+        "UnityFoundation.HealthSystem",
+        "UnityFoundation.UnityAdapter"
     ],
     "includePlatforms": [
         "Editor"

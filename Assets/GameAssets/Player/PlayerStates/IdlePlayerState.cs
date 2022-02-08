@@ -3,25 +3,21 @@ using UnityEngine;
 
 public class IdlePlayerState : BaseCharacterState3D
 {
-    private readonly PlayerSettings playerSettings;
     private readonly FirstPersonController controller;
     private readonly FirstPersonInputs inputs;
     private readonly FirstPersonAnimationController animController;
     private readonly Camera mainCamera;
-    private Transform transform;
+    private readonly Transform transform;
 
     public IdlePlayerState(
-        PlayerSettings playerSettings,
         FirstPersonController controller,
         FirstPersonInputs inputs,
         FirstPersonAnimationController animController,
         Camera mainCamera
     )
     {
-        this.playerSettings = playerSettings;
-
         this.controller = controller;
-        this.transform = controller.transform;
+        transform = controller.transform;
 
         this.inputs = inputs;
         this.animController = animController;

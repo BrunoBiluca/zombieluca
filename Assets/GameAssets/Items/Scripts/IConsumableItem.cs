@@ -6,6 +6,8 @@ namespace Assets.GameAssets.Items
     {
         public bool WasConsumed { get; private set; }
 
+        public ConsumableItem() { }
+
         public void Use()
         {
             if(WasConsumed) return;

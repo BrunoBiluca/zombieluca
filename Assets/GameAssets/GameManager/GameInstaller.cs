@@ -1,4 +1,5 @@
 using Assets.GameAssets.Items;
+using Assets.UnityFoundation.UnityAdapter;
 using Cinemachine;
 using UnityEngine;
 using Zenject;
@@ -6,7 +7,7 @@ using Zenject;
 public class GameInstaller : MonoInstaller
 {
     [Inject]
-    private PlayerSettings playerSettings;
+    private readonly PlayerSettings playerSettings;
 
     public override void InstallBindings()
     {
@@ -25,6 +26,14 @@ public class GameInstaller : MonoInstaller
         Container.Bind<FirstPersonController>()
             .FromSubContainerResolve()
             .ByNewPrefabInstaller<PlayerInstaller>(playerSettings.PlayerPrefab)
+            .AsCached();
+
+        Container.Bind<AudioSource>()
+            .FromComponentInHierarchy()
+            .AsCached();
+
+        Container.Bind<IAudioSource>()
+            .To<AudioSourceDec>()
             .AsCached();
 
         Container.Bind<HealItem>().AsTransient().WithArguments(10f);
