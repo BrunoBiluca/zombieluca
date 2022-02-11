@@ -1,12 +1,10 @@
 using Assets.GameAssets.AmmoStorage;
 using Assets.UnityFoundation.Systems.HealthSystem;
-using Assets.UnityFoundation.UnityAdapter;
 using Moq;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -70,7 +68,7 @@ namespace Assets.GameAssets.Items.Tests
             ammoItem.SetAmmoStorage(ammoStorage.Object).Use();
 
             ammoStorage.Verify(
-                ammoStorage => ammoStorage.Recover(It.IsAny<int>()),
+                ammoStorage => ammoStorage.Recover(It.IsAny<uint>()),
                 Times.Once
             );
             Assert.That(ammoStorage.Object.CurrentAmount, Is.EqualTo(refillAmount));
@@ -88,7 +86,7 @@ namespace Assets.GameAssets.Items.Tests
             ammoItem.SetAmmoStorage(ammoStorage.Object).Use();
 
             ammoStorage.Verify(
-                ammoStorage => ammoStorage.Recover(It.IsAny<int>()),
+                ammoStorage => ammoStorage.Recover(It.IsAny<uint>()),
                 Times.Once
             );
         }
@@ -102,8 +100,6 @@ namespace Assets.GameAssets.Items.Tests
             bool expectedConsume
         )
         {
-            yield return null;
-
             var collision = new Collision();
             var field = typeof(Collision).GetField(
                 "m_Body", BindingFlags.Instance | BindingFlags.NonPublic
@@ -114,6 +110,11 @@ namespace Assets.GameAssets.Items.Tests
             item.OnCollisionEnter(collision);
 
             Assert.AreEqual(expectedConsume, itemFactory.GetConsumableItem().WasConsumed);
+
+            itemFactory.Destroy();
+            itemUserFactory.Destroy();
+
+            yield return null;
         }
 
         public static IEnumerable<TestCaseData> MockConsumableItems()

@@ -23,4 +23,8 @@ public class PlayerSettings : ScriptableObject
     public AudioClip FireSFX;
 
     public List<AudioClip> WalkingStepsSFX;
+
+    public AudioClip JumpAudioClip;
+
+    public AudioClip LandAudioClip;
 }

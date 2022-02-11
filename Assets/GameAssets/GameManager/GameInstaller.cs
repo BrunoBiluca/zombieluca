@@ -38,6 +38,6 @@ public class GameInstaller : MonoInstaller
 
         Container.Bind<HealItem>().AsTransient().WithArguments(10f);
 
-        Container.Bind<AmmoItem>().AsTransient().WithArguments(5);
+        Container.Bind<AmmoItem>().AsTransient().WithArguments(5u);
     }
 }

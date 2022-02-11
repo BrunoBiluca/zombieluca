@@ -13,9 +13,9 @@ public class AmmoStorageMonoBehaviour : MonoBehaviour, IAmmoStorage
         return this;
     }
 
-    public int CurrentAmount => storage.CurrentAmount;
+    public uint CurrentAmount => storage.CurrentAmount;
 
-    public int MaxAmount => storage.MaxAmount;
+    public uint MaxAmount => storage.MaxAmount;
 
-    public void Recover(int amount) => storage.Recover(amount);
+    public void Recover(uint amount) => storage.Recover(amount);
 }

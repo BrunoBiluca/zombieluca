@@ -10,11 +10,10 @@ public class FirstPersonController : BaseCharacter3D
     private AudioSource audioSource;
     private CheckGroundHandler checkGroundHandler;
     private Rigidbody rigBody;
-    private CapsuleCollider capsuleCollider;
 
     public bool IsGrounded => checkGroundHandler.IsGrounded;
 
-    [Inject] private PlayerSettings settings;
+    [Inject] private readonly PlayerSettings settings;
     [Inject] public IdlePlayerState IdlePlayerState;
     [Inject] public WalkPlayerState WalkPlayerState;
 
@@ -29,14 +28,20 @@ public class FirstPersonController : BaseCharacter3D
         this.inputs = inputs;
         this.animController = animController;
         this.audioSource = audioSource;
-        this.checkGroundHandler = checkGroundHandler;
+        this.checkGroundHandler = checkGroundHandler.DebugMode(true);
+
+        checkGroundHandler.OnLanded += OnLandedHandler;
+    }
+
+    private void OnLandedHandler()
+    {
+        audioSource.PlayOneShot(settings.LandAudioClip);
     }
 
     private void Start()
     {
         inputs.Enable();
         rigBody = GetComponent<Rigidbody>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
 
         TransitionToState(IdlePlayerState);
     }
@@ -89,10 +94,7 @@ public class FirstPersonController : BaseCharacter3D
         if(!inputs.Jump) return;
 
         // TODO: corrigir para só chamar o add force uma única vez
-        rigBody.AddForce(Vector3.up, ForceMode.Impulse);
-    }
-
-    public class Factory : PlaceholderFactory<FirstPersonController> {
-
+        audioSource.PlayOneShot(settings.JumpAudioClip);
+        rigBody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
     }
 }

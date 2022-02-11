@@ -17,7 +17,7 @@ public class PlayerInstaller : Installer<PlayerInstaller>
         Container.Bind<IdlePlayerState>().AsTransient();
         Container.Bind<WalkPlayerState>().AsTransient();
 
-        Container.Bind<CheckGroundHandler>().AsCached();
+        Container.Bind<CheckGroundHandler>().AsCached().WithArguments(0.01f);
 
         Container.Bind<AudioSource>()
             .WithId(AudioSources.PlayerWeapon)
@@ -35,7 +35,7 @@ public class PlayerInstaller : Installer<PlayerInstaller>
 
         Container.BindInterfacesAndSelfTo<HealthSystem>().AsSingle();
 
-        Container.BindInterfacesAndSelfTo<AmmoStorage>().AsSingle().WithArguments(10);
+        Container.BindInterfacesAndSelfTo<AmmoStorage>().AsSingle().WithArguments(10u);
 
         Container.Bind<IAnimator>().To<AnimatorController>().AsCached();
 

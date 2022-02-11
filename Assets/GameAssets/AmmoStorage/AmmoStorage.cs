@@ -1,24 +1,45 @@
+using Assets.UnityFoundation.Code.Common;
 using System;
 
 namespace Assets.GameAssets.AmmoStorage
 {
     public class AmmoStorage : IAmmoStorage
     {
-        private int currentAmount;
-        public int CurrentAmount => currentAmount;
+        private uint currentAmount;
+        public uint CurrentAmount => currentAmount;
 
-        private readonly int maxAmount;
-        public int MaxAmount => maxAmount;
+        private readonly uint maxAmount;
+        public uint MaxAmount => maxAmount;
 
-        public AmmoStorage(int maxAmount)
+        public bool Empty => currentAmount == 0;
+
+        public AmmoStorage(uint maxAmount)
         {
             this.maxAmount = maxAmount;
         }
 
-        public void Recover(int amount)
+        public void Recover(uint amount)
         {
             currentAmount += amount;
-            currentAmount = Math.Max(currentAmount, maxAmount);
+            currentAmount = currentAmount.Clamp(0, MaxAmount);
+        }
+
+        public void FullReffil()
+        {
+            currentAmount = maxAmount;
+        }
+
+        public uint GetAmmo(uint amount)
+        {
+            if(currentAmount < amount)
+            {
+                var auxResult = currentAmount;
+                currentAmount = 0;
+                return auxResult;
+            }
+               
+            currentAmount -= amount;
+            return amount;
         }
     }
 }

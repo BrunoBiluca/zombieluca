@@ -5,5 +5,6 @@
         ICollisionObject Create();
 
         ConsumableItem GetConsumableItem();
+        void Destroy();
     }
 }

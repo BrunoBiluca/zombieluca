@@ -4,11 +4,11 @@ namespace Assets.GameAssets.Items
 {
     public class AmmoItem : ConsumableItem
     {
-        public int RefillAmount { get; private set; }
+        public uint RefillAmount { get; private set; }
 
         private IAmmoStorage ammoStorage;
 
-        public AmmoItem(int refillAmount)
+        public AmmoItem(uint refillAmount)
         {
             RefillAmount = refillAmount;
         }

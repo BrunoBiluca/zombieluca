@@ -2,10 +2,10 @@
 {
     public interface IAmmoStorage
     {
-        int CurrentAmount { get; }
+        uint CurrentAmount { get; }
 
-        int MaxAmount { get; }
+        uint MaxAmount { get; }
 
-        void Recover(int amount);
+        void Recover(uint amount);
     }
 }

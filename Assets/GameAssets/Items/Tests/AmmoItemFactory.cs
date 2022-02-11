@@ -1,5 +1,6 @@
 ﻿using Assets.UnityFoundation.UnityAdapter;
 using Moq;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.GameAssets.Items.Tests
@@ -8,13 +9,39 @@ namespace Assets.GameAssets.Items.Tests
     {
         private AmmoItem item;
 
+        private readonly List<AmmoItemMonoBehaviour> list;
+
+        public AmmoItemFactory()
+        {
+            list = new List<AmmoItemMonoBehaviour>();
+        }
+
         public ICollisionObject Create()
         {
             item = new AmmoItem(5);
 
-            return new GameObject("ammo")
+            var obj = new GameObject("ammo")
                 .AddComponent<AmmoItemMonoBehaviour>()
                 .Setup(item, new Mock<IAudioSource>().Object);
+
+            list.Add(obj);
+
+            return obj;
+        }
+
+        public void Destroy()
+        {
+            foreach(var item in list)
+            {
+                try
+                {
+                    Object.DestroyImmediate(item.gameObject);
+                }
+                catch(MissingReferenceException)
+                {
+                    continue;
+                }
+            }
         }
 
         public ConsumableItem GetConsumableItem()
