@@ -1,7 +1,4 @@
-using System;
-using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
-using Zenject;
 using static UnityEngine.InputSystem.InputAction;
 
 public class FirstPersonInputs

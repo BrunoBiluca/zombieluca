@@ -1,14 +1,12 @@
 using Moq;
 using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.GameAssets.Player.Tests
 {
     public class PlayerStatesTest
     {
-        [Test]
+        [Test, Ignore("Not implemented")]
         public void ShouldEnterOnWalkingState_WhenMoveFromIdleState()
         {
             var player = new Mock<FirstPersonController>();

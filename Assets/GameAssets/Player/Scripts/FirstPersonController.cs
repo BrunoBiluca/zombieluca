@@ -38,7 +38,7 @@ public class FirstPersonController : BaseCharacter3D
         audioSource.PlayOneShot(settings.LandAudioClip);
     }
 
-    private void Start()
+    protected override void OnStart()
     {
         inputs.Enable();
         rigBody = GetComponent<Rigidbody>();

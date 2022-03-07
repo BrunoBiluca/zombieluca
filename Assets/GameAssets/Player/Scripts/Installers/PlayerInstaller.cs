@@ -17,7 +17,7 @@ public class PlayerInstaller : Installer<PlayerInstaller>
         Container.Bind<IdlePlayerState>().AsTransient();
         Container.Bind<WalkPlayerState>().AsTransient();
 
-        Container.Bind<CheckGroundHandler>().AsCached().WithArguments(0.01f);
+        Container.Bind<CheckGroundHandler>().AsCached().WithArguments(0.5f);
 
         Container.Bind<AudioSource>()
             .WithId(AudioSources.PlayerWeapon)
