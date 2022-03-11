@@ -1,5 +1,5 @@
-using Assets.UnityFoundation.Code;
-using Assets.UnityFoundation.Code.Common;
+using UnityFoundation.Code;
+using Assets.UnityFoundation.DebugHelper;
 using UnityEngine;
 
 namespace Assets.GameAssets.Zombies
@@ -16,6 +16,7 @@ namespace Assets.GameAssets.Zombies
         public bool IsChasing { get; private set; }
         public Transform Body { get; }
         public Optional<Vector3> TargetPosition { get; private set; }
+        public bool DebugMode { get; set; }
 
         public SimpleBrain(
             Settings settings,
@@ -35,13 +36,29 @@ namespace Assets.GameAssets.Zombies
         public void Update()
         {
             ResetStates();
-            if(IsPlayerClose())
+
+            if(DebugMode)
+                DrawDebug();
+
+            if(IsPlayerInAttackRange())
+            {
+                IsAttacking = true;
+                TargetPosition = Optional<Vector3>.Some(player.transform.position);
+            }
+
+            if(IsPlayerInChasingRange())
             {
                 SetupChasing();
                 return;
             }
 
             SetupWandering();
+        }
+
+        private void DrawDebug()
+        {
+            DebugDraw.DrawSphere(Body.position, settings.MinAttackDistance, Color.red);
+            DebugDraw.DrawSphere(Body.position, settings.MinDistanceForChasePlayer, Color.blue);
         }
 
         private void ResetStates()
@@ -53,13 +70,23 @@ namespace Assets.GameAssets.Zombies
             IsChasing = false;
         }
 
-        private bool IsPlayerClose()
+        private bool IsPlayerInAttackRange()
         {
             if(player == null)
                 return false;
 
-            var distance = Vector3.Distance(Body.transform.position, player.transform.position);
-            return distance <= settings.MinDistanceForChasePlayer;
+            var distance = Vector3.Distance(Body.position, player.transform.position);
+            return distance <= settings.MinAttackDistance;
+        }
+
+        private bool IsPlayerInChasingRange()
+        {
+            if(player == null)
+                return false;
+
+            var distance = Vector3.Distance(Body.position, player.transform.position);
+            return settings.MinAttackDistance < distance
+                && distance <= settings.MinDistanceForChasePlayer;
         }
 
         private void SetupWandering()
@@ -70,7 +97,7 @@ namespace Assets.GameAssets.Zombies
             if(!TargetPosition.IsPresent)
                 EvaluateTargetPosition();
 
-            var distance = Vector3.Distance(Body.transform.position, TargetPosition.Get());
+            var distance = Vector3.Distance(Body.position, TargetPosition.Get());
             if(distance.NearlyEqual(0f, 0.5f))
                 TargetPosition = Optional<Vector3>.None();
         }
@@ -98,10 +125,13 @@ namespace Assets.GameAssets.Zombies
             TargetPosition = Optional<Vector3>.Some(player.transform.position);
         }
 
+
+
         public class Settings
         {
             public float MinDistanceForChasePlayer;
             public float WanderingDistance;
+            public float MinAttackDistance;
         }
     }
 }

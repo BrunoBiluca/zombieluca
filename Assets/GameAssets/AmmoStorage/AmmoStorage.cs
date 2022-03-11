@@ -1,5 +1,4 @@
-using Assets.UnityFoundation.Code.Common;
-using System;
+using UnityFoundation.Code;
 
 namespace Assets.GameAssets.AmmoStorage
 {

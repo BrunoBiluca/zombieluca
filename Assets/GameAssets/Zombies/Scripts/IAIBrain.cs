@@ -1,8 +1,9 @@
-using Assets.UnityFoundation.Code.Common;
+using UnityFoundation.Code;
 using UnityEngine;
 
 public interface IAIBrain
 {
+    bool DebugMode { get; set; }
     bool IsWalking { get; }
     bool IsRunning { get; }
     bool IsAttacking { get; }

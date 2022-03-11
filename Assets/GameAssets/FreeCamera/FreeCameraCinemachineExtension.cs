@@ -16,6 +16,9 @@ namespace Assets.GameAssets.FreeCamera
 
         protected override void OnEnable()
         {
+            startingPos = transform.position;
+            startingRot = transform.localRotation.eulerAngles;
+
             var inputActions = new FreeCameraInputActions();
             inputs = new FreeCameraInputs(inputActions);
             inputs.Enable();
@@ -38,9 +41,6 @@ namespace Assets.GameAssets.FreeCamera
 
         private void EvaluatePosition(ref CameraState state, float deltaTime)
         {
-            if(startingPos == null)
-                startingPos = transform.position;
-
             var forward = state.RawOrientation * Vector3.forward;
             var right = state.RawOrientation * Vector3.right;
 
@@ -56,9 +56,6 @@ namespace Assets.GameAssets.FreeCamera
 
         private void EvaluateRotation(ref CameraState state)
         {
-            if(startingRot == null)
-                startingRot = transform.localRotation.eulerAngles;
-
             var deltaRot = inputs.Look * Time.deltaTime;
 
             startingRot.x += deltaRot.x;

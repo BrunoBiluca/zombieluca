@@ -1,5 +1,5 @@
-using Assets.GameAssets.Player.Tests;
-using Assets.UnityFoundation.Code.Common;
+using UnityFoundation.Code;
+using Assets.UnityFoundation.TestUtility;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -16,13 +16,13 @@ namespace Assets.GameAssets.Zombies.Tests
         }
 
         [Test]
-        public void ShouldBeWanderingWhenPlayerIsFarAway()
+        public void ShouldBeWanderingWhenBrainIsWandering()
         {
             const int distanceFromTarget = 5;
             Vector3 targetPosition = new Vector3(distanceFromTarget, 0, 0);
 
             var zombieTest = new ZombieControllerTestBuilder()
-                .With(new ZombieController.Settings() { Speed = 1f });
+                .With(new ZombieController.Settings() { WanderingSpeed = 1f });
             zombieTest.Brain.Setup(b => b.IsWandering).Returns(true);
             zombieTest.Brain.Setup(b => b.TargetPosition)
                 .Returns(Optional<Vector3>.Some(targetPosition));
@@ -40,10 +40,10 @@ namespace Assets.GameAssets.Zombies.Tests
         }
 
         [Test]
-        public void ShouldBeChasingPlayerIfPlayerIsClose()
+        public void ShouldBeChasingPlayerIfBrainIsChasing()
         {
             var zombieTest = new ZombieControllerTestBuilder()
-                .With(new ZombieController.Settings() { Speed = 1f });
+                .With(new ZombieController.Settings() { WanderingSpeed = 1f });
 
             zombieTest.Brain.Setup(b => b.IsChasing).Returns(true);
 
@@ -51,6 +51,77 @@ namespace Assets.GameAssets.Zombies.Tests
             zombie.Update();
 
             Assert.AreEqual(zombie.ChaseState, zombie.CurrentState);
+        }
+
+        [Test]
+        public void ShouldBeNotBeChasingPlayerIfBrainIsNotChasing()
+        {
+            var zombieTest = new ZombieControllerTestBuilder()
+                .With(new ZombieController.Settings() { WanderingSpeed = 1f });
+            zombieTest.Brain.Setup(b => b.TargetPosition)
+                .Returns(Optional<Vector3>.Some(new Vector3()));
+
+            zombieTest.Brain.Setup(b => b.IsChasing).Returns(true);
+
+            var zombie = zombieTest.Build();
+            zombie.Update();
+
+            Assert.AreEqual(zombie.ChaseState, zombie.CurrentState);
+
+            zombieTest.Brain.Setup(b => b.IsChasing).Returns(false);
+            zombie.Update();
+
+            Assert.AreNotEqual(zombie.ChaseState, zombie.CurrentState);
+        }
+
+        [Test]
+        public void ShouldBeAttackingWhenBrainIsAttackingAfterChasePlayer()
+        {
+            var zombieTest = new ZombieControllerTestBuilder()
+                .With(new ZombieController.Settings() { WanderingSpeed = 1f });
+            zombieTest.Brain.Setup(b => b.TargetPosition)
+                .Returns(Optional<Vector3>.Some(new Vector3()));
+
+            zombieTest.Brain.Setup(b => b.IsChasing).Returns(true);
+            var zombie = zombieTest.Build();
+            zombie.Update();
+
+            Assert.AreEqual(zombie.ChaseState, zombie.CurrentState);
+
+            zombieTest.Brain.Setup(b => b.IsAttacking).Returns(true);
+            zombie.Update();
+
+            Assert.AreEqual(zombie.AttackState, zombie.CurrentState);
+        }
+
+        [Test]
+        public void ShouldNotBeAttackingOnlyWhenAttacksFinished()
+        {
+            var zombieTest = new ZombieControllerTestBuilder()
+                .With(new ZombieController.Settings() { WanderingSpeed = 1f });
+            zombieTest.Brain.Setup(b => b.TargetPosition)
+                .Returns(Optional<Vector3>.Some(new Vector3()));
+
+            zombieTest.Brain.Setup(b => b.IsChasing).Returns(true);
+            var zombie = zombieTest.Build();
+            zombie.Update();
+
+            Assert.AreEqual(zombie.ChaseState, zombie.CurrentState);
+
+            zombieTest.Brain.Setup(b => b.IsAttacking).Returns(true);
+            zombie.Update();
+
+            Assert.AreEqual(zombie.AttackState, zombie.CurrentState);
+
+            zombie.Update();
+            zombie.Update();
+            zombie.Update();
+
+            Assert.AreEqual(zombie.AttackState, zombie.CurrentState);
+
+            zombie.TriggerAnimationEvent(AttackZombieState.TriggerEvents.AttackFinished);
+
+            Assert.AreNotEqual(zombie.AttackState, zombie.CurrentState);
         }
     }
 }

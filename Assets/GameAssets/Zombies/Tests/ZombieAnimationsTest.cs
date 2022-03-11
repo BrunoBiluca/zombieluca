@@ -48,10 +48,13 @@ namespace Assets.GameAssets.Zombies.Tests
         public void ShouldPlayAttackAnimationWhenZombieAttack()
         {
             var zombieTest = new ZombieControllerTestBuilder();
-            zombieTest.Brain.Setup(b => b.IsAttacking).Returns(true);
 
             var zombie = zombieTest.Build();
 
+            zombieTest.Brain.Setup(b => b.IsChasing).Returns(true);
+            zombie.Update();
+
+            zombieTest.Brain.Setup(b => b.IsAttacking).Returns(true);
             zombie.Update();
 
             zombieTest.Animator.Verify(a => a.SetTrigger(ZombiesAnimParams.Attack));

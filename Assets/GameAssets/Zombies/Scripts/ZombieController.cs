@@ -1,6 +1,7 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies
@@ -16,6 +17,7 @@ namespace Assets.GameAssets.Zombies
         public IdleZombieState IdleState { get; private set; }
         public WanderZombieState WanderState { get; private set; }
         public ChaseZombieState ChaseState { get; private set; }
+        public AttackZombieState AttackState { get; private set; }
 
         [Inject]
         public ZombieController Setup(
@@ -28,19 +30,24 @@ namespace Assets.GameAssets.Zombies
         {
             Animator = anim;
             Brain = brain;
+            Brain.DebugMode = true;
             Config = config;
 
             Agent = agent;
-            Agent.Speed = Config.Speed;
 
             IdleState = new IdleZombieState(this);
             WanderState = new WanderZombieState(this);
             ChaseState = new ChaseZombieState(this);
+            AttackState = new AttackZombieState(this);
 
             hasHealth.OnDied += (sender, args) => Animator.SetTrigger(ZombiesAnimParams.Dead);
 
             TransitionToState(IdleState);
             return this;
+        }
+        public void SetPlayerRef(GameObject player)
+        {
+            Brain.SetPlayer(player);
         }
 
         protected override void OnUpdate()
@@ -48,17 +55,14 @@ namespace Assets.GameAssets.Zombies
             Brain.Update();
 
             if(Brain.IsChasing)
-                TransitionToState(ChaseState);
-
-            if(Brain.IsAttacking)
-            {
-                Animator.SetTrigger(ZombiesAnimParams.Attack);
-            }
+                TransitionToStateIfDifferent(ChaseState);
         }
 
         public class Settings
         {
-            public float Speed;
+            public float WanderingSpeed;
+            public float ChasingSpeed;
+            public float ChasingTurnSpeed;
         }
     }
 }

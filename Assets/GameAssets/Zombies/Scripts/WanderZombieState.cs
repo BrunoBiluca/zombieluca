@@ -1,31 +1,34 @@
-using Assets.GameAssets.Zombies;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
 
-public class WanderZombieState : BaseCharacterState3D
+namespace Assets.GameAssets.Zombies
 {
-    private readonly ZombieController zombie;
-
-    private readonly Transform targetWandering;
-
-    public WanderZombieState(ZombieController zombie)
+    public class WanderZombieState : BaseCharacterState3D
     {
-        this.zombie = zombie;
-        targetWandering = new GameObject("target_wandering").transform;
-    }
+        private readonly ZombieController zombie;
 
-    public override void EnterState()
-    {
-        zombie.Animator.SetBool(ZombiesAnimParams.Walking, zombie.Brain.IsWalking);
-        zombie.Animator.SetBool(ZombiesAnimParams.Running, zombie.Brain.IsRunning);
-    }
+        private readonly Transform targetWandering;
 
-    public override void Update()
-    {
-        zombie.Brain.TargetPosition
-            .Some((target) => {
-                zombie.Agent.SetDestination(target);
-                targetWandering.position = target;
-            });
+        public WanderZombieState(ZombieController zombie)
+        {
+            this.zombie = zombie;
+            targetWandering = new GameObject("target_wandering").transform;
+        }
+
+        public override void EnterState()
+        {
+            zombie.Animator.SetBool(ZombiesAnimParams.Walking, zombie.Brain.IsWalking);
+            zombie.Animator.SetBool(ZombiesAnimParams.Running, zombie.Brain.IsRunning);
+            zombie.Agent.Speed = zombie.Config.WanderingSpeed;
+        }
+
+        public override void Update()
+        {
+            zombie.Brain.TargetPosition
+                .Some((target) => {
+                    zombie.Agent.SetDestination(target);
+                    targetWandering.position = target;
+                });
+        }
     }
 }

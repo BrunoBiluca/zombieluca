@@ -1,6 +1,6 @@
 using Assets.GameAssets.AmmoStorage;
 using NUnit.Framework;
-using Assets.UnityFoundation.Code.Common;
+using UnityFoundation.Code;
 
 public class AmmoStorageTest
 {

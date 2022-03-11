@@ -1,6 +1,6 @@
-using Assets.UnityFoundation.Code.PhysicsUtils;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
+using UnityFoundation.Code.PhysicsUtils;
 using Zenject;
 
 public class FirstPersonController : BaseCharacter3D

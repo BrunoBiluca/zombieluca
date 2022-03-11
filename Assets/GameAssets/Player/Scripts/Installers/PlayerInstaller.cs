@@ -1,5 +1,5 @@
 using Assets.GameAssets.AmmoStorage;
-using Assets.UnityFoundation.Code.PhysicsUtils;
+using UnityFoundation.Code.PhysicsUtils;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;

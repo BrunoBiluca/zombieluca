@@ -1,4 +1,4 @@
-using Assets.GameAssets.Player.Tests;
+using Assets.UnityFoundation.TestUtility;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -6,9 +6,16 @@ namespace Assets.GameAssets.Zombies.Tests
 {
     public class SimpleBrainTest
     {
+
+        private SimpleBrain.Settings defaultSettings = new SimpleBrain.Settings() {
+            MinDistanceForChasePlayer = 10f,
+            WanderingDistance = 10f,
+            MinAttackDistance = 1f
+        };
+
         [TestCase(10f, 10f, 11f)]
         public void ShouldWanderWhenPlayerIsFarAway(
-            float wanderingDistance, 
+            float wanderingDistance,
             float minDistanceForChasePlayer,
             float playerStartPosition
         )
@@ -21,7 +28,8 @@ namespace Assets.GameAssets.Zombies.Tests
 
             var brainSettings = new SimpleBrain.Settings() {
                 MinDistanceForChasePlayer = minDistanceForChasePlayer,
-                WanderingDistance = wanderingDistance
+                WanderingDistance = wanderingDistance,
+                MinAttackDistance = 1f
             };
             var simpleBrain = new SimpleBrain(brainSettings, aiBody.transform);
 
@@ -46,11 +54,7 @@ namespace Assets.GameAssets.Zombies.Tests
             var aiBody = new GameObject("AI");
             aiBody.transform.position = new Vector3(0, 0, 0);
 
-            var brainSettings = new SimpleBrain.Settings() {
-                MinDistanceForChasePlayer = 10f,
-                WanderingDistance = 10f
-            };
-            var simpleBrain = new SimpleBrain(brainSettings, aiBody.transform);
+            var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
 
             simpleBrain.SetPlayer(player);
 
@@ -70,11 +74,7 @@ namespace Assets.GameAssets.Zombies.Tests
             var aiBody = new GameObject("AI");
             aiBody.transform.position = new Vector3(0, 0, 0);
 
-            var brainSettings = new SimpleBrain.Settings() {
-                MinDistanceForChasePlayer = 10f,
-                WanderingDistance = 10f
-            };
-            var simpleBrain = new SimpleBrain(brainSettings, aiBody.transform);
+            var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
 
             simpleBrain.SetPlayer(player);
             simpleBrain.Update();
@@ -90,11 +90,29 @@ namespace Assets.GameAssets.Zombies.Tests
             Assert.IsFalse(simpleBrain.IsChasing);
             Assert.IsTrue(simpleBrain.IsWandering);
             Assert.IsTrue(simpleBrain.TargetPosition.IsPresent);
-            Assert.IsTrue(simpleBrain.TargetPosition.IsPresent);
 
-            var distance = brainSettings.WanderingDistance;
+            var distance = defaultSettings.WanderingDistance;
             AssertHelper.Between(-distance, distance, simpleBrain.TargetPosition.Get().x);
             AssertHelper.Between(-distance, distance, simpleBrain.TargetPosition.Get().z);
+        }
+
+        [Test]
+        public void ShouldAttackWhenPlayerIsInRange()
+        {
+            var player = new GameObject("player");
+            var playerStartPosition = new Vector3(1, 0, 0);
+            player.transform.position = playerStartPosition;
+
+            var aiBody = new GameObject("AI");
+            aiBody.transform.position = new Vector3(0, 0, 0);
+
+            var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+
+            simpleBrain.SetPlayer(player);
+            simpleBrain.Update();
+
+            Assert.IsTrue(simpleBrain.IsAttacking);
+            Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());
         }
     }
 }
