@@ -22,6 +22,8 @@ namespace Assets.GameAssets.ZombiePong.Tests
                 .AddComponent<PaddleHandler>()
                 .Setup(paddleInputs);
 
+            paddle.verticalLimit = new Vector2(-10f, 10f);
+            paddle.horizontalLimit = new Vector2(-10f, 10f);
             paddle.PaddleSpeed = paddleSpeed;
             paddle.Awake();
 
@@ -31,6 +33,8 @@ namespace Assets.GameAssets.ZombiePong.Tests
             Release(GetButtonControl(keyboard, key));
 
             AssertHelper.AreEqual(expected * Time.deltaTime, paddle.transform.position);
+
+            UnityEngine.Object.DestroyImmediate(paddle.gameObject);
         }
 
         private ButtonControl GetButtonControl(Keyboard keyBoard, string name)

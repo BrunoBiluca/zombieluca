@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.GameAssets.ZombiePong
 {
-    public class PaddleInputs
+    public class PaddleInputs : IPaddleInputs
     {
         public Vector2 Move => inputActions.Player.Move.ReadValue<Vector2>();
 

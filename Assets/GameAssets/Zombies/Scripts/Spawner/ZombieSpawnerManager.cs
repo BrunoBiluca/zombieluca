@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies
@@ -18,19 +18,6 @@ namespace Assets.GameAssets.Zombies
         {
             foreach(var zombie in Zombies)
                 zombie.SetPlayerRef(player);
-        }
-    }
-
-
-    public class ZombieSpawnerInstaller : MonoInstaller
-    {
-        [SerializeField] private GameObject player;
-
-        public override void InstallBindings()
-        {
-            Container.BindInterfacesAndSelfTo<ZombieSpawnerManager>()
-                .AsSingle()
-                .WithArguments(player);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Assets.GameAssets.Zombies.Tests
             var zombie = new ZombieControllerTestBuilder();
             zombie.Build();
 
-            zombie.Animator.Verify(a => a.SetBool(ZombiesAnimParams.Walking, false));
+            zombie.Animator.Verify(a => a.SetBool(ZombieAnimParams.Walking, false));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Assets.GameAssets.Zombies.Tests
             var zombie = zombieTest.Build();
             zombie.Update();
 
-            zombieTest.Animator.Verify(a => a.SetBool(ZombiesAnimParams.Walking, true));
+            zombieTest.Animator.Verify(a => a.SetBool(ZombieAnimParams.Walking, true));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Assets.GameAssets.Zombies.Tests
 
             zombie.Update();
 
-            zombieTest.Animator.Verify(a => a.SetBool(ZombiesAnimParams.Running, true));
+            zombieTest.Animator.Verify(a => a.SetBool(ZombieAnimParams.Running, true));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace Assets.GameAssets.Zombies.Tests
             zombieTest.Brain.Setup(b => b.IsAttacking).Returns(true);
             zombie.Update();
 
-            zombieTest.Animator.Verify(a => a.SetTrigger(ZombiesAnimParams.Attack));
+            zombieTest.Animator.Verify(a => a.SetBool(ZombieAnimParams.Attack, true));
         }
 
         [Test]
@@ -66,11 +66,11 @@ namespace Assets.GameAssets.Zombies.Tests
             var zombie = new ZombieControllerTestBuilder();
             zombie.Build();
 
-            zombie.Animator.Verify(a => a.SetTrigger(ZombiesAnimParams.Dead), Times.Never);
+            zombie.Animator.Verify(a => a.SetTrigger(ZombieAnimParams.Dead), Times.Never);
 
             zombie.HasHealth.Raise(health => health.OnDied += null, EventArgs.Empty);
 
-            zombie.Animator.Verify(a => a.SetTrigger(ZombiesAnimParams.Dead), Times.Once);
+            zombie.Animator.Verify(a => a.SetTrigger(ZombieAnimParams.Dead), Times.Once);
         }
     }
 }

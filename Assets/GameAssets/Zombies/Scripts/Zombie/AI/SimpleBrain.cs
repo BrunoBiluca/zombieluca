@@ -8,6 +8,7 @@ namespace Assets.GameAssets.Zombies
     {
         private readonly Settings settings;
         private GameObject player;
+        private float nextAttackTime;
 
         public bool IsAttacking { get; private set; }
         public bool IsRunning { get; private set; }
@@ -44,6 +45,7 @@ namespace Assets.GameAssets.Zombies
             {
                 IsAttacking = true;
                 TargetPosition = Optional<Vector3>.Some(player.transform.position);
+                return;
             }
 
             if(IsPlayerInChasingRange())
@@ -75,6 +77,10 @@ namespace Assets.GameAssets.Zombies
             if(player == null)
                 return false;
 
+            if(Time.time < nextAttackTime)
+                return false;
+
+            nextAttackTime = Time.time + settings.MinNextAttackDelay;
             var distance = Vector3.Distance(Body.position, player.transform.position);
             return distance <= settings.MinAttackDistance;
         }
@@ -85,8 +91,7 @@ namespace Assets.GameAssets.Zombies
                 return false;
 
             var distance = Vector3.Distance(Body.position, player.transform.position);
-            return settings.MinAttackDistance < distance
-                && distance <= settings.MinDistanceForChasePlayer;
+            return distance <= settings.MinDistanceForChasePlayer;
         }
 
         private void SetupWandering()
@@ -125,13 +130,12 @@ namespace Assets.GameAssets.Zombies
             TargetPosition = Optional<Vector3>.Some(player.transform.position);
         }
 
-
-
         public class Settings
         {
             public float MinDistanceForChasePlayer;
             public float WanderingDistance;
             public float MinAttackDistance;
+            public float MinNextAttackDelay;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Assets.GameAssets.Zombies
 {
-    public class ZombiesAnimParams
+    public class ZombieAnimParams
     {
         public static string Walking => "walking";
         public static string Running => "running";

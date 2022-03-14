@@ -15,6 +15,8 @@ namespace Assets.GameAssets.ZombiePong.Tests
             var gameManager = new GameObject("pongo_game_manager")
                 .AddComponent<PongGameManager>();
 
+            gameManager.SpawnBallOnStart = false;
+
             yield return null;
 
             PongGameManager.Instance.AddScore(0);
@@ -34,6 +36,8 @@ namespace Assets.GameAssets.ZombiePong.Tests
         {
             var gameManager = new GameObject("pong_game_manager")
                 .AddComponent<PongGameManager>();
+
+            gameManager.SpawnBallOnStart = false;
 
             var gameUI = new GameObject("pong_canvas");
 
@@ -56,7 +60,10 @@ namespace Assets.GameAssets.ZombiePong.Tests
             Assert.AreEqual("1", left.text);
             Assert.AreEqual("1", right.text);
 
-            Object.Destroy(gameManager);
+            Object.DestroyImmediate(gameManager);
+            Object.DestroyImmediate(gameUI);
+            Object.DestroyImmediate(left);
+            Object.DestroyImmediate(right);
         }
     }
 }

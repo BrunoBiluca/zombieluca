@@ -8,11 +8,13 @@ namespace Assets.GameAssets.ZombiePong
 {
     public class PongGameManager : Singleton<PongGameManager>
     {
+        public bool SpawnBallOnStart = true;
         public GameObject BallPrefab;
-
-        private readonly List<int> scores = new List<int>();
-
         public Action<int, int> OnPlayerScores;
+
+        private Transform ballInstance;
+        private readonly List<int> scores = new List<int>();
+        private SimplePongAI pongAI;
 
         protected override void OnAwake()
         {
@@ -28,9 +30,20 @@ namespace Assets.GameAssets.ZombiePong
             var paddles = FindObjectsOfType<PaddleHandler>();
             foreach(var paddle in paddles)
             {
-                var paddleInputs = new PaddleInputs(new PongInputActions());
-                paddle.Setup(paddleInputs);
+                if(paddle.IsLeft)
+                {
+                    var paddleInputs = new PaddleInputs(new PongInputActions());
+                    paddle.Setup(paddleInputs);
+                }
+                else
+                {
+                    pongAI = new SimplePongAI(paddle.transform, null);
+                    paddle.Setup(pongAI);
+                }
             }
+
+            if(SpawnBallOnStart)
+                StartCoroutine(nameof(SpawnBall));
         }
 
         public void AddScore(int playerIndex)
@@ -46,7 +59,10 @@ namespace Assets.GameAssets.ZombiePong
         {
             yield return new WaitForSeconds(3);
 
-            Instantiate(BallPrefab, new Vector3(0, .5f, 0f), Quaternion.identity);
+            ballInstance = Instantiate(BallPrefab, new Vector3(0, .5f, 0f), Quaternion.identity)
+                .transform;
+
+            pongAI.SetBall(ballInstance);
         }
 
         public int GetScore(int playerIndex)

@@ -7,14 +7,17 @@ namespace Assets.GameAssets.ZombiePong
     public class PaddleHandler : MonoBehaviour
     {
         public float PaddleSpeed = .6f;
+        public Vector2 verticalLimit = new Vector2(2f, -2f);
+        public Vector2 horizontalLimit = new Vector2(5f, 7f);
         public bool IsLeft = true;
 
-        private PaddleInputs inputs;
+        public Vector2 HorizontalLimit => horizontalLimit * (IsLeft ? -1 : 1f);
+        public Vector2 VerticalLimit => verticalLimit;
+
+        private IPaddleInputs inputs;
 
         private List<Transform> childrenTransforms = new List<Transform>();
         private List<Animator> childrenAnimators = new List<Animator>();
-
-        //private ExitGameHandler a;
 
         private LerpAngle lerpDirection;
 
@@ -33,7 +36,7 @@ namespace Assets.GameAssets.ZombiePong
             lerpDirection = new LerpAngle(0f) { RetainState = true };
         }
 
-        public PaddleHandler Setup(PaddleInputs paddleInputs)
+        public PaddleHandler Setup(IPaddleInputs paddleInputs)
         {
             inputs = paddleInputs;
             inputs.Enable();
@@ -46,7 +49,13 @@ namespace Assets.GameAssets.ZombiePong
 
             UpdateZombiesAnimations(move);
 
-            transform.position += PaddleSpeed * Time.deltaTime * new Vector3(move.x, 0f, move.y);
+            var newPos = transform.position 
+                + PaddleSpeed * Time.deltaTime * new Vector3(move.x, 0f, move.y);
+
+            newPos.x = MathX.ClampWithoutOrder(newPos.x, HorizontalLimit.x, HorizontalLimit.y);
+            newPos.z = MathX.ClampWithoutOrder(newPos.z, VerticalLimit.x, VerticalLimit.y);
+
+            transform.position = newPos;
         }
 
         private void UpdateZombiesAnimations(Vector2 move)

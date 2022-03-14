@@ -15,8 +15,8 @@ namespace Assets.GameAssets.Zombies
 
         public override void EnterState()
         {
-            zombie.Animator.SetBool(ZombiesAnimParams.Walking, false);
-            zombie.Animator.SetBool(ZombiesAnimParams.Running, false);
+            zombie.Animator.SetBool(ZombieAnimParams.Walking, false);
+            zombie.Animator.SetBool(ZombieAnimParams.Running, false);
         }
 
         public override void Update()

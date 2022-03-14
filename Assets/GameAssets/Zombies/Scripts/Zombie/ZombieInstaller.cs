@@ -19,7 +19,8 @@ namespace Assets.GameAssets.Zombies
                 .FromInstance(new SimpleBrain.Settings() { 
                     MinDistanceForChasePlayer = 20f,
                     WanderingDistance = 5f,
-                    MinAttackDistance = 1f
+                    MinAttackDistance = 1f,
+                    MinNextAttackDelay = 3f
                 })
                 .AsSingle();
             Container.Bind<IAIBrain>().To<SimpleBrain>().AsSingle();
@@ -31,6 +32,7 @@ namespace Assets.GameAssets.Zombies
 
             Container.Bind<ZombieController.Settings>()
                 .FromInstance(new ZombieController.Settings() {
+                    DebugMode = false,
                     WanderingSpeed = .45f,
                     ChasingSpeed = 4f,
                     ChasingTurnSpeed = 10f

@@ -1,4 +1,5 @@
 ﻿using Assets.UnityFoundation.Systems.Character3D.Scripts;
+using UnityEngine;
 
 namespace Assets.GameAssets.Zombies
 {
@@ -22,7 +23,12 @@ namespace Assets.GameAssets.Zombies
         public override void EnterState()
         {
             canExit = false;
-            zombie.Animator.SetTrigger(ZombiesAnimParams.Attack);
+            zombie.Animator.SetBool(ZombieAnimParams.Attack, true);
+        }
+
+        public override void ExitState()
+        {
+            zombie.Animator.SetBool(ZombieAnimParams.Attack, false);
         }
 
         public override void TriggerAnimationEvent(string eventName)
@@ -32,7 +38,6 @@ namespace Assets.GameAssets.Zombies
                 canExit = true;
                 zombie.TransitionToState(zombie.IdleState);
             }
-
         }
     }
 }

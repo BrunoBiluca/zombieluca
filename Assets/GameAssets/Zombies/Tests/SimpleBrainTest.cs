@@ -1,6 +1,8 @@
 using Assets.UnityFoundation.TestUtility;
 using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Assets.GameAssets.Zombies.Tests
 {
@@ -10,7 +12,8 @@ namespace Assets.GameAssets.Zombies.Tests
         private SimpleBrain.Settings defaultSettings = new SimpleBrain.Settings() {
             MinDistanceForChasePlayer = 10f,
             WanderingDistance = 10f,
-            MinAttackDistance = 1f
+            MinAttackDistance = 1f,
+            MinNextAttackDelay = .5f
         };
 
         [TestCase(10f, 10f, 11f)]
@@ -113,6 +116,36 @@ namespace Assets.GameAssets.Zombies.Tests
 
             Assert.IsTrue(simpleBrain.IsAttacking);
             Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());
+        }
+
+        [UnityTest]
+        [RequiresPlayMode]
+        public IEnumerator ShouldWaitForXSecondsForSecondAttack()
+        {
+            var player = new GameObject("player");
+            var playerStartPosition = new Vector3(1, 0, 0);
+            player.transform.position = playerStartPosition;
+
+            var aiBody = new GameObject("AI");
+            aiBody.transform.position = new Vector3(0, 0, 0);
+
+            var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+
+            simpleBrain.SetPlayer(player);
+            simpleBrain.Update();
+
+            Assert.IsTrue(simpleBrain.IsAttacking);
+            Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());
+
+            simpleBrain.Update();
+
+            Assert.IsFalse(simpleBrain.IsAttacking);
+
+            yield return new WaitForSeconds(defaultSettings.MinNextAttackDelay);
+
+            simpleBrain.Update();
+            Assert.IsTrue(simpleBrain.IsAttacking);
+            Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());               
         }
     }
 }

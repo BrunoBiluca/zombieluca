@@ -30,7 +30,7 @@ namespace Assets.GameAssets.Zombies
         {
             Animator = anim;
             Brain = brain;
-            Brain.DebugMode = true;
+            Brain.DebugMode = config.DebugMode;
             Config = config;
 
             Agent = agent;
@@ -40,7 +40,7 @@ namespace Assets.GameAssets.Zombies
             ChaseState = new ChaseZombieState(this);
             AttackState = new AttackZombieState(this);
 
-            hasHealth.OnDied += (sender, args) => Animator.SetTrigger(ZombiesAnimParams.Dead);
+            hasHealth.OnDied += (sender, args) => Animator.SetTrigger(ZombieAnimParams.Dead);
 
             TransitionToState(IdleState);
             return this;
@@ -63,6 +63,8 @@ namespace Assets.GameAssets.Zombies
             public float WanderingSpeed;
             public float ChasingSpeed;
             public float ChasingTurnSpeed;
+
+            public bool DebugMode;
         }
     }
 }

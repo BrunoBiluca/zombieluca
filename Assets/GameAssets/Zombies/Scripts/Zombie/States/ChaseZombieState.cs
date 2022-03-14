@@ -14,8 +14,8 @@ namespace Assets.GameAssets.Zombies
 
         public override void EnterState()
         {
-            zombie.Animator.SetBool(ZombiesAnimParams.Walking, zombie.Brain.IsWalking);
-            zombie.Animator.SetBool(ZombiesAnimParams.Running, zombie.Brain.IsRunning);
+            zombie.Animator.SetBool(ZombieAnimParams.Walking, zombie.Brain.IsWalking);
+            zombie.Animator.SetBool(ZombieAnimParams.Running, zombie.Brain.IsRunning);
             zombie.Agent.Speed = zombie.Config.ChasingSpeed;
         }
 
