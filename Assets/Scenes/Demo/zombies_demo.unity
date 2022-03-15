@@ -1139,6 +1139,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af0cdcb1103f4d347a87c9152a52e57d, type: 3}
+--- !u!1001 &97563131402134341
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.543
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.605
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908969671297497679, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249310497431390300, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
+      propertyPath: m_Name
+      value: zombie_man_ragdoll
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
 --- !u!1001 &1674566740964497312
 PrefabInstance:
   m_ObjectHideFlags: 0
