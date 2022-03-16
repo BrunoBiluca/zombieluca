@@ -1,4 +1,5 @@
 using Assets.GameAssets.Items;
+using Assets.GameAssets.Player;
 using Assets.UnityFoundation.UnityAdapter;
 using Cinemachine;
 using UnityEngine;

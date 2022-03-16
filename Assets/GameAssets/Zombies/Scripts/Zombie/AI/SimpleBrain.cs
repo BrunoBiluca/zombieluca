@@ -1,6 +1,7 @@
 using UnityFoundation.Code;
 using Assets.UnityFoundation.DebugHelper;
 using UnityEngine;
+using System;
 
 namespace Assets.GameAssets.Zombies
 {
@@ -112,8 +113,10 @@ namespace Assets.GameAssets.Zombies
 
         private void EvaluateTargetPosition()
         {
-            var posX = Random.Range(-settings.WanderingDistance, settings.WanderingDistance);
-            var posZ = Random.Range(-settings.WanderingDistance, settings.WanderingDistance);
+            var posX = UnityEngine.Random.Range(
+                -settings.WanderingDistance, settings.WanderingDistance);
+            var posZ = UnityEngine.Random.Range(
+                -settings.WanderingDistance, settings.WanderingDistance);
 
             var target = new Vector3(posX, 0f, posZ);
 
@@ -145,6 +148,7 @@ namespace Assets.GameAssets.Zombies
             TargetPosition = Optional<Vector3>.None();
         }
 
+        [Serializable]
         public class Settings
         {
             public float MinDistanceForChasePlayer;

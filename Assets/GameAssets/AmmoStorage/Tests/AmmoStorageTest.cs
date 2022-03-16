@@ -1,50 +1,52 @@
-using Assets.GameAssets.AmmoStorage;
 using NUnit.Framework;
 using UnityFoundation.Code;
 
-public class AmmoStorageTest
+namespace Assets.GameAssets.AmmoStorage.Tests
 {
-    [Test]
-    [TestCase(5u)]
-    [TestCase(10u)]
-    [TestCase(15u)]
-    public void ShouldNotRecoverMoreThanMaxAmmunition(uint recoveryAmount)
+    public class AmmoStorageTest
     {
-        var maxAmmuntion = 10u;
-        var storage = new AmmoStorage(maxAmmuntion);
+        [Test]
+        [TestCase(5u)]
+        [TestCase(10u)]
+        [TestCase(15u)]
+        public void ShouldNotRecoverMoreThanMaxAmmunition(uint recoveryAmount)
+        {
+            var maxAmmuntion = 10u;
+            var storage = new AmmoStorage(maxAmmuntion);
 
-        storage.Recover(recoveryAmount);
+            storage.Recover(recoveryAmount);
 
-        Assert.AreEqual(recoveryAmount.Clamp(0, storage.MaxAmount), storage.CurrentAmount);
-    }
+            Assert.AreEqual(recoveryAmount.Clamp(0, storage.MaxAmount), storage.CurrentAmount);
+        }
 
-    [Test]
-    [TestCase(0u, 0u)]
-    [TestCase(4u, 4u)]
-    [TestCase(15u, 10u)]
-    public void ShouldGetXAmmoWhenRequested(uint requestAmmo, uint expected)
-    {
-        var maxAmmuntion = 10u;
-        var storage = new AmmoStorage(maxAmmuntion);
+        [Test]
+        [TestCase(0u, 0u)]
+        [TestCase(4u, 4u)]
+        [TestCase(15u, 10u)]
+        public void ShouldGetXAmmoWhenRequested(uint requestAmmo, uint expected)
+        {
+            var maxAmmuntion = 10u;
+            var storage = new AmmoStorage(maxAmmuntion);
 
-        storage.FullReffil();
+            storage.FullReffil();
 
-        var ammo = storage.GetAmmo(requestAmmo);
+            var ammo = storage.GetAmmo(requestAmmo);
 
-        Assert.AreEqual(expected, ammo);
-    }
+            Assert.AreEqual(expected, ammo);
+        }
 
-    [Test]
-    [TestCase(4u)]
-    public void ShouldBeEmptyWhenRequestAllStorageAmmo(uint requestAmmo)
-    {
-        var storage = new AmmoStorage(requestAmmo);
+        [Test]
+        [TestCase(4u)]
+        public void ShouldBeEmptyWhenRequestAllStorageAmmo(uint requestAmmo)
+        {
+            var storage = new AmmoStorage(requestAmmo);
 
-        storage.FullReffil();
+            storage.FullReffil();
 
-        var ammo = storage.GetAmmo(requestAmmo);
+            var ammo = storage.GetAmmo(requestAmmo);
 
-        Assert.AreEqual(requestAmmo, ammo);
-        Assert.IsTrue(storage.Empty);
+            Assert.AreEqual(requestAmmo, ammo);
+            Assert.IsTrue(storage.Empty);
+        }
     }
 }

@@ -4790,7 +4790,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534c8cff86555d749b7c718cab9f0098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RagdollPrefab: {fileID: 3336201881091933287, guid: 7cbd6cb46748bcd4db7edaaa7d698c4f, type: 3}
 --- !u!114 &1819087227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4803,7 +4802,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: 06db28bbdb0fded4e98258f3bc467674, type: 2}
   _monoInstallers:
   - {fileID: 1819087226}
   _installerPrefabs: []

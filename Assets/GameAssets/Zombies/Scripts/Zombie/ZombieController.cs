@@ -69,11 +69,14 @@ namespace Assets.GameAssets.Zombies
 
         public void InstantiateRagdoll()
         {
+            if(Config.RagdollPrefab == null)
+                return;
+
             Instantiate(Config.RagdollPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
         }
 
-
+        [Serializable]
         public class Settings
         {
             public float WanderingSpeed;

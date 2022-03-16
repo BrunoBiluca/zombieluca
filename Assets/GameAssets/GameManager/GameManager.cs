@@ -1,3 +1,4 @@
+using Assets.GameAssets.Player;
 using Cinemachine;
 using UnityEngine;
 using Zenject;

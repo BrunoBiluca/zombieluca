@@ -1,100 +1,99 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
+using System;
 using UnityEngine;
 using UnityFoundation.Code.PhysicsUtils;
 using Zenject;
 
-public class FirstPersonController : BaseCharacter3D
+namespace Assets.GameAssets.Player
 {
-    private FirstPersonInputs inputs;
-    private FirstPersonAnimationController animController;
-    private AudioSource audioSource;
-    private CheckGroundHandler checkGroundHandler;
-    private Rigidbody rigBody;
-
-    public bool IsGrounded => checkGroundHandler.IsGrounded;
-
-    [Inject] private readonly PlayerSettings settings;
-    [Inject] public IdlePlayerState IdlePlayerState;
-    [Inject] public WalkPlayerState WalkPlayerState;
-
-    [Inject]
-    public void Init(
-        FirstPersonInputs inputs,
-        FirstPersonAnimationController animController,
-        [Inject(Id = AudioSources.PlayerWeapon)] AudioSource audioSource,
-        CheckGroundHandler checkGroundHandler
-    )
+    public class FirstPersonController : BaseCharacter3D
     {
-        this.inputs = inputs;
-        this.animController = animController;
-        this.audioSource = audioSource;
-        this.checkGroundHandler = checkGroundHandler.DebugMode(true);
+        public FirstPersonInputs Inputs { get; private set; }
+        public FirstPersonAnimationController AnimController { get; private set; }
+        public AudioSource AudioSource { get; private set; }
+        public Rigidbody Rigidbody { get; private set; }
+        public bool IsGrounded => checkGroundHandler.IsGrounded;
 
-        checkGroundHandler.OnLanded += OnLandedHandler;
-    }
+        [Inject] public PlayerSettings Settings { get; }
+        [Inject] public IdlePlayerState IdlePlayerState;
+        [Inject] public WalkPlayerState WalkPlayerState;
+        [Inject] public AimPlayerState AimState;
 
-    private void OnLandedHandler()
-    {
-        audioSource.PlayOneShot(settings.LandAudioClip);
-    }
+        private CheckGroundHandler checkGroundHandler;
+        private Camera mainCamera;
 
-    protected override void OnStart()
-    {
-        inputs.Enable();
-        rigBody = GetComponent<Rigidbody>();
+        [Inject]
+        public void Init(
+            FirstPersonInputs inputs,
+            FirstPersonAnimationController animController,
+            [Inject(Id = AudioSources.PlayerWeapon)] AudioSource audioSource,
+            CheckGroundHandler checkGroundHandler,
+            Camera mainCamera
+        )
+        {
+            Inputs = inputs;
+            AnimController = animController;
+            AudioSource = audioSource;
 
-        TransitionToState(IdlePlayerState);
-    }
+            this.checkGroundHandler = checkGroundHandler.DebugMode(true);
+            checkGroundHandler.OnLanded += OnLandedHandler;
 
-    protected override void OnUpdate()
-    {
-        checkGroundHandler.CheckGround();
-        TryJump();
+            this.mainCamera = mainCamera;
+        }
 
-        // TODO: separar as classes de movimento e mira já que 
-        // são classes que resolvem problemas distintos
-        TryReload();
-        TryFire();
-        TryAim();
-    }
+        private void OnLandedHandler()
+        {
+            AudioSource.PlayOneShot(Settings.LandAudioClip);
+        }
 
-    private void TryReload()
-    {
-        if(!inputs.Reload) return;
+        protected override void OnStart()
+        {
+            Inputs.Enable();
+            Rigidbody = GetComponent<Rigidbody>();
 
-        animController.Reload();
-    }
+            TransitionToState(IdlePlayerState);
+        }
 
-    private void TryFire()
-    {
-        if(!inputs.Fire) return;
+        protected override void OnUpdate()
+        {
+            checkGroundHandler.CheckGround();
 
-        animController.Fire();
-    }
+            if(TryAim())
+                return;
 
-    private void TryAim()
-    {
-        if(!inputs.Aim) return;
+            TryJump();
+        }
 
-        animController.Aim();
-    }
+        private bool TryAim()
+        {
+            if(!Inputs.Aim) return false;
 
-    protected override void OnTriggerAnimationEvent(string name)
-    {
-        base.OnTriggerAnimationEvent(name);
+            TransitionToState(AimState);
+            return true;
+        }
 
-        if(name == "fire")
-            audioSource.PlayOneShot(settings.FireSFX);
-    }
+        public void Rotate()
+        {
+            transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+        }
 
-    private void TryJump()
-    {
-        if(!IsGrounded) return;
+        public void Move()
+        {
+            var targetDirection = new Vector3(Inputs.Move.x, 0f, Inputs.Move.y).normalized;
+            var newPos = transform.forward * targetDirection.z
+                + transform.right * targetDirection.x;
+            transform.position += Settings.MoveSpeed * Time.deltaTime * newPos;
+        }
 
-        if(!inputs.Jump) return;
+        public void TryJump()
+        {
+            if(!IsGrounded) return;
 
-        // TODO: corrigir para só chamar o add force uma única vez
-        audioSource.PlayOneShot(settings.JumpAudioClip);
-        rigBody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            if(!Inputs.Jump) return;
+
+            // TODO: corrigir para só chamar o add force uma única vez
+            AudioSource.PlayOneShot(Settings.JumpAudioClip);
+            Rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        }
     }
 }

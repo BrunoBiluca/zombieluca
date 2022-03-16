@@ -1,3 +1,4 @@
+using Assets.GameAssets.Player;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
 
