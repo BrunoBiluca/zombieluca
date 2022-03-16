@@ -1,11 +1,13 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
+using System;
 using UnityEngine;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies
 {
+    [RequireComponent(typeof(CapsuleCollider))]
     public class ZombieController : BaseCharacter3D
     {
         public Settings Config { get; private set; }
@@ -18,6 +20,7 @@ namespace Assets.GameAssets.Zombies
         public WanderZombieState WanderState { get; private set; }
         public ChaseZombieState ChaseState { get; private set; }
         public AttackZombieState AttackState { get; private set; }
+        public DeadZombieState DeadState { get; private set; }
 
         [Inject]
         public ZombieController Setup(
@@ -29,8 +32,11 @@ namespace Assets.GameAssets.Zombies
         )
         {
             Animator = anim;
+            
             Brain = brain;
             Brain.DebugMode = config.DebugMode;
+            Brain.Enabled();
+
             Config = config;
 
             Agent = agent;
@@ -39,12 +45,15 @@ namespace Assets.GameAssets.Zombies
             WanderState = new WanderZombieState(this);
             ChaseState = new ChaseZombieState(this);
             AttackState = new AttackZombieState(this);
+            DeadState = new DeadZombieState(this);
 
-            hasHealth.OnDied += (sender, args) => Animator.SetTrigger(ZombieAnimParams.Dead);
+            hasHealth.Setup(config.BaseHealth);
+            hasHealth.OnDied += (sender, args) => TransitionToState(DeadState);
 
             TransitionToState(IdleState);
             return this;
         }
+
         public void SetPlayerRef(GameObject player)
         {
             Brain.SetPlayer(player);
@@ -58,6 +67,13 @@ namespace Assets.GameAssets.Zombies
                 TransitionToStateIfDifferent(ChaseState);
         }
 
+        public void InstantiateRagdoll()
+        {
+            Instantiate(Config.RagdollPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+
+
         public class Settings
         {
             public float WanderingSpeed;
@@ -65,6 +81,8 @@ namespace Assets.GameAssets.Zombies
             public float ChasingTurnSpeed;
 
             public bool DebugMode;
+            public float BaseHealth;
+            public GameObject RagdollPrefab;
         }
     }
 }

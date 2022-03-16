@@ -35,6 +35,7 @@ namespace Assets.GameAssets.Zombies.Tests
                 MinAttackDistance = 1f
             };
             var simpleBrain = new SimpleBrain(brainSettings, aiBody.transform);
+            simpleBrain.Enabled();
 
             simpleBrain.SetPlayer(player);
 
@@ -58,6 +59,7 @@ namespace Assets.GameAssets.Zombies.Tests
             aiBody.transform.position = new Vector3(0, 0, 0);
 
             var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+            simpleBrain.Enabled();
 
             simpleBrain.SetPlayer(player);
 
@@ -78,6 +80,7 @@ namespace Assets.GameAssets.Zombies.Tests
             aiBody.transform.position = new Vector3(0, 0, 0);
 
             var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+            simpleBrain.Enabled();
 
             simpleBrain.SetPlayer(player);
             simpleBrain.Update();
@@ -110,6 +113,7 @@ namespace Assets.GameAssets.Zombies.Tests
             aiBody.transform.position = new Vector3(0, 0, 0);
 
             var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+            simpleBrain.Enabled();
 
             simpleBrain.SetPlayer(player);
             simpleBrain.Update();
@@ -130,6 +134,7 @@ namespace Assets.GameAssets.Zombies.Tests
             aiBody.transform.position = new Vector3(0, 0, 0);
 
             var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+            simpleBrain.Enabled();
 
             simpleBrain.SetPlayer(player);
             simpleBrain.Update();
@@ -146,6 +151,32 @@ namespace Assets.GameAssets.Zombies.Tests
             simpleBrain.Update();
             Assert.IsTrue(simpleBrain.IsAttacking);
             Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());               
+        }
+
+        [Test]
+        public void ShouldNotHaveAnyStateWhenDisabled()
+        {
+            var player = new GameObject("player");
+            var playerStartPosition = new Vector3(1, 0, 0);
+            player.transform.position = playerStartPosition;
+
+            var aiBody = new GameObject("AI");
+            aiBody.transform.position = new Vector3(0, 0, 0);
+
+            var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+            simpleBrain.Enabled();
+
+            simpleBrain.SetPlayer(player);
+            simpleBrain.Update();
+
+            simpleBrain.Disabled();
+
+            Assert.IsFalse(simpleBrain.IsChasing);
+            Assert.IsFalse(simpleBrain.IsAttacking);
+            Assert.IsFalse(simpleBrain.IsRunning);
+            Assert.IsFalse(simpleBrain.IsWalking);
+            Assert.IsFalse(simpleBrain.IsWandering);
+            Assert.IsFalse(simpleBrain.IsEnabled);
         }
     }
 }

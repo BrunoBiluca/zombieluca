@@ -12,4 +12,6 @@ public interface IAIBrain
     Optional<Vector3> TargetPosition { get; }
     void SetPlayer(GameObject player);
     void Update();
+    void Enabled();
+    void Disabled();
 }

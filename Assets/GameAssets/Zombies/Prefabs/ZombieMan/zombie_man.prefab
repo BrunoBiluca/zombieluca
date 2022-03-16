@@ -1702,6 +1702,7 @@ GameObject:
   - component: {fileID: -1440471272416777515}
   - component: {fileID: -1847202928074601104}
   - component: {fileID: -5586478978008040399}
+  - component: {fileID: 707907378267013394}
   m_Layer: 0
   m_Name: zombie_man
   m_TagString: Untagged
@@ -1778,7 +1779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5467fe076359710448ec7dd5e23aaf29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 1
+  DebugMode: 0
   StateText: {fileID: 0}
 --- !u!114 &8843975373441759321
 MonoBehaviour:
@@ -1792,6 +1793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534c8cff86555d749b7c718cab9f0098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RagdollPrefab: {fileID: 8249310497431390300, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}
 --- !u!114 &-1440471272416777515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1808,7 +1810,6 @@ MonoBehaviour:
   healthBarComponent: {fileID: 0}
   baseHealth: 0
   destroyHealthBarOnDied: 0
-  destroyOnDied: 1
   currentHealth: 0
   layer: {fileID: 0}
 --- !u!114 &-1847202928074601104
@@ -1847,6 +1848,20 @@ MonoBehaviour:
   _useSceneContext: 0
   _context: {fileID: 0}
   _bindType: 0
+--- !u!136 &707907378267013394
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5176861845160572960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &5215620285009353330
 GameObject:
   m_ObjectHideFlags: 0

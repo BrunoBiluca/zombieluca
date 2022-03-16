@@ -8,6 +8,8 @@ namespace Assets.GameAssets.Zombies
 {
     public class ZombieInstaller : MonoInstaller<ZombieInstaller>
     {
+        [SerializeField] private GameObject RagdollPrefab;
+
         public override void InstallBindings()
         {
             Container.Bind<Transform>().FromComponentOnRoot().AsSingle();
@@ -32,10 +34,12 @@ namespace Assets.GameAssets.Zombies
 
             Container.Bind<ZombieController.Settings>()
                 .FromInstance(new ZombieController.Settings() {
+                    BaseHealth = 10f,
                     DebugMode = false,
                     WanderingSpeed = .45f,
                     ChasingSpeed = 4f,
-                    ChasingTurnSpeed = 10f
+                    ChasingTurnSpeed = 10f,
+                    RagdollPrefab = RagdollPrefab
                 })
                 .AsSingle();
 

@@ -10,6 +10,7 @@ namespace Assets.GameAssets.Zombies
         private GameObject player;
         private float nextAttackTime;
 
+        public bool IsEnabled { get; private set; }
         public bool IsAttacking { get; private set; }
         public bool IsRunning { get; private set; }
         public bool IsWalking { get; private set; }
@@ -36,6 +37,8 @@ namespace Assets.GameAssets.Zombies
 
         public void Update()
         {
+            if(!IsEnabled) return;
+
             ResetStates();
 
             if(DebugMode)
@@ -128,6 +131,18 @@ namespace Assets.GameAssets.Zombies
             IsChasing = true;
             IsRunning = true;
             TargetPosition = Optional<Vector3>.Some(player.transform.position);
+        }
+
+        public void Enabled()
+        {
+            IsEnabled = true;
+        }
+
+        public void Disabled()
+        {
+            IsEnabled = false;
+            ResetStates();
+            TargetPosition = Optional<Vector3>.None();
         }
 
         public class Settings

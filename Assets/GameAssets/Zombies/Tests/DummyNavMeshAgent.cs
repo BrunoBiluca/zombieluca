@@ -25,5 +25,9 @@ namespace Assets.GameAssets.Zombies.Tests
         {
             Body.position += new Vector3(Speed, 0, 0);
         }
+
+        public void Disabled()
+        {
+        }
     }
 }
