@@ -16,6 +16,8 @@ namespace Assets.GameAssets.Zombies
         {
             zombie.Animator.SetBool(ZombieAnimParams.Walking, zombie.Brain.IsWalking);
             zombie.Animator.SetBool(ZombieAnimParams.Running, zombie.Brain.IsRunning);
+            
+            zombie.Agent.StoppingDistance = 2f;
             zombie.Agent.Speed = zombie.Config.ChasingSpeed;
         }
 
@@ -27,11 +29,15 @@ namespace Assets.GameAssets.Zombies
                 return;
             }
 
-            zombie.Brain.TargetPosition
-                .Some((target) => SetupDestination(target));
-    
             if(!zombie.Brain.IsChasing)
+            {
                 zombie.TransitionToState(zombie.IdleState);
+                return;
+            }
+            
+            zombie.Brain.TargetPosition
+                .Some((target) => SetupDestination(target))
+                .OrElse(() => zombie.Agent.ResetPath());
         }
 
         private void SetupDestination(Vector3 target)

@@ -1,4 +1,4 @@
-﻿using Assets.GameAssets.AmmoStorage;
+﻿using Assets.GameAssets.AmmoStorageSystem;
 
 namespace Assets.GameAssets.Items
 {

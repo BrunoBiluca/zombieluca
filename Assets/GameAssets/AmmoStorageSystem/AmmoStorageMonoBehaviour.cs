@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Assets.GameAssets.AmmoStorage
+namespace Assets.GameAssets.AmmoStorageSystem
 {
     public class AmmoStorageMonoBehaviour : MonoBehaviour, IAmmoStorage
     {
@@ -19,5 +19,9 @@ namespace Assets.GameAssets.AmmoStorage
         public uint MaxAmount => storage.MaxAmount;
 
         public void Recover(uint amount) => storage.Recover(amount);
+
+        public void FullReffil() => storage.FullReffil();
+
+        public uint GetAmmo(uint amount) => storage.GetAmmo(amount);
     }
 }

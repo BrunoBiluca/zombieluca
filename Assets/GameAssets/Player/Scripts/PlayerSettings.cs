@@ -21,6 +21,7 @@ public class PlayerSettings : ScriptableObject
     public float JumpTimeout = 0.50f;
 
     public AudioClip FireSFX;
+    public AudioClip FireMissSFX;
 
     public List<AudioClip> WalkingStepsSFX;
 

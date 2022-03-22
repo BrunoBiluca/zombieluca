@@ -1,6 +1,6 @@
 using UnityFoundation.Code;
 
-namespace Assets.GameAssets.AmmoStorage
+namespace Assets.GameAssets.AmmoStorageSystem
 {
     public class AmmoStorage : IAmmoStorage
     {

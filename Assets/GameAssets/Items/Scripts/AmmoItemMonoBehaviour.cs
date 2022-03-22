@@ -1,4 +1,4 @@
-using Assets.GameAssets.AmmoStorage;
+using Assets.GameAssets.AmmoStorageSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using Zenject;

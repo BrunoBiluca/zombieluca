@@ -7,6 +7,9 @@ namespace Assets.GameAssets.Zombies.Tests
     {
         public Transform Body { get; }
         public float Speed { get ; set ; }
+        public float StoppingDistance { get; set; }
+
+        public float RemainingDistance => 0f;
 
         private Vector3 destination;
 
@@ -27,6 +30,10 @@ namespace Assets.GameAssets.Zombies.Tests
         }
 
         public void Disabled()
+        {
+        }
+
+        public void ResetPath()
         {
         }
     }

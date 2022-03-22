@@ -17,6 +17,7 @@ MonoBehaviour:
   JumpHeight: 1.2
   JumpTimeout: 0.5
   FireSFX: {fileID: 8300000, guid: b168eaf70cff9434384804b5a0758917, type: 3}
+  FireMissSFX: {fileID: 8300000, guid: 7c482f57fc5a98d40a79871ab6a4f0f0, type: 3}
   WalkingStepsSFX:
   - {fileID: 8300000, guid: 41cabf8e1b2bf41979caa467071a7c7b, type: 3}
   - {fileID: 8300000, guid: 53dcb87c0d58147c6a32f226285470b7, type: 3}

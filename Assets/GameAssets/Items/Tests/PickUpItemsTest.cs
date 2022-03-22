@@ -1,4 +1,4 @@
-using Assets.GameAssets.AmmoStorage;
+using Assets.GameAssets.AmmoStorageSystem;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Moq;
 using NUnit.Framework;

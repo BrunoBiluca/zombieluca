@@ -122,6 +122,54 @@ namespace Assets.GameAssets.Zombies.Tests
             Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());
         }
 
+        [Test]
+        public void ShouldWaitUntilNextAttackInIdleWhenPlayerIsInRange()
+        {
+            var player = new GameObject("player");
+            var playerStartPosition = new Vector3(1, 0, 0);
+            player.transform.position = playerStartPosition;
+
+            var aiBody = new GameObject("AI");
+            aiBody.transform.position = new Vector3(0, 0, 0);
+
+            var simpleBrain = new SimpleBrain(defaultSettings, aiBody.transform);
+            simpleBrain.Enabled();
+
+            simpleBrain.SetPlayer(player);
+            simpleBrain.Update();
+
+            Assert.IsTrue(simpleBrain.IsAttacking);
+            Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());
+
+            simpleBrain.Update();
+
+            Assert.IsFalse(simpleBrain.IsChasing);
+            Assert.IsFalse(simpleBrain.IsAttacking);
+            Assert.IsFalse(simpleBrain.IsRunning);
+            Assert.IsFalse(simpleBrain.IsWalking);
+            Assert.IsFalse(simpleBrain.IsWandering);
+
+            player.transform.position = playerStartPosition + new Vector3(1f, 0, 0);
+
+            simpleBrain.Update();
+
+            Assert.IsTrue(simpleBrain.IsChasing);
+            Assert.IsTrue(simpleBrain.IsRunning);
+            Assert.IsFalse(simpleBrain.IsAttacking);
+            Assert.IsFalse(simpleBrain.IsWalking);
+            Assert.IsFalse(simpleBrain.IsWandering);
+
+            player.transform.position = playerStartPosition - new Vector3(1f, 0, 0);
+
+            simpleBrain.Update();
+
+            Assert.IsFalse(simpleBrain.IsChasing);
+            Assert.IsFalse(simpleBrain.IsAttacking);
+            Assert.IsFalse(simpleBrain.IsRunning);
+            Assert.IsFalse(simpleBrain.IsWalking);
+            Assert.IsFalse(simpleBrain.IsWandering);
+        }
+
         [UnityTest]
         [RequiresPlayMode]
         public IEnumerator ShouldWaitForXSecondsForSecondAttack()

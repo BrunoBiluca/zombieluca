@@ -12,19 +12,19 @@ namespace Assets.GameAssets.Zombies
             this.zombie = zombie;
         }
 
+        public override bool ForceInterruption => true;
+
         public override void EnterState()
         {
             zombie.Brain.Disabled();
             zombie.Agent.Disabled();
-            zombie.Animator.SetTrigger(ZombieAnimParams.Dead);
-
             zombie.GetComponent<CapsuleCollider>().enabled = false;
-        }
 
-        public override void TriggerAnimationEvent(string eventName)
-        {
-            //if(eventName == "is_dead")
-            //    zombie.InstantiateRagdoll();
+            var change = Random.Range(0f, 1f);
+            if(change > .5f)
+                zombie.Animator.SetTrigger(ZombieAnimParams.Dead);
+            else
+                zombie.InstantiateRagdoll();
         }
     }
 }

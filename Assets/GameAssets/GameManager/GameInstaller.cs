@@ -40,5 +40,9 @@ public class GameInstaller : MonoInstaller
         Container.Bind<HealItem>().AsTransient().WithArguments(10f);
 
         Container.Bind<AmmoItem>().AsTransient().WithArguments(5u);
+
+        SignalBusInstaller.Install(Container);
+
+        Container.DeclareSignal<HitShotSignal>();
     }
 }

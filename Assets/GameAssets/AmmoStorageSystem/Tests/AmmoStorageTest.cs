@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityFoundation.Code;
 
-namespace Assets.GameAssets.AmmoStorage.Tests
+namespace Assets.GameAssets.AmmoStorageSystem.Tests
 {
     public class AmmoStorageTest
     {

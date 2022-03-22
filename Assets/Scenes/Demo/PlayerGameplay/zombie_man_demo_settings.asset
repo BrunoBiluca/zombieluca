@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c83d1dff09354d4d8277985c024e8d5, type: 3}
-  m_Name: jill_demo_settings
+  m_Name: zombie_man_demo_settings
   m_EditorClassIdentifier: 
   zombieBrainSettings:
     MinDistanceForChasePlayer: 5
@@ -23,4 +23,4 @@ MonoBehaviour:
     ChasingTurnSpeed: 10
     DebugMode: 1
     BaseHealth: 10
-    RagdollPrefab: {fileID: 0}
+    RagdollPrefab: {fileID: 8249310497431390300, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}

@@ -3,6 +3,7 @@ using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using System;
 using UnityEngine;
+using UnityFoundation.Code;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies
@@ -72,7 +73,9 @@ namespace Assets.GameAssets.Zombies
             if(Config.RagdollPrefab == null)
                 return;
 
-            Instantiate(Config.RagdollPrefab, transform.position, transform.rotation);
+            var go = Instantiate(Config.RagdollPrefab, transform.position, transform.rotation);
+            go.transform.FindComponent<Rigidbody>("Hips").AddForce(go.transform.forward * 4000);
+
             Destroy(gameObject);
         }
 

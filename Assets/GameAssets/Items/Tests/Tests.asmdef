@@ -5,10 +5,10 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Items",
-        "AmmoStorage",
         "UnityFoundation.Code",
         "UnityFoundation.HealthSystem",
-        "UnityFoundation.UnityAdapter"
+        "UnityFoundation.UnityAdapter",
+        "AmmoStorageSystem"
     ],
     "includePlatforms": [
         "Editor"

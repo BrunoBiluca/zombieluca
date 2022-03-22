@@ -47,9 +47,13 @@ namespace Assets.GameAssets.Zombies
 
             if(IsPlayerInAttackRange())
             {
-                IsAttacking = true;
-                TargetPosition = Optional<Vector3>.Some(player.transform.position);
-                return;
+                if(CanAttack())
+                {
+                    SetupAttack();
+                    return;
+                }
+                else
+                    return;
             }
 
             if(IsPlayerInChasingRange())
@@ -59,6 +63,13 @@ namespace Assets.GameAssets.Zombies
             }
 
             SetupWandering();
+        }
+
+        private void SetupAttack()
+        {
+            nextAttackTime = Time.time + settings.MinNextAttackDelay;
+            IsAttacking = true;
+            TargetPosition = Optional<Vector3>.Some(player.transform.position);
         }
 
         private void DrawDebug()
@@ -74,9 +85,16 @@ namespace Assets.GameAssets.Zombies
             IsWalking = false;
             IsWandering = false;
             IsChasing = false;
+            TargetPosition = Optional<Vector3>.None();
         }
 
         private bool IsPlayerInAttackRange()
+        {
+            var distance = Vector3.Distance(Body.position, player.transform.position);
+            return distance <= settings.MinAttackDistance;
+        }
+
+        private bool CanAttack()
         {
             if(player == null)
                 return false;
@@ -84,9 +102,7 @@ namespace Assets.GameAssets.Zombies
             if(Time.time < nextAttackTime)
                 return false;
 
-            nextAttackTime = Time.time + settings.MinNextAttackDelay;
-            var distance = Vector3.Distance(Body.position, player.transform.position);
-            return distance <= settings.MinAttackDistance;
+            return true;
         }
 
         private bool IsPlayerInChasingRange()

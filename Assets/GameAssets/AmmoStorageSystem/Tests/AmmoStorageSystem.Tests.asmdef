@@ -1,11 +1,11 @@
 {
-    "name": "AmmoStorage.Tests",
+    "name": "AmmoStorageSystem.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "AmmoStorage",
-        "UnityFoundation.Code"
+        "UnityFoundation.Code",
+        "AmmoStorageSystem"
     ],
     "includePlatforms": [
         "Editor"

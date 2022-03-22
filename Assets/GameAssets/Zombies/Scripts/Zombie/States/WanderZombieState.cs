@@ -19,6 +19,8 @@ namespace Assets.GameAssets.Zombies
         {
             zombie.Animator.SetBool(ZombieAnimParams.Walking, zombie.Brain.IsWalking);
             zombie.Animator.SetBool(ZombieAnimParams.Running, zombie.Brain.IsRunning);
+
+            zombie.Agent.StoppingDistance = 0f;
             zombie.Agent.Speed = zombie.Config.WanderingSpeed;
         }
 

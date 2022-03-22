@@ -1,5 +1,4 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
-using System;
 using UnityEngine;
 using UnityFoundation.Code.PhysicsUtils;
 using Zenject;
@@ -21,6 +20,8 @@ namespace Assets.GameAssets.Player
 
         private CheckGroundHandler checkGroundHandler;
         private Camera mainCamera;
+
+        public Transform WeaponShootPoint;
 
         [Inject]
         public void Init(
@@ -74,12 +75,17 @@ namespace Assets.GameAssets.Player
 
         public void Rotate()
         {
-            transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.Euler(
+                mainCamera.transform.eulerAngles.x, mainCamera.transform.eulerAngles.y, 0f
+            );
         }
 
         public void Move()
         {
             var targetDirection = new Vector3(Inputs.Move.x, 0f, Inputs.Move.y).normalized;
+
+            AnimController.Walking(targetDirection.magnitude > 0f);
+
             var newPos = transform.forward * targetDirection.z
                 + transform.right * targetDirection.x;
             transform.position += Settings.MoveSpeed * Time.deltaTime * newPos;

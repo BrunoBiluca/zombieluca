@@ -1,4 +1,4 @@
-using Assets.GameAssets.AmmoStorage;
+using Assets.GameAssets.AmmoStorageSystem;
 using Assets.GameAssets.Player;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using TMPro;

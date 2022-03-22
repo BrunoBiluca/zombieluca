@@ -37,7 +37,7 @@ namespace Assets.GameAssets.Player
 
             Container.BindInterfacesAndSelfTo<HealthSystem>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<AmmoStorage.AmmoStorage>()
+            Container.BindInterfacesAndSelfTo<AmmoStorageSystem.AmmoStorage>()
                 .AsSingle().WithArguments(10u);
 
             Container.Bind<IAnimator>().To<AnimatorController>().AsCached();

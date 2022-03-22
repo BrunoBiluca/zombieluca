@@ -1,4 +1,4 @@
-﻿namespace Assets.GameAssets.AmmoStorage
+﻿namespace Assets.GameAssets.AmmoStorageSystem
 {
     public interface IAmmoStorage
     {
@@ -6,6 +6,8 @@
 
         uint MaxAmount { get; }
 
+        void FullReffil();
+        uint GetAmmo(uint amount);
         void Recover(uint amount);
     }
 }
