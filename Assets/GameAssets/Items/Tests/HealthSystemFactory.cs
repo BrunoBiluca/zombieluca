@@ -7,9 +7,11 @@ namespace Assets.GameAssets.Items.Tests
     public class HealthSystemFactory : IItemUserFactory
     {
         private readonly List<HealthSystem> healthSystems;
+        private bool isFull;
 
         public HealthSystemFactory()
         {
+            isFull = false;
             healthSystems = new List<HealthSystem>();
         }
 
@@ -17,6 +19,11 @@ namespace Assets.GameAssets.Items.Tests
         {
             var hs = new GameObject("healable", typeof(HealthSystem))
                 .GetComponent<HealthSystem>();
+
+            if(isFull)
+                hs.HealFull();
+            else
+                hs.Damage(5);
 
             healthSystems.Add(hs);
 
@@ -34,6 +41,12 @@ namespace Assets.GameAssets.Items.Tests
                 {
                     continue;
                 }
+        }
+
+        public HealthSystemFactory Full()
+        {
+            isFull = true;
+            return this;
         }
     }
 }

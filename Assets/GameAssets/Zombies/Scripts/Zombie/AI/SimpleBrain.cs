@@ -1,84 +1,28 @@
 using UnityFoundation.Code;
-using Assets.UnityFoundation.DebugHelper;
 using UnityEngine;
 using System;
 
 namespace Assets.GameAssets.Zombies
 {
-    public class SimpleBrain : IAIBrain
+
+    public class SimpleBrainContext
     {
-        private readonly Settings settings;
-        private GameObject player;
-        private float nextAttackTime;
+        public bool IsEnabled;
+        public bool IsAttacking;
+        public bool IsRunning;
+        public bool IsWalking;
+        public bool IsWandering;
+        public bool IsChasing;
+        public bool DebugMode;
+        public float NextAttackTime;
 
-        public bool IsEnabled { get; private set; }
-        public bool IsAttacking { get; private set; }
-        public bool IsRunning { get; private set; }
-        public bool IsWalking { get; private set; }
-        public bool IsWandering { get; private set; }
-        public bool IsChasing { get; private set; }
-        public Transform Body { get; }
-        public Optional<Vector3> TargetPosition { get; private set; }
-        public bool DebugMode { get; set; }
+        public Optional<Transform> Target;
+        public Optional<Vector3> TargetPosition;
 
-        public SimpleBrain(
-            Settings settings,
-            Transform body
-        )
-        {
-            this.settings = settings;
-            Body = body;
-            TargetPosition = Optional<Vector3>.None();
-        }
+        public Transform Body { get; set; }
+        public float NextWanderPositionTime { get; internal set; }
 
-        public void SetPlayer(GameObject player)
-        {
-            this.player = player;
-        }
-
-        public void Update()
-        {
-            if(!IsEnabled) return;
-
-            ResetStates();
-
-            if(DebugMode)
-                DrawDebug();
-
-            if(IsPlayerInAttackRange())
-            {
-                if(CanAttack())
-                {
-                    SetupAttack();
-                    return;
-                }
-                else
-                    return;
-            }
-
-            if(IsPlayerInChasingRange())
-            {
-                SetupChasing();
-                return;
-            }
-
-            SetupWandering();
-        }
-
-        private void SetupAttack()
-        {
-            nextAttackTime = Time.time + settings.MinNextAttackDelay;
-            IsAttacking = true;
-            TargetPosition = Optional<Vector3>.Some(player.transform.position);
-        }
-
-        private void DrawDebug()
-        {
-            DebugDraw.DrawSphere(Body.position, settings.MinAttackDistance, Color.red);
-            DebugDraw.DrawSphere(Body.position, settings.MinDistanceForChasePlayer, Color.blue);
-        }
-
-        private void ResetStates()
+        public void ResetStates()
         {
             IsAttacking = false;
             IsRunning = false;
@@ -87,81 +31,105 @@ namespace Assets.GameAssets.Zombies
             IsChasing = false;
             TargetPosition = Optional<Vector3>.None();
         }
+    }
 
-        private bool IsPlayerInAttackRange()
+    public class SimpleBrain : DecisionTree<SimpleBrainContext>, IAIBrain
+    {
+        private readonly SimpleBrainContext context;
+        private readonly Settings settings;
+
+        private readonly ResetStateHandler resetStateHandler;
+        private readonly DebugModeBrainHander debugModeHandler;
+        private readonly SetupWandeningHandler setupWanderStateHandler;
+
+        private PlayerRangeHandler playerAttackRangeHandler;
+        private CanAttackHandler canAttackHandler;
+        private PlayerRangeHandler playerChaseRangeHandler;
+        private SetupAttackHandler setupAttackHandler;
+        private SetupChaseHandler setupChaseHandler;
+
+        public bool IsEnabled => context.IsEnabled;
+        public bool IsAttacking => context.IsAttacking;
+        public bool IsRunning => context.IsRunning;
+        public bool IsWalking => context.IsWalking;
+        public bool IsWandering => context.IsWandering;
+        public bool IsChasing => context.IsChasing;
+        public Transform Body { get; }
+        public Optional<Vector3> TargetPosition => context.TargetPosition;
+        public bool DebugMode => context.DebugMode;
+
+        public Optional<Transform> Target => context.Target;
+
+        public SimpleBrain(
+            Settings settings,
+            Transform body
+        )
         {
-            var distance = Vector3.Distance(Body.position, player.transform.position);
-            return distance <= settings.MinAttackDistance;
+            context = new SimpleBrainContext();
+            this.settings = settings;
+            context.Body = body;
+
+            resetStateHandler = new ResetStateHandler();
+            debugModeHandler = new DebugModeBrainHander(settings);
+            setupWanderStateHandler = new SetupWandeningHandler(settings);
+
+            resetStateHandler.SetNext(
+                debugModeHandler.SetNext(
+                    setupWanderStateHandler
+                )
+            );
+
+            SetRootHandler(resetStateHandler);
         }
 
-        private bool CanAttack()
+        public void SetPlayer(GameObject player)
         {
-            if(player == null)
-                return false;
+            var playerTransform = player.transform;
 
-            if(Time.time < nextAttackTime)
-                return false;
+            playerAttackRangeHandler = new PlayerRangeHandler(
+                settings.MinAttackDistance, playerTransform);
+            canAttackHandler = new CanAttackHandler(playerTransform);
+            playerChaseRangeHandler = new PlayerRangeHandler(
+                settings.MinDistanceForChasePlayer, playerTransform);
+            setupAttackHandler = new SetupAttackHandler(settings, playerTransform);
+            setupChaseHandler = new SetupChaseHandler(playerTransform);
 
-            return true;
+            debugModeHandler
+            .SetNext(
+                playerAttackRangeHandler
+                .SetNext(
+                    canAttackHandler
+                    .SetNext(setupAttackHandler)
+                    .SetFailed(new ResetStateHandler())
+                )
+                .SetFailed(
+                    playerChaseRangeHandler
+                    .SetNext(setupChaseHandler)
+                    .SetFailed(
+                        setupWanderStateHandler
+                        .SetFailed(new ResetStateHandler())
+                    )
+                )
+            );
         }
 
-        private bool IsPlayerInChasingRange()
+        public void Update()
         {
-            if(player == null)
-                return false;
+            if(!IsEnabled) return;
 
-            var distance = Vector3.Distance(Body.position, player.transform.position);
-            return distance <= settings.MinDistanceForChasePlayer;
-        }
-
-        private void SetupWandering()
-        {
-            IsWandering = true;
-            IsWalking = true;
-
-            if(!TargetPosition.IsPresent)
-                EvaluateTargetPosition();
-
-            var distance = Vector3.Distance(Body.position, TargetPosition.Get());
-            if(distance.NearlyEqual(0f, 0.5f))
-                TargetPosition = Optional<Vector3>.None();
-        }
-
-        private void EvaluateTargetPosition()
-        {
-            var posX = UnityEngine.Random.Range(
-                -settings.WanderingDistance, settings.WanderingDistance);
-            var posZ = UnityEngine.Random.Range(
-                -settings.WanderingDistance, settings.WanderingDistance);
-
-            var target = new Vector3(posX, 0f, posZ);
-
-            if(Terrain.activeTerrain != null)
-            {
-                var posY = Terrain.activeTerrain.SampleHeight(target);
-                target.y = posY;
-            }
-
-            TargetPosition = Optional<Vector3>.Some(target);
-        }
-
-        private void SetupChasing()
-        {
-            IsChasing = true;
-            IsRunning = true;
-            TargetPosition = Optional<Vector3>.Some(player.transform.position);
+            Update(context);
         }
 
         public void Enabled()
         {
-            IsEnabled = true;
+            context.IsEnabled = true;
         }
 
         public void Disabled()
         {
-            IsEnabled = false;
-            ResetStates();
-            TargetPosition = Optional<Vector3>.None();
+            context.IsEnabled = false;
+            context.ResetStates();
+            context.TargetPosition = Optional<Vector3>.None();
         }
 
         [Serializable]
@@ -171,6 +139,7 @@ namespace Assets.GameAssets.Zombies
             public float WanderingDistance;
             public float MinAttackDistance;
             public float MinNextAttackDelay;
+            public float WanderingReevaluateTime;
         }
     }
 }

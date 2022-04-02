@@ -12,6 +12,7 @@ namespace Assets.GameAssets.Zombies.Tests
         private SimpleBrain.Settings defaultSettings = new SimpleBrain.Settings() {
             MinDistanceForChasePlayer = 10f,
             WanderingDistance = 10f,
+            WanderingReevaluateTime = .5f,
             MinAttackDistance = 1f,
             MinNextAttackDelay = .5f
         };
@@ -46,6 +47,42 @@ namespace Assets.GameAssets.Zombies.Tests
                 -wanderingDistance, wanderingDistance, simpleBrain.TargetPosition.Get().x);
             AssertHelper.Between(
                 -wanderingDistance, wanderingDistance, simpleBrain.TargetPosition.Get().z);
+        }
+
+        [UnityTest]
+        [RequiresPlayMode]
+        public IEnumerator ShouldWaitXTimeToReevaluateWaderingRoute()
+        {
+
+            var aiBody = new GameObject("AI");
+            aiBody.transform.position = new Vector3(0, 0, 0);
+
+            var brainSettings = new SimpleBrain.Settings() {
+                MinDistanceForChasePlayer = 10f,
+                WanderingReevaluateTime = .5f,
+                WanderingDistance = 2f,
+                MinAttackDistance = 1f
+            };
+            var simpleBrain = new SimpleBrain(brainSettings, aiBody.transform);
+            simpleBrain.Enabled();
+            simpleBrain.Update();
+
+            var firstTargetPostition = simpleBrain.TargetPosition.Get();
+            Assert.IsTrue(simpleBrain.IsWandering);
+            AssertHelper.Between(-2f, 2f, firstTargetPostition.x);
+            AssertHelper.Between(-2f, 2f, firstTargetPostition.z);
+
+            yield return new WaitForSeconds(0.2f);
+
+            simpleBrain.Update();
+            Assert.IsTrue(simpleBrain.IsWandering);
+            AssertHelper.AreEqual(firstTargetPostition, simpleBrain.TargetPosition.Get());
+
+            yield return new WaitForSeconds(0.4f);
+
+            simpleBrain.Update();
+            Assert.IsTrue(simpleBrain.IsWandering);
+            AssertHelper.AreNotEqual(firstTargetPostition, simpleBrain.TargetPosition.Get());
         }
 
         [Test]
@@ -120,6 +157,7 @@ namespace Assets.GameAssets.Zombies.Tests
 
             Assert.IsTrue(simpleBrain.IsAttacking);
             Assert.AreEqual(playerStartPosition, simpleBrain.TargetPosition.Get());
+            Assert.AreEqual(player.transform, simpleBrain.Target.Get());
         }
 
         [Test]

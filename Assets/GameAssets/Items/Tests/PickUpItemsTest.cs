@@ -2,6 +2,7 @@ using Assets.GameAssets.AmmoStorageSystem;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,8 +12,25 @@ using UnityEngine.TestTools;
 namespace Assets.GameAssets.Items.Tests
 {
     [TestFixture]
-    public partial class PickUpItemsTest
+    public class PickUpItemsTest
     {
+        public Mock<IHealable> GetHealable(
+            float baseHealth, 
+            float current, 
+            Action<float> healCallback
+        )
+        {
+            var healthSystem = new Mock<IHealable>();
+            healthSystem.Setup(hs => hs.CurrentHealth).Returns(current);
+            healthSystem.Setup(hs => hs.BaseHealth).Returns(baseHealth);
+
+            healthSystem.Setup(hs => hs.Heal(It.IsAny<float>()))
+                .Callback<float>(amount => healCallback(amount));
+
+            return healthSystem;
+        }
+
+
         [Test]
         [TestCase(0f)]
         [TestCase(10f)]
@@ -20,11 +38,7 @@ namespace Assets.GameAssets.Items.Tests
         {
             var healItem = new HealItem(healAmount);
             var currentHealthExpected = 0f;
-
-            var healthSystem = new Mock<IHealable>();
-
-            healthSystem.Setup(hs => hs.Heal(It.IsAny<float>()))
-                .Callback<float>(amount => currentHealthExpected += amount);
+            var healthSystem = GetHealable(10f, 1f, (amount) => currentHealthExpected += amount);
 
             healItem.SetHealable(healthSystem.Object).Use();
 
@@ -39,9 +53,7 @@ namespace Assets.GameAssets.Items.Tests
         public void HealItemsShouldBeUsedOnlyOnce(int healUses)
         {
             var currentHealthExpected = 0f;
-            var healthSystem = new Mock<IHealable>();
-            healthSystem.Setup(hs => hs.Heal(It.IsAny<float>()))
-                .Callback<float>(amount => currentHealthExpected += amount);
+            var healthSystem = GetHealable(10f, 1f, (amount) => currentHealthExpected += amount);
 
             var healItem = new HealItem(10f);
             for(int use = 0; use < healUses; use++)
@@ -94,7 +106,7 @@ namespace Assets.GameAssets.Items.Tests
         [UnityTest]
         [RequiresPlayMode]
         [TestCaseSource(nameof(MockConsumableItems))]
-        public IEnumerator ItemXShouldBeUsed_WhenCollideWithY(
+        public IEnumerator ItemXBehaviour_WhenCollideWithY(
             IConsumableItemFactory itemFactory,
             IItemUserFactory itemUserFactory,
             bool expectedConsume
@@ -123,6 +135,12 @@ namespace Assets.GameAssets.Items.Tests
                 .SetName("Ammo Item should be used when collide with Ammo Storage")
                 .Returns(null);
 
+            yield return new TestCaseData(
+                    new AmmoItemFactory(), new StorageFactory().Full(), false
+                )
+                .SetName("Ammo Item should not be used when collide with Ammo Storage maxed")
+                .Returns(null);
+
             yield return new TestCaseData(new AmmoItemFactory(), new HealthSystemFactory(), false)
                 .SetName("Ammo Item should not be used when collide with Health System")
                 .Returns(null);
@@ -133,6 +151,12 @@ namespace Assets.GameAssets.Items.Tests
 
             yield return new TestCaseData(new HealItemFactory(), new HealthSystemFactory(), true)
                 .SetName("Heal item should be used when collide with Healable")
+                .Returns(null);
+
+            yield return new TestCaseData(
+                    new HealItemFactory(), new HealthSystemFactory().Full(), false
+                )
+                .SetName("Heal item should not be used when collide with Healable full")
                 .Returns(null);
         }
     }

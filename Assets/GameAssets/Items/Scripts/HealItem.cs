@@ -19,6 +19,11 @@ namespace Assets.GameAssets.Items
             return this;
         }
 
+        protected override bool IsValidToUse()
+        {
+            return healable.CurrentHealth < healable.BaseHealth;
+        }
+
         protected override void OnUse()
         {
             healable.Heal(HealAmount);

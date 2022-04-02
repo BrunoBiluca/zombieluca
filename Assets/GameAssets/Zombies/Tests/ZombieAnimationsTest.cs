@@ -61,7 +61,7 @@ namespace Assets.GameAssets.Zombies.Tests
         }
 
         [Test]
-        public void ShouldPlayDeathAnimationWhenZombieDies()
+        public void ShouldPlayDeathAnimationWhenZombieDiesAndRagdollIsNotSet()
         {
             var zombie = new ZombieControllerTestBuilder();
             zombie.Build();

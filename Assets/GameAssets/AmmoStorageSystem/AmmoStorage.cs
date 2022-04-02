@@ -12,9 +12,14 @@ namespace Assets.GameAssets.AmmoStorageSystem
 
         public bool Empty => currentAmount == 0;
 
-        public AmmoStorage(uint maxAmount)
+        public bool IsFull => maxAmount == currentAmount;
+
+        public AmmoStorage(uint maxAmount, bool startFull = false)
         {
             this.maxAmount = maxAmount;
+
+            if(startFull)
+                currentAmount = maxAmount;
         }
 
         public void Recover(uint amount)

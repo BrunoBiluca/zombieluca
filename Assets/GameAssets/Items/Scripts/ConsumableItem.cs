@@ -1,6 +1,4 @@
-﻿using Zenject;
-
-namespace Assets.GameAssets.Items
+﻿namespace Assets.GameAssets.Items
 {
     public abstract class ConsumableItem
     {
@@ -12,9 +10,13 @@ namespace Assets.GameAssets.Items
         {
             if(WasConsumed) return;
 
+            if(!IsValidToUse()) return;
+
             WasConsumed = true;
             OnUse();
         }
+
+        protected virtual bool IsValidToUse() { return true; }
 
         protected abstract void OnUse();
 

@@ -15,6 +15,7 @@ namespace Assets.GameAssets.Zombies.Tests
         public Mock<IAnimator> Animator { get; private set; }
         public Mock<IAIBrain> Brain { get; private set; }
         public Mock<IHasHealth> HasHealth { get; private set; }
+        public ZombieController.Settings Settings { get { return settings; } }
 
         public ZombieControllerTestBuilder()
         {

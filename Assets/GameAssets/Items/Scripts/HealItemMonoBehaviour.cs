@@ -1,7 +1,4 @@
-using Assets.GameAssets.Items;
 using Assets.UnityFoundation.Systems.HealthSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -25,7 +22,8 @@ namespace Assets.GameAssets.Items
 
             healItem.SetHealable(healable).Use();
 
-            Destroy(gameObject);
+            if(healItem.WasConsumed)
+                Destroy(gameObject);
         }
     }
 }

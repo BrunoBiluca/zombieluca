@@ -32,6 +32,9 @@ namespace Assets.GameAssets.Items
                 .SetAmmoStorage(ammoStorage)
                 .Use();
 
+            if(!ammoItem.WasConsumed)
+                return;
+
             audioS.PlayOneShot(pickupAmmoSFX);
             Destroy(gameObject);
         }

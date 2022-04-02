@@ -19,6 +19,11 @@ namespace Assets.GameAssets.Items
             return this;
         }
 
+        protected override bool IsValidToUse()
+        {
+            return !ammoStorage.IsFull;
+        }
+
         protected override void OnUse()
         {
             ammoStorage.Recover(RefillAmount);

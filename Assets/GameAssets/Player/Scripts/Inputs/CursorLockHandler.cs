@@ -16,18 +16,25 @@ public class CursorLockHandler
         inputsActions.Cursor.Release.performed += OnRelease;
 
         inputsActions.Cursor.Enable();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Lock();
     }
 
-    private void OnLock(InputAction.CallbackContext ctx)
+    public void Disable()
+    {
+        inputsActions.Cursor.Disable();
+        Release();
+    }
+
+    private void OnLock(InputAction.CallbackContext ctx) => Lock();
+    private void OnRelease(InputAction.CallbackContext ctx) => Release();
+
+    public void Lock()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    private void OnRelease(InputAction.CallbackContext ctx)
+    public void Release()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

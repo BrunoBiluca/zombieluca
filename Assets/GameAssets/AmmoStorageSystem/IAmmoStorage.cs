@@ -5,6 +5,7 @@
         uint CurrentAmount { get; }
 
         uint MaxAmount { get; }
+        bool IsFull { get; }
 
         void FullReffil();
         uint GetAmmo(uint amount);

@@ -9,6 +9,8 @@ public class PlayerSettings : ScriptableObject
 
     public GameObject PlayerPrefab;
 
+    public float StartHealth = 20f;
+
     [Tooltip("Move speed of the character in m/s")]
     public float MoveSpeed = 2.0f;
 

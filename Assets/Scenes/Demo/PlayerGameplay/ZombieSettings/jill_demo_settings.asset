@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: jill_demo_settings
   m_EditorClassIdentifier: 
   zombieBrainSettings:
-    MinDistanceForChasePlayer: 5
-    WanderingDistance: 3
-    MinAttackDistance: 2
+    MinDistanceForChasePlayer: 6
+    WanderingDistance: 6
+    MinAttackDistance: 3
     MinNextAttackDelay: 10
+    WanderingReevaluateTime: 20
   zombieSettings:
     WanderingSpeed: 0.45
     ChasingSpeed: 4
     ChasingTurnSpeed: 10
+    AttackRange: 3
+    AttackDamage: 2
     DebugMode: 1
     BaseHealth: 10
-    RagdollPrefab: {fileID: 0}
+    RagdollPrefab: {fileID: 3336201881091933287, guid: 7cbd6cb46748bcd4db7edaaa7d698c4f, type: 3}

@@ -12,6 +12,8 @@ namespace Assets.GameAssets.Player
         private readonly SignalBus signalBus;
         private readonly IAmmoStorage ammoStorage;
 
+        private bool isFiring = false;
+
         public AimPlayerState(
             FirstPersonController player,
             SignalBus signalBus
@@ -24,7 +26,7 @@ namespace Assets.GameAssets.Player
 
         public override void EnterState()
         {
-            player.AnimController.Aim();
+            player.AnimController.ToggleAim();
         }
 
         public override void Update()
@@ -32,7 +34,9 @@ namespace Assets.GameAssets.Player
             player.Rotate();
             TryReload();
             TryFire();
-            player.Move();
+
+            if(!isFiring)
+                player.Move();
         }
 
         private void TryReload()
@@ -46,6 +50,7 @@ namespace Assets.GameAssets.Player
         {
             if(!player.Inputs.Fire) return;
 
+            isFiring = true;
             player.AnimController.Fire();
         }
 
@@ -53,6 +58,9 @@ namespace Assets.GameAssets.Player
         {
             if(name == "fire")
                 Fire();
+
+            if(name == "finish_shotting")
+                isFiring = false;
         }
 
         private void Fire()

@@ -9,17 +9,27 @@ namespace Assets.GameAssets.Items.Tests
     {
 
         public List<AmmoStorageMonoBehaviour> list;
+        private bool startFull;
 
         public StorageFactory()
         {
+            startFull = false;
             list = new List<AmmoStorageMonoBehaviour>();
+        }
+        
+        public StorageFactory Full()
+        {
+            startFull = true;
+            return this;
         }
 
         public MonoBehaviour Create()
         {
+            var ammoStorage = new AmmoStorage(5, startFull);
+
             var ammo = new GameObject("storage")
                 .AddComponent<AmmoStorageMonoBehaviour>()
-                .Setup(new Mock<IAmmoStorage>().Object);
+                .Setup(ammoStorage);
 
             list.Add(ammo);
 

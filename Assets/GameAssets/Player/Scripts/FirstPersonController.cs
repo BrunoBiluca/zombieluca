@@ -1,4 +1,5 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
+using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
 using UnityFoundation.Code.PhysicsUtils;
 using Zenject;
@@ -52,6 +53,8 @@ namespace Assets.GameAssets.Player
             Inputs.Enable();
             Rigidbody = GetComponent<Rigidbody>();
 
+            GetComponent<IHealable>().Setup(Settings.StartHealth);
+
             TransitionToState(IdlePlayerState);
         }
 
@@ -69,7 +72,10 @@ namespace Assets.GameAssets.Player
         {
             if(!Inputs.Aim) return false;
 
-            TransitionToState(AimState);
+            if(CurrentState != AimState)
+                TransitionToState(AimState);
+            else
+                AnimController.ToggleAim();
             return true;
         }
 

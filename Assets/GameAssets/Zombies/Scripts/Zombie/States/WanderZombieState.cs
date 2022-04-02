@@ -30,6 +30,10 @@ namespace Assets.GameAssets.Zombies
                 .Some((target) => {
                     zombie.Agent.SetDestination(target);
                     targetWandering.position = target;
+                })
+                .OrElse(() => {
+                    zombie.Agent.ResetPath();
+                    zombie.TransitionToState(zombie.IdleState);
                 });
         }
     }

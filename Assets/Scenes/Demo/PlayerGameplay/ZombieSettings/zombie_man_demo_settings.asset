@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: zombie_man_demo_settings
   m_EditorClassIdentifier: 
   zombieBrainSettings:
-    MinDistanceForChasePlayer: 5
-    WanderingDistance: 3
-    MinAttackDistance: 2
+    MinDistanceForChasePlayer: 6
+    WanderingDistance: 6
+    MinAttackDistance: 3
     MinNextAttackDelay: 10
+    WanderingReevaluateTime: 20
   zombieSettings:
     WanderingSpeed: 0.45
     ChasingSpeed: 4
     ChasingTurnSpeed: 10
+    AttackRange: 3
+    AttackDamage: 2
     DebugMode: 1
     BaseHealth: 10
     RagdollPrefab: {fileID: 8249310497431390300, guid: b0d7ef2d353f5194fae5eb41dbc6217b, type: 3}

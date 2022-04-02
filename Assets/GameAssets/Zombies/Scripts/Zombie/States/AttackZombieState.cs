@@ -1,5 +1,7 @@
 ﻿using Assets.UnityFoundation.Systems.Character3D.Scripts;
+using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
+using UnityFoundation.Code;
 
 namespace Assets.GameAssets.Zombies
 {
@@ -7,6 +9,7 @@ namespace Assets.GameAssets.Zombies
     {
         public class TriggerEvents
         {
+            public static readonly string Attack = "attack";
             public static readonly string AttackFinished = "attack_finished";
         }
 
@@ -33,6 +36,17 @@ namespace Assets.GameAssets.Zombies
 
         public override void TriggerAnimationEvent(string eventName)
         {
+            if(TriggerEvents.Attack.Equals(eventName))
+            {
+                zombie.Brain.Target.Some(target => {
+                    if(target.Distance(zombie.transform) > zombie.Config.AttackRange)
+                        return;
+
+                    target.GetComponent<IDamageable>().Damage(zombie.Config.AttackDamage);
+                });
+                return;
+            }
+
             if(TriggerEvents.AttackFinished.Equals(eventName))
             {
                 canExit = true;

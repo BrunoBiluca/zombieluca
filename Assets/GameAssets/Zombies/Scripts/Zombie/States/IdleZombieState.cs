@@ -21,6 +21,9 @@ namespace Assets.GameAssets.Zombies
 
         public override void Update()
         {
+            if(zombie.Brain.IsAttacking)
+                zombie.TransitionToState(zombie.AttackState);
+
             if(zombie.Brain.IsWandering)
                 zombie.TransitionToState(zombie.WanderState);
         }

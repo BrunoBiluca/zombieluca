@@ -20,7 +20,7 @@ public class FirstPersonAnimationController
         this.animator = animator;
     }
 
-    public void Aim()
+    public void ToggleAim()
     {
         animator.SetBool(
             FirstPersonAnimationParams.AIM,

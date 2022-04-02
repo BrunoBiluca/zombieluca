@@ -35,7 +35,6 @@ namespace Assets.GameAssets.Zombies
             Animator = anim;
             
             Brain = brain;
-            Brain.DebugMode = config.DebugMode;
             Brain.Enabled();
 
             Config = config;
@@ -49,7 +48,7 @@ namespace Assets.GameAssets.Zombies
             DeadState = new DeadZombieState(this);
 
             hasHealth.Setup(config.BaseHealth);
-            hasHealth.OnDied += (sender, args) => TransitionToState(DeadState);
+            hasHealth.OnDied += (sender, args) => TransitionToStateForce(DeadState);
 
             TransitionToState(IdleState);
             return this;
@@ -68,23 +67,15 @@ namespace Assets.GameAssets.Zombies
                 TransitionToStateIfDifferent(ChaseState);
         }
 
-        public void InstantiateRagdoll()
-        {
-            if(Config.RagdollPrefab == null)
-                return;
-
-            var go = Instantiate(Config.RagdollPrefab, transform.position, transform.rotation);
-            go.transform.FindComponent<Rigidbody>("Hips").AddForce(go.transform.forward * 4000);
-
-            Destroy(gameObject);
-        }
-
         [Serializable]
         public class Settings
         {
             public float WanderingSpeed;
             public float ChasingSpeed;
             public float ChasingTurnSpeed;
+
+            public float AttackRange;
+            public float AttackDamage;
 
             public bool DebugMode;
             public float BaseHealth;

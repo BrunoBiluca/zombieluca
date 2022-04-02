@@ -1,5 +1,6 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
+using UnityFoundation.Code;
 
 namespace Assets.GameAssets.Zombies
 {
@@ -24,7 +25,23 @@ namespace Assets.GameAssets.Zombies
             if(change > .5f)
                 zombie.Animator.SetTrigger(ZombieAnimParams.Dead);
             else
-                zombie.InstantiateRagdoll();
+                InstantiateRagdoll();
+        }
+
+        private void InstantiateRagdoll()
+        {
+            if(zombie.Config.RagdollPrefab == null)
+            {
+                zombie.Animator.SetTrigger(ZombieAnimParams.Dead);
+                return;
+            }
+
+            var go = Object.Instantiate(
+                zombie.Config.RagdollPrefab, zombie.transform.position, zombie.transform.rotation
+            );
+            go.transform.FindComponent<Rigidbody>("Hips").AddForce(go.transform.forward * 4000);
+
+            Object.Destroy(zombie.gameObject);
         }
     }
 }

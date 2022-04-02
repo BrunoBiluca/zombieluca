@@ -26,13 +26,13 @@ namespace Assets.GameAssets.Player.Tests
 
             var firstPlayerAnimController = new FirstPersonAnimationController(animMock.Object);
 
-            firstPlayerAnimController.Aim();
+            firstPlayerAnimController.ToggleAim();
             animMock.Verify(m => m.SetBool(FirstPersonAnimationParams.AIM, true));
 
-            firstPlayerAnimController.Aim();
+            firstPlayerAnimController.ToggleAim();
             animMock.Verify(m => m.SetBool(FirstPersonAnimationParams.AIM, false));
 
-            firstPlayerAnimController.Aim();
+            firstPlayerAnimController.ToggleAim();
             animMock.Verify(m => m.SetBool(FirstPersonAnimationParams.AIM, true));
         }
 

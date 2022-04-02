@@ -18,6 +18,8 @@ namespace Assets.GameAssets.AmmoStorageSystem
 
         public uint MaxAmount => storage.MaxAmount;
 
+        public bool IsFull => storage.IsFull;
+
         public void Recover(uint amount) => storage.Recover(amount);
 
         public void FullReffil() => storage.FullReffil();
