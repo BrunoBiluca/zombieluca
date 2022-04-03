@@ -27,3 +27,16 @@ MonoBehaviour:
     DebugMode: 1
     BaseHealth: 10
     RagdollPrefab: {fileID: 3661790609377963849, guid: ddde0dae57efae44f93c7b73810dfeb2, type: 3}
+    AttackSFX:
+    - {fileID: 8300000, guid: 566236d7b2d513d4d8e4839aec8d3dcd, type: 3}
+    - {fileID: 8300000, guid: 19485eb6aeec9a842b17214bed37f79f, type: 3}
+    - {fileID: 8300000, guid: 8ea3aca3ab5a61e41b5e5083bb6765b2, type: 3}
+    - {fileID: 8300000, guid: b990de74dfe8aba4bb204d27c8fb8776, type: 3}
+    - {fileID: 8300000, guid: 2cca7b0b46f259143aa4bcf9593805cc, type: 3}
+    - {fileID: 8300000, guid: 4ff26459407518b45aa72d5cb733f19c, type: 3}
+    WanderingSFX: {fileID: 8300000, guid: 523946123e6a82a4999c3bf9c8d30490, type: 3}
+    ChasingSFX:
+    - {fileID: 8300000, guid: 145a98daa81d99b4fbb9a4353cc9f4bd, type: 3}
+    - {fileID: 8300000, guid: 1a83e5ac3e1b8164f883421c14eeb008, type: 3}
+    - {fileID: 8300000, guid: 7e08b0e18bd73a44db85b6f89c0605cc, type: 3}
+    - {fileID: 8300000, guid: 861a6c3dadad89a4aba27848462e4294, type: 3}

@@ -3,12 +3,12 @@ using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using System;
 using UnityEngine;
-using UnityFoundation.Code;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies
 {
     [RequireComponent(typeof(CapsuleCollider))]
+    [RequireComponent(typeof(AudioSource))]
     public class ZombieController : BaseCharacter3D
     {
         public Settings Config { get; private set; }
@@ -16,6 +16,7 @@ namespace Assets.GameAssets.Zombies
         public IAnimator Animator { get; private set; }
         public IAIBrain Brain { get; private set; }
         public INavMeshAgent Agent { get; private set; }
+        public AudioSourceDec AudioSource { get; private set; }
 
         public IdleZombieState IdleState { get; private set; }
         public WanderZombieState WanderState { get; private set; }
@@ -40,6 +41,8 @@ namespace Assets.GameAssets.Zombies
             Config = config;
 
             Agent = agent;
+
+            AudioSource = new AudioSourceDec(GetComponent<AudioSource>());
 
             IdleState = new IdleZombieState(this);
             WanderState = new WanderZombieState(this);
@@ -80,6 +83,10 @@ namespace Assets.GameAssets.Zombies
             public bool DebugMode;
             public float BaseHealth;
             public GameObject RagdollPrefab;
+            public AudioClip[] AttackSFX;
+
+            public AudioClip WanderingSFX;
+            public AudioClip[] ChasingSFX;
         }
     }
 }

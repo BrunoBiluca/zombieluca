@@ -1,3 +1,4 @@
+using Assets.GameAssets.Player;
 using UnityEngine;
 using Zenject;
 

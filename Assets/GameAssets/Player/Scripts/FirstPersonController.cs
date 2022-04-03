@@ -12,6 +12,8 @@ namespace Assets.GameAssets.Player
         public FirstPersonAnimationController AnimController { get; private set; }
         public AudioSource AudioSource { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
+        public IHealable Health { get; private set; }
+
         public bool IsGrounded => checkGroundHandler.IsGrounded;
 
         [Inject] public PlayerSettings Settings { get; }
@@ -53,9 +55,27 @@ namespace Assets.GameAssets.Player
             Inputs.Enable();
             Rigidbody = GetComponent<Rigidbody>();
 
-            GetComponent<IHealable>().Setup(Settings.StartHealth);
+            Health = GetComponent<IHealable>();
+            Health.Setup(Settings.StartHealth);
+            Health.OnDied += OnDied;
 
             TransitionToState(IdlePlayerState);
+        }
+
+        private void OnDied(object sender, System.EventArgs e)
+        {
+            var model = Instantiate(
+                Settings.PlayerFullModel, 
+                new Vector3(
+                    transform.position.x, 
+                    Terrain.activeTerrain.SampleHeight(transform.position),
+                    transform.position.z
+                ),
+                transform.rotation
+            );
+
+            model.GetComponent<Animator>().SetTrigger("Death");
+            Destroy(gameObject);
         }
 
         protected override void OnUpdate()

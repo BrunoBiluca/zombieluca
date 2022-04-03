@@ -22,6 +22,15 @@ namespace Assets.GameAssets.Zombies
 
             zombie.Agent.StoppingDistance = 0f;
             zombie.Agent.Speed = zombie.Config.WanderingSpeed;
+
+            zombie.AudioSource.Volume = 0.2f;
+            zombie.AudioSource.Loop = true;
+            zombie.AudioSource.Play(zombie.Config.WanderingSFX);
+        }
+
+        public override void ExitState()
+        {
+            zombie.AudioSource.ResetAudio();
         }
 
         public override void Update()

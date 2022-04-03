@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: default_player_settings
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 4874480355813262084, guid: bce513889c16aa747a5704a53961a013, type: 3}
+  PlayerFullModel: {fileID: 8450192851115776640, guid: 4edbcb616a593114d845b1dac36d1afd, type: 3}
+  StartHealth: 4
   MoveSpeed: 2
   JumpHeight: 1.2
   JumpTimeout: 0.5

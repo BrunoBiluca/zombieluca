@@ -38,9 +38,9 @@ namespace Assets.GameAssets.Zombies
         private readonly SimpleBrainContext context;
         private readonly Settings settings;
 
-        private readonly ResetStateHandler resetStateHandler;
-        private readonly DebugModeBrainHander debugModeHandler;
-        private readonly SetupWandeningHandler setupWanderStateHandler;
+        private ResetStateHandler resetStateHandler;
+        private DebugModeBrainHander debugModeHandler;
+        private SetupWandeningHandler setupWanderStateHandler;
 
         private PlayerRangeHandler playerAttackRangeHandler;
         private CanAttackHandler canAttackHandler;
@@ -69,6 +69,11 @@ namespace Assets.GameAssets.Zombies
             this.settings = settings;
             context.Body = body;
 
+            DefaultDecisionTree();
+        }
+
+        private void DefaultDecisionTree()
+        {
             resetStateHandler = new ResetStateHandler();
             debugModeHandler = new DebugModeBrainHander(settings);
             setupWanderStateHandler = new SetupWandeningHandler(settings);
@@ -85,7 +90,11 @@ namespace Assets.GameAssets.Zombies
         public void SetPlayer(GameObject player)
         {
             var playerTransform = player.transform;
+            PlayerDecisionTree(playerTransform);
+        }
 
+        private void PlayerDecisionTree(Transform playerTransform)
+        {
             playerAttackRangeHandler = new PlayerRangeHandler(
                 settings.MinAttackDistance, playerTransform);
             canAttackHandler = new CanAttackHandler(playerTransform);
@@ -117,7 +126,14 @@ namespace Assets.GameAssets.Zombies
         {
             if(!IsEnabled) return;
 
-            Update(context);
+            try
+            {
+                Update(context);
+            }
+            catch(MissingReferenceException)
+            {
+                DefaultDecisionTree();
+            }
         }
 
         public void Enabled()

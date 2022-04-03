@@ -41,7 +41,7 @@ namespace Assets.GameAssets.Zombies.Tests
                 Animator.Object, 
                 Brain.Object, 
                 HasHealth.Object,
-                new DummyNavMeshAgent(zombie.transform) 
+                new DummyNavMeshAgent(zombie.transform)
             );
 
             return zombie;

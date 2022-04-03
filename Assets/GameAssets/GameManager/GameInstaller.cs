@@ -1,3 +1,4 @@
+using Assets.GameAssets.GameManager;
 using Assets.GameAssets.Items;
 using Assets.GameAssets.Player;
 using Assets.UnityFoundation.UnityAdapter;
@@ -13,7 +14,7 @@ public class GameInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.BindInterfacesAndSelfTo<CursorLockHandler>().AsSingle();
-        Container.BindInterfacesAndSelfTo<GameManager>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ZombilucaGameManager>().AsSingle().NonLazy();
 
         // TODO: criar subcontaine para o player, 
         // encapsulando assim todas as instancias de um player 

@@ -42,6 +42,11 @@ namespace Assets.GameAssets.Zombies
                     if(target.Distance(zombie.transform) > zombie.Config.AttackRange)
                         return;
 
+                    if(zombie.Config.AttackSFX != null)
+                    {
+                        var randSound = Random.Range(0, zombie.Config.AttackSFX.Length);
+                        zombie.AudioSource.PlayOneShot(zombie.Config.AttackSFX[randSound]);
+                    }
                     target.GetComponent<IDamageable>().Damage(zombie.Config.AttackDamage);
                 });
                 return;
