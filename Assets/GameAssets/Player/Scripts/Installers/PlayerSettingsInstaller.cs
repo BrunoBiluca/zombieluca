@@ -1,4 +1,4 @@
-using Assets.GameAssets.Player;
+using Assets.GameAssets.FirstPersonModeSystem;
 using UnityEngine;
 using Zenject;
 
@@ -8,10 +8,12 @@ using Zenject;
 )]
 public class PlayerSettingsInstaller : ScriptableObjectInstaller<PlayerSettingsInstaller>
 {
-    public PlayerSettings settings;
+    public FirstPersonModeSettings firstPersonModeSettings;
+    public ZombilucaPlayerSettings playerSettings;
 
     public override void InstallBindings()
     {
-        Container.BindInstance(settings);
+        Container.BindInstance(firstPersonModeSettings);
+        Container.BindInstance(playerSettings);
     }
 }

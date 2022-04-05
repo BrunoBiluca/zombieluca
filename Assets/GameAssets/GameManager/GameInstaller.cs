@@ -1,3 +1,4 @@
+using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.GameManager;
 using Assets.GameAssets.Items;
 using Assets.GameAssets.Player;
@@ -9,7 +10,7 @@ using Zenject;
 public class GameInstaller : MonoInstaller
 {
     [Inject]
-    private readonly PlayerSettings playerSettings;
+    private readonly ZombilucaPlayerSettings playerSettings;
 
     public override void InstallBindings()
     {
@@ -25,7 +26,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<FirstPersonInputs>().AsSingle();
         Container.BindInterfacesAndSelfTo<FirstPersonInputActions>().AsSingle();
 
-        Container.Bind<FirstPersonController>()
+        Container.Bind<ZombilucaPlayer>()
             .FromSubContainerResolve()
             .ByNewPrefabInstaller<PlayerInstaller>(playerSettings.PlayerPrefab)
             .AsCached();

@@ -1,3 +1,4 @@
+using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.Player;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UI.Menus.GameOverMenu;
@@ -12,13 +13,13 @@ namespace Assets.GameAssets.GameManager
 {
     public class ZombilucaGameManager : IInitializable
     {
-        private readonly FirstPersonController player;
+        private readonly ZombilucaPlayer player;
         private readonly CinemachineVirtualCamera vCamera;
         private readonly CursorLockHandler cursorLockHandler;
         private readonly GameOverMenu gameOverMenu;
 
         public ZombilucaGameManager(
-            FirstPersonController player,
+            ZombilucaPlayer player,
             CinemachineVirtualCamera vCamera,
             CursorLockHandler cursorLockHandler,
             GameOverMenu gameOverMenu

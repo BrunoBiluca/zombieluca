@@ -41,11 +41,12 @@ GameObject:
   - component: {fileID: 4874480355813262104}
   - component: {fileID: 4874480355813262107}
   - component: {fileID: 4874480355813262087}
-  - component: {fileID: 4874480355813262108}
   - component: {fileID: -8994160795688825682}
   - component: {fileID: 3124956764840788641}
   - component: {fileID: -7409669073932839705}
   - component: {fileID: 3695504469448100455}
+  - component: {fileID: 5115384907681763313}
+  - component: {fileID: 5244889820492981977}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -99,21 +100,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4874480355813262108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4874480355813262084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6279c5584288c42b89feef43cee1e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 0
-  StateText: {fileID: 0}
-  WeaponShootPoint: {fileID: 4398975995040837264}
 --- !u!82 &-8994160795688825682
 AudioSource:
   m_ObjectHideFlags: 0
@@ -336,6 +322,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b075746124fe17408a63bcbe24f55c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5115384907681763313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874480355813262084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb2a08819d033c4c91f284a27fca454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5244889820492981977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874480355813262084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d8d5819e62e96f4cb50e03e286af8f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  StateText: {fileID: 0}
+  WeaponShootPoint: {fileID: 4398975995040837264}
 --- !u!1001 &4874480355976269392
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1087,7 +1100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22396bbda67ec8443a411647e37a0422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseCharacter: {fileID: 0}
+  baseCharacter: {fileID: 5244889820492981977}
 --- !u!1001 &7204372051414869781
 PrefabInstance:
   m_ObjectHideFlags: 0

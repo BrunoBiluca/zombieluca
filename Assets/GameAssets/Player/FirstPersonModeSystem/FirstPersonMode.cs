@@ -1,48 +1,53 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
-using Assets.UnityFoundation.Systems.HealthSystem;
+using Assets.UnityFoundation.UnityAdapter;
+using System;
 using UnityEngine;
 using UnityFoundation.Code.PhysicsUtils;
 using Zenject;
 
-namespace Assets.GameAssets.Player
+namespace Assets.GameAssets.FirstPersonModeSystem
 {
-    public class FirstPersonController : BaseCharacter3D
+    public class FirstPersonMode : BaseCharacter3D
     {
+        public FirstPersonModeSettings Settings { get; private set; }
         public FirstPersonInputs Inputs { get; private set; }
+        public CheckGroundHandler CheckGroundHandler { get; private set; }
         public FirstPersonAnimationController AnimController { get; private set; }
-        public AudioSource AudioSource { get; private set; }
+        public IAudioSource AudioSource { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
-        public IHealable Health { get; private set; }
-
-        public bool IsGrounded => checkGroundHandler.IsGrounded;
-
-        [Inject] public PlayerSettings Settings { get; }
-        [Inject] public IdlePlayerState IdlePlayerState;
-        [Inject] public WalkPlayerState WalkPlayerState;
-        [Inject] public AimPlayerState AimState;
-
-        private CheckGroundHandler checkGroundHandler;
-        private Camera mainCamera;
-
         public Transform WeaponShootPoint;
 
+        public IdlePlayerState IdlePlayerState;
+        public WalkPlayerState WalkPlayerState;
+        public AimPlayerState AimState;
+
+        public event Action OnShotHit;
+
+        private Camera mainCamera;
+
         [Inject]
-        public void Init(
+        public FirstPersonMode Setup(
+            FirstPersonModeSettings settings,
             FirstPersonInputs inputs,
-            FirstPersonAnimationController animController,
-            [Inject(Id = AudioSources.PlayerWeapon)] AudioSource audioSource,
             CheckGroundHandler checkGroundHandler,
-            Camera mainCamera
+            FirstPersonAnimationController animController,
+            IAudioSource audioSource,
+            Camera camera
         )
         {
+            Settings = settings;
             Inputs = inputs;
+            CheckGroundHandler = checkGroundHandler;
             AnimController = animController;
             AudioSource = audioSource;
+            mainCamera = camera;
 
-            this.checkGroundHandler = checkGroundHandler.DebugMode(true);
-            checkGroundHandler.OnLanded += OnLandedHandler;
+            IdlePlayerState = new IdlePlayerState(this);
+            WalkPlayerState = new WalkPlayerState(this);
+            AimState = new AimPlayerState(this);
 
-            this.mainCamera = mainCamera;
+            CheckGroundHandler.OnLanded += OnLandedHandler;
+            return this;
         }
 
         private void OnLandedHandler()
@@ -55,32 +60,12 @@ namespace Assets.GameAssets.Player
             Inputs.Enable();
             Rigidbody = GetComponent<Rigidbody>();
 
-            Health = GetComponent<IHealable>();
-            Health.Setup(Settings.StartHealth);
-            Health.OnDied += OnDied;
-
             TransitionToState(IdlePlayerState);
-        }
-
-        private void OnDied(object sender, System.EventArgs e)
-        {
-            var model = Instantiate(
-                Settings.PlayerFullModel, 
-                new Vector3(
-                    transform.position.x, 
-                    Terrain.activeTerrain.SampleHeight(transform.position),
-                    transform.position.z
-                ),
-                transform.rotation
-            );
-
-            model.GetComponent<Animator>().SetTrigger("Death");
-            Destroy(gameObject);
         }
 
         protected override void OnUpdate()
         {
-            checkGroundHandler.CheckGround();
+            CheckGroundHandler.CheckGround();
 
             if(TryAim())
                 return;
@@ -97,6 +82,11 @@ namespace Assets.GameAssets.Player
             else
                 AnimController.ToggleAim();
             return true;
+        }
+
+        public void ShootHit()
+        {
+            OnShotHit?.Invoke();
         }
 
         public void Rotate()
@@ -119,7 +109,7 @@ namespace Assets.GameAssets.Player
 
         public void TryJump()
         {
-            if(!IsGrounded) return;
+            if(!CheckGroundHandler.IsGrounded) return;
 
             if(!Inputs.Jump) return;
 

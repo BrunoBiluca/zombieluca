@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556568e8afbc0454db06011af9038d24, type: 3}
   m_Name: default_player_settings_installer
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 27a5af073919c814885d9960c1e10bb7, type: 2}
+  firstPersonModeSettings: {fileID: 11400000, guid: 7b849b0fb5ec27c4ebdf84e05e77741c, type: 2}
+  playerSettings: {fileID: 11400000, guid: 27a5af073919c814885d9960c1e10bb7, type: 2}

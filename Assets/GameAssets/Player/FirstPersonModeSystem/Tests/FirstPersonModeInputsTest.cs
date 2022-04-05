@@ -3,9 +3,9 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.GameAssets.Player.Tests
+namespace Assets.GameAssets.FirstPersonModeSystem.Tests
 {
-    public class PlayerInputsTest : InputTestFixture
+    public class FirstPersonModeInputsTest : InputTestFixture
     {
         [Test]
         public void ShouldReceiveInputValues_WhenInputsActionsEnabled()

@@ -4,10 +4,10 @@ using Zenject;
 
 public class ZombieSpawnerManager : IInitializable
 {
-    private readonly FirstPersonController player;
+    private readonly ZombilucaPlayer player;
     public ZombieController[] Zombies { get; }
 
-    public ZombieSpawnerManager(ZombieController[] zombies, FirstPersonController player)
+    public ZombieSpawnerManager(ZombieController[] zombies, ZombilucaPlayer player)
     {
         Zombies = zombies;
         this.player = player;

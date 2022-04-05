@@ -2,25 +2,21 @@ using Assets.GameAssets.AmmoStorageSystem;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
-using Zenject;
 
-namespace Assets.GameAssets.Player
+namespace Assets.GameAssets.FirstPersonModeSystem
 {
     public class AimPlayerState : BaseCharacterState3D
     {
-        private readonly FirstPersonController player;
-        private readonly SignalBus signalBus;
+        private readonly FirstPersonMode player;
         private readonly IAmmoStorage ammoStorage;
 
         private bool isFiring = false;
 
         public AimPlayerState(
-            FirstPersonController player,
-            SignalBus signalBus
+            FirstPersonMode player
         )
         {
             this.player = player;
-            this.signalBus = signalBus;
             ammoStorage = player.GetComponent<AmmoStorageMonoBehaviour>();
         }
 
@@ -71,7 +67,7 @@ namespace Assets.GameAssets.Player
                 player.AudioSource.PlayOneShot(player.Settings.FireMissSFX);
                 return;
             }
-            
+
             player.AudioSource.PlayOneShot(player.Settings.FireSFX);
             var ray = new Ray(
                 player.WeaponShootPoint.position, player.WeaponShootPoint.forward
@@ -83,7 +79,7 @@ namespace Assets.GameAssets.Player
                 if(damageable != null)
                 {
                     damageable.Damage(5f);
-                    signalBus.Fire<HitShotSignal>();
+                    player.ShootHit();
                 }
             }
         }

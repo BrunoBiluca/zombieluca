@@ -2,7 +2,7 @@ using Assets.UnityFoundation.UnityAdapter;
 using Moq;
 using NUnit.Framework;
 
-namespace Assets.GameAssets.Player.Tests
+namespace Assets.GameAssets.FirstPersonModeSystem.Tests
 {
     public class FirstPlayerAnimationControllerTest
     {

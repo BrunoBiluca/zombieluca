@@ -9,7 +9,7 @@ using Zenject;
 public class PlayerGameplayerDemoUI : MonoBehaviour
 {
     [Inject]
-    private FirstPersonController player;
+    private ZombilucaPlayer player;
     private HealthSystem healthSystem;
     private AmmoStorageMonoBehaviour ammoStorage; 
 

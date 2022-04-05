@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.GameAssets.Player
+namespace Assets.GameAssets.FirstPersonModeSystem
 {
-    [CreateAssetMenu(fileName = "new_player_settings", menuName = "Player/ Player Settings")]
-    public class PlayerSettings : ScriptableObject
+    [CreateAssetMenu(
+        fileName = "new_first_person_settings",
+        menuName = "First Person Mode/Settings"
+    )]
+    public class FirstPersonModeSettings : ScriptableObject
     {
-        [Header("Player")]
-
-        public GameObject PlayerPrefab;
-        public GameObject PlayerFullModel;
-
-        public float StartHealth = 20f;
-
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
 

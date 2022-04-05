@@ -3,6 +3,7 @@ using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using Zenject;
+using Assets.GameAssets.FirstPersonModeSystem;
 
 namespace Assets.GameAssets.Player
 {
@@ -13,13 +14,11 @@ namespace Assets.GameAssets.Player
             // TODO: instalar os componentes no prefab pelo installer, não ter no prefab
 
             Container.Bind<Transform>().FromComponentOnRoot().AsSingle();
-            Container.Bind<FirstPersonController>().FromComponentOnRoot().AsSingle();
-
-            Container.Bind<IdlePlayerState>().AsTransient();
-            Container.Bind<WalkPlayerState>().AsTransient();
-            Container.Bind<AimPlayerState>().AsTransient();
+            Container.Bind<ZombilucaPlayer>().FromComponentOnRoot().AsSingle();
 
             Container.Bind<CheckGroundHandler>().AsCached().WithArguments(0.5f);
+
+            Container.Bind<FirstPersonMode>().FromComponentOnRoot().AsSingle();
 
             Container.Bind<AudioSource>()
                 .WithId(AudioSources.PlayerWeapon)

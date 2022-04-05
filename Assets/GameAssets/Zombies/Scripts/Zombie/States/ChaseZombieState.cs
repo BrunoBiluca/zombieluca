@@ -18,6 +18,8 @@ namespace Assets.GameAssets.Zombies
 
         private void UpdateChaseAudio()
         {
+            if(zombie.Config.ChasingSFX == null) return;
+
             var clipIdx = Random.Range(0, zombie.Config.ChasingSFX.Length - 1);
             zombie.AudioSource.Loop = true;
             zombie.AudioSource.Play(zombie.Config.ChasingSFX[clipIdx]);
