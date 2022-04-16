@@ -1,3 +1,4 @@
+using Assets.GameAssets.AmmoStorageSystem;
 using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
@@ -12,22 +13,27 @@ namespace Assets.GameAssets.Player
         [Inject] public ZombilucaPlayerSettings Settings { get; }
         [Inject] public FirstPersonMode FirstPersonMode { get; private set; }
         [Inject] public SignalBus SignalBus { get; private set; }
+        [Inject] public IHealthBar HealthBar { get; private set; }
+        [Inject] public IAmmoStorage AmmoStorage { get; private set; }
 
         protected void Start()
         {
-            Health = GetComponent<IHealable>();
+            var healthSystem = GetComponent<HealthSystem>();
+            healthSystem.SetHealthBar(HealthBar);
+
+            Health = healthSystem;
             Health.Setup(Settings.StartHealth);
             Health.OnDied += OnDied;
 
-            FirstPersonMode.OnShotHit += () => SignalBus.Fire<HitShotSignal>();
+            FirstPersonMode.OnShotHit += () => SignalBus.Fire<PlayerHitShotSignal>();
         }
 
         private void OnDied(object sender, System.EventArgs e)
         {
             var model = Instantiate(
-                Settings.PlayerFullModel, 
+                Settings.PlayerFullModel,
                 new Vector3(
-                    transform.position.x, 
+                    transform.position.x,
                     Terrain.activeTerrain.SampleHeight(transform.position),
                     transform.position.z
                 ),

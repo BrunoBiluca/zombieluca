@@ -2,6 +2,7 @@ using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.GameManager;
 using Assets.GameAssets.Items;
 using Assets.GameAssets.Player;
+using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using Cinemachine;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class GameInstaller : MonoInstaller
 {
     [Inject]
     private readonly ZombilucaPlayerSettings playerSettings;
+
+    [SerializeField] private SimpleHealthBarView healthBar;
 
     public override void InstallBindings()
     {
@@ -43,8 +46,10 @@ public class GameInstaller : MonoInstaller
 
         Container.Bind<AmmoItem>().AsTransient().WithArguments(5u);
 
+        Container.BindInterfacesAndSelfTo<IHealthBar>().FromInstance(healthBar);
+
         SignalBusInstaller.Install(Container);
 
-        Container.DeclareSignal<HitShotSignal>();
+        Container.DeclareSignal<PlayerHitShotSignal>();
     }
 }

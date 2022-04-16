@@ -25,6 +25,7 @@ namespace Assets.GameAssets.FirstPersonModeSystem
 
         private Camera mainCamera;
 
+        // TODO: remover esse inject, deve ter uma forma de chamar esse método do instaler sem ter que definir essa anotação, já que esse código irá para UnityFoundation
         [Inject]
         public FirstPersonMode Setup(
             FirstPersonModeSettings settings,

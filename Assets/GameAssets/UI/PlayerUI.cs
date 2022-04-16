@@ -1,35 +1,52 @@
 using Assets.GameAssets.Player;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityFoundation.Code;
 using Zenject;
 
-public class PlayerUI : MonoBehaviour
+namespace Assets.GameAssets.UI
 {
-    private Image hitShotImage;
-
-    public void Start()
+    public class PlayerUI : MonoBehaviour
     {
-        hitShotImage = transform.FindComponent<Image>("hit_shot_image");
-    }
+        private Image hitShotImage;
+        private TextMeshProUGUI ammoCount;
+        private ZombilucaPlayer player;
 
-    [Inject]
-    public void Setup(SignalBus signalBus)
-    {
-        signalBus.Subscribe<HitShotSignal>(() => ShowHitShotImage());
-    }
+        public void Start()
+        {
+            hitShotImage = transform.FindComponent<Image>("hit_shot_image");
 
-    private void ShowHitShotImage()
-    {
-        hitShotImage.gameObject.SetActive(true);
-        StartCoroutine(FadeHitShotImage());
-    }
+            ammoCount = transform.FindComponent<TextMeshProUGUI>("ammo_count_view", "value");
+        }
 
-    private IEnumerator FadeHitShotImage()
-    {
-        yield return new WaitForSeconds(.5f);
-        hitShotImage.gameObject.SetActive(false);
+        [Inject]
+        public void Setup(
+            SignalBus signalBus,
+            ZombilucaPlayer player
+        )
+        {
+            this.player = player;
+            signalBus.Subscribe<PlayerHitShotSignal>(() => ShowHitShotImage());
+        }
+
+        public void Update()
+        {
+            ammoCount.text = player.AmmoStorage.CurrentAmount.ToString();
+        }
+
+        private void ShowHitShotImage()
+        {
+            hitShotImage.gameObject.SetActive(true);
+            StartCoroutine(FadeHitShotImage());
+        }
+
+        private IEnumerator FadeHitShotImage()
+        {
+            yield return new WaitForSeconds(.5f);
+            hitShotImage.gameObject.SetActive(false);
+        }
     }
 }
