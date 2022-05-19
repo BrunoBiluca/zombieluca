@@ -1,5 +1,7 @@
+using Assets.GameAssets.Compass;
 using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.Player;
+using Assets.GameAssets.Radar;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UI.Menus.GameOverMenu;
 using Cinemachine;
@@ -17,18 +19,24 @@ namespace Assets.GameAssets.GameManager
         private readonly CinemachineVirtualCamera vCamera;
         private readonly CursorLockHandler cursorLockHandler;
         private readonly GameOverMenu gameOverMenu;
+        private readonly RadarView radar;
+        private CompassView compass;
 
         public ZombilucaGameManager(
             ZombilucaPlayer player,
             CinemachineVirtualCamera vCamera,
             CursorLockHandler cursorLockHandler,
-            GameOverMenu gameOverMenu
+            GameOverMenu gameOverMenu,
+            RadarView radar,
+            CompassView compass
         )
         {
             this.player = player;
             this.vCamera = vCamera;
             this.cursorLockHandler = cursorLockHandler;
             this.gameOverMenu = gameOverMenu;
+            this.radar = radar;
+            this.compass = compass;
         }
 
         public void Initialize()
@@ -50,6 +58,10 @@ namespace Assets.GameAssets.GameManager
                 "Retry",
                 () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex)
             );
+
+            radar.Setup(player.transform);
+
+            compass.Setup(player.transform);
         }
 
         private IEnumerator GameOverAsync()

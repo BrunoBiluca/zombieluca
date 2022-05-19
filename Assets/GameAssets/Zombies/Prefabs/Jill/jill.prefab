@@ -4682,6 +4682,7 @@ GameObject:
   - component: {fileID: 3275005698610728444}
   - component: {fileID: 9012398483255010359}
   - component: {fileID: 6923877997266796418}
+  - component: {fileID: -3680082971424246043}
   m_Layer: 6
   m_Name: jill
   m_TagString: Untagged
@@ -4939,6 +4940,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3680082971424246043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9153167617879130721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152109d125120dc48802c4821f3df2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objRefPrefab: {fileID: 6981702772789566305, guid: 1d306df98aeca40478a5ef63146b7db1, type: 3}
 --- !u!1001 &1064985130813711485
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -803,6 +803,7 @@ GameObject:
   - component: {fileID: 8883510457498193854}
   - component: {fileID: 2764543149034481289}
   - component: {fileID: 7254802605141731501}
+  - component: {fileID: -2960207099207066423}
   m_Layer: 0
   m_Name: med_box_pf
   m_TagString: Untagged
@@ -861,6 +862,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c43f5825c1c1544fb0797d402129f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2960207099207066423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8416090281731671838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152109d125120dc48802c4821f3df2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objRefPrefab: {fileID: 6981702772789566305, guid: 0b4b966d9dffa6246a06f77b4b6c1e67, type: 3}
 --- !u!1 &8511247943331565287
 GameObject:
   m_ObjectHideFlags: 0

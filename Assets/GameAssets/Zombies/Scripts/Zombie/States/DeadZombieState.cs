@@ -1,3 +1,4 @@
+using Assets.GameAssets.Radar;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
 using UnityFoundation.Code;
@@ -20,6 +21,10 @@ namespace Assets.GameAssets.Zombies
             zombie.Brain.Disabled();
             zombie.Agent.Disabled();
             zombie.GetComponent<CapsuleCollider>().enabled = false;
+
+            if(zombie.TryGetComponent(out RadarTrackedObject radarTracked)){
+                radarTracked.UnRegister();
+            }
 
             var change = Random.Range(0f, 1f);
             if(change > .5f)

@@ -1,3 +1,4 @@
+using Assets.GameAssets.Compass;
 using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.GameManager;
 using Assets.GameAssets.Items;
