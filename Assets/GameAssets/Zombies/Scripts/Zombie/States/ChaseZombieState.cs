@@ -7,7 +7,7 @@ namespace Assets.GameAssets.Zombies
     public class ChaseZombieState : BaseCharacterState3D
     {
         private readonly ZombieController zombie;
-        private Timer updateAudioTimer;
+        private ITimer updateAudioTimer;
 
         public ChaseZombieState(ZombieController zombie)
         {

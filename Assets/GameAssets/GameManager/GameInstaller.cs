@@ -27,7 +27,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<Camera>().FromComponentInHierarchy().AsCached();
         Container.Bind<CinemachineVirtualCamera>().FromComponentInHierarchy().AsCached();
 
-        Container.Bind<FirstPersonInputs>().AsSingle();
+        Container.BindInterfacesAndSelfTo<FirstPersonInputs>().AsSingle();
         Container.BindInterfacesAndSelfTo<FirstPersonInputActions>().AsSingle();
 
         Container.Bind<ZombilucaPlayer>()

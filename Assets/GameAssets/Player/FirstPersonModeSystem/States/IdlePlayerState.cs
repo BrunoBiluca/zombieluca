@@ -1,13 +1,11 @@
-using Assets.GameAssets.Player;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
-using UnityEngine;
+using System.Numerics;
 
 namespace Assets.GameAssets.FirstPersonModeSystem
 {
     public class IdlePlayerState : BaseCharacterState3D
     {
         private readonly FirstPersonMode controller;
-        private readonly FirstPersonAnimationController animController;
 
         public IdlePlayerState(FirstPersonMode controller)
         {
@@ -21,8 +19,8 @@ namespace Assets.GameAssets.FirstPersonModeSystem
 
         public override void Update()
         {
-            controller.Rotate();
             controller.Move();
+            controller.Rotate();
         }
     }
 }

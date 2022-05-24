@@ -4,6 +4,7 @@ using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using Zenject;
 using Assets.GameAssets.FirstPersonModeSystem;
+using Assets.GameAssets.AmmoStorageSystem;
 
 namespace Assets.GameAssets.Player
 {
@@ -16,7 +17,9 @@ namespace Assets.GameAssets.Player
             Container.Bind<Transform>().FromComponentOnRoot().AsSingle();
             Container.Bind<ZombilucaPlayer>().FromComponentOnRoot().AsSingle();
 
-            Container.Bind<CheckGroundHandler>().AsCached().WithArguments(0.5f);
+            Container.BindInterfacesAndSelfTo<CheckGroundHandler>()
+                .AsCached()
+                .WithArguments(0.5f);
 
             Container.Bind<FirstPersonMode>().FromComponentOnRoot().AsSingle();
 
@@ -36,8 +39,9 @@ namespace Assets.GameAssets.Player
 
             Container.BindInterfacesAndSelfTo<HealthSystem>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<AmmoStorageSystem.AmmoStorage>()
-                .AsSingle().WithArguments(10u);
+            Container.BindInterfacesAndSelfTo<AmmoStorage>()
+                .AsSingle()
+                .WithArguments(10u);
 
             Container.Bind<IAnimator>().To<AnimatorController>().AsCached();
 

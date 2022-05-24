@@ -15,11 +15,12 @@ namespace Assets.GameAssets.FirstPersonModeSystem
 
             // TODO: Passar essa instanciação do timer para um factory do DI
             UpdateWalkingStepClip();
-            walkStepTimer = new Timer(0.4f, UpdateWalkingStepClip).Loop();
+            walkStepTimer = (Timer)new Timer(0.4f, UpdateWalkingStepClip).Loop();
         }
 
         private void UpdateWalkingStepClip()
         {
+            Debug.Log("UpdateWalkingStepClip");
             if(controller.Settings.WalkingStepsSFX == null) return;
 
             var clipIdx = Random.Range(0, controller.Settings.WalkingStepsSFX.Count - 1);

@@ -3,7 +3,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 namespace Assets.GameAssets.FirstPersonModeSystem
 {
-    public class FirstPersonInputs
+    public class FirstPersonInputs : IFirstPersonInputs
     {
         public Vector2 Move { get; private set; }
         public bool Jump { get; private set; }

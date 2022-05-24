@@ -2,7 +2,9 @@ using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using Assets.UnityFoundation.UnityAdapter;
 using System;
 using UnityEngine;
+using UnityFoundation.Code;
 using UnityFoundation.Code.PhysicsUtils;
+using UnityFoundation.Code.TimeUtils;
 using Zenject;
 
 namespace Assets.GameAssets.FirstPersonModeSystem
@@ -10,27 +12,27 @@ namespace Assets.GameAssets.FirstPersonModeSystem
     public class FirstPersonMode : BaseCharacter3D
     {
         public FirstPersonModeSettings Settings { get; private set; }
-        public FirstPersonInputs Inputs { get; private set; }
-        public CheckGroundHandler CheckGroundHandler { get; private set; }
+        public IFirstPersonInputs Inputs { get; private set; }
+        public ICheckGroundHandler CheckGroundHandler { get; private set; }
         public FirstPersonAnimationController AnimController { get; private set; }
         public IAudioSource AudioSource { get; private set; }
-        public Rigidbody Rigidbody { get; private set; }
+        public IRigidbody Rigidbody { get; set; }
         public Transform WeaponShootPoint;
 
         public IdlePlayerState IdlePlayerState;
-        public WalkPlayerState WalkPlayerState;
         public AimPlayerState AimState;
 
         public event Action OnShotHit;
 
         private Camera mainCamera;
+        private Timer walkStepTimer;
 
         // TODO: remover esse inject, deve ter uma forma de chamar esse método do instaler sem ter que definir essa anotação, já que esse código irá para UnityFoundation
         [Inject]
         public FirstPersonMode Setup(
             FirstPersonModeSettings settings,
-            FirstPersonInputs inputs,
-            CheckGroundHandler checkGroundHandler,
+            IFirstPersonInputs inputs,
+            ICheckGroundHandler checkGroundHandler,
             FirstPersonAnimationController animController,
             IAudioSource audioSource,
             Camera camera
@@ -44,11 +46,21 @@ namespace Assets.GameAssets.FirstPersonModeSystem
             mainCamera = camera;
 
             IdlePlayerState = new IdlePlayerState(this);
-            WalkPlayerState = new WalkPlayerState(this);
             AimState = new AimPlayerState(this);
 
             CheckGroundHandler.OnLanded += OnLandedHandler;
+
+            walkStepTimer = (Timer)new Timer(0.4f, UpdateWalkingStepClip).Loop();
             return this;
+        }
+
+        private void UpdateWalkingStepClip()
+        {
+            if(Settings.WalkingStepsSFX == null) return;
+
+            var clipIdx = UnityEngine.Random.Range(0, Settings.WalkingStepsSFX.Count - 1);
+            AudioSource.Play(Settings.WalkingStepsSFX[clipIdx]);
+            AudioSource.Loop = true;
         }
 
         private void OnLandedHandler()
@@ -59,7 +71,6 @@ namespace Assets.GameAssets.FirstPersonModeSystem
         protected override void OnStart()
         {
             Inputs.Enable();
-            Rigidbody = GetComponent<Rigidbody>();
 
             TransitionToState(IdlePlayerState);
         }
@@ -103,9 +114,24 @@ namespace Assets.GameAssets.FirstPersonModeSystem
 
             AnimController.Walking(targetDirection.magnitude > 0f);
 
+            UpdateWalkStepAudioClips(targetDirection);
+
             var newPos = transform.forward * targetDirection.z
                 + transform.right * targetDirection.x;
             transform.position += Settings.MoveSpeed * Time.deltaTime * newPos;
+        }
+
+        private void UpdateWalkStepAudioClips(Vector3 targetDirection)
+        {
+            if(targetDirection.magnitude == 0f)
+            {
+                AudioSource.Stop();
+                walkStepTimer.Stop();
+                return;
+            }
+
+            if(!walkStepTimer.IsRunning)
+                walkStepTimer.Start();
         }
 
         public void TryJump()
@@ -114,9 +140,10 @@ namespace Assets.GameAssets.FirstPersonModeSystem
 
             if(!Inputs.Jump) return;
 
-            // TODO: corrigir para só chamar o add force uma única vez
+            CheckGroundHandler.Disable(new UnityTimer().SetAmount(1f));
+
             AudioSource.PlayOneShot(Settings.JumpAudioClip);
-            Rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            Rigidbody.AddForce(Vector3.up * Settings.JumpForce, ForceMode.Impulse);
         }
     }
 }

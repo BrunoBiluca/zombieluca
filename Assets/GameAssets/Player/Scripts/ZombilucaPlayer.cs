@@ -1,6 +1,7 @@
 using Assets.GameAssets.AmmoStorageSystem;
 using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.UnityFoundation.Systems.HealthSystem;
+using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using Zenject;
 
@@ -25,6 +26,7 @@ namespace Assets.GameAssets.Player
             Health.Setup(Settings.StartHealth);
             Health.OnDied += OnDied;
 
+            FirstPersonMode.Rigidbody = new RidigbodyDecorator(GetComponent<Rigidbody>());
             FirstPersonMode.OnShotHit += () => SignalBus.Fire<PlayerHitShotSignal>();
         }
 

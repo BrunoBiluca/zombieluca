@@ -10,24 +10,26 @@ namespace Assets.GameAssets.FirstPersonModeSystem
     )]
     public class FirstPersonModeSettings : ScriptableObject
     {
-        [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f;
+        [field: Tooltip("Move speed of the character in m/s")]
+        [field: SerializeField] public float MoveSpeed { get; set; } = 2.0f;
 
-        [Space(10)]
-        [Tooltip("The height the player can jump")]
-        public float JumpHeight = 1.2f;
+        [field: Space(10)]
+        [field: Tooltip("The height the player can jump")]
+        [field: SerializeField] public float JumpHeight { get; set; } = 1.2f;
 
-        [Space(10)]
-        [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-        public float JumpTimeout = 0.50f;
+        [field: Space(10)]
+        [field: Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
+        [field: SerializeField] public float JumpTimeout { get; set; } = 0.50f;
 
-        public AudioClip FireSFX;
-        public AudioClip FireMissSFX;
+        [field: SerializeField] public float JumpForce { get; set; } = 7f;
 
-        public List<AudioClip> WalkingStepsSFX;
+        [field: SerializeField] public AudioClip FireSFX { get; set; }
+        [field: SerializeField] public AudioClip FireMissSFX { get; set; }
 
-        public AudioClip JumpAudioClip;
+        [field: SerializeField] public List<AudioClip> WalkingStepsSFX { get; set; }
 
-        public AudioClip LandAudioClip;
+        [field: SerializeField] public AudioClip JumpAudioClip { get; set; }
+
+        [field: SerializeField] public AudioClip LandAudioClip { get; set; }
     }
 }
