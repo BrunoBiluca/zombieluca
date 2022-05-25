@@ -11,4 +11,6 @@ public class ZombilucaPlayerSettings : ScriptableObject
     public GameObject PlayerFullModel;
 
     public float StartHealth = 20f;
+
+    [field: SerializeField] public GameObject BloodVFX { get; private set; }
 }

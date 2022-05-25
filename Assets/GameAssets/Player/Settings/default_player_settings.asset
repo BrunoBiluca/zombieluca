@@ -15,3 +15,4 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 4874480355813262084, guid: bce513889c16aa747a5704a53961a013, type: 3}
   PlayerFullModel: {fileID: 8450192851115776640, guid: 4edbcb616a593114d845b1dac36d1afd, type: 3}
   StartHealth: 20
+  <BloodVFX>k__BackingField: {fileID: 669511185692891141, guid: 7dadcd250cf72d8459865dce08193e2e, type: 3}

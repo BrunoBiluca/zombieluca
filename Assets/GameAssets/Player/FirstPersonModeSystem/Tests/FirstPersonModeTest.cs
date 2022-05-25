@@ -1,17 +1,16 @@
-using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using Moq;
 using NUnit.Framework;
-using System;
 using UnityEngine;
+using UnityFoundation.Code;
 using UnityFoundation.Code.PhysicsUtils;
 
-namespace Assets.GameAssets.Player.FirstPersonModeSystem.Tests
+namespace Assets.GameAssets.FirstPersonModeSystem.Tests
 {
     public class FirstPersonModeTest
     {
         private void BuildFirstPersonModePlayer(
-            out FirstPersonMode firstPerson, 
+            out FirstPersonMode firstPerson,
             out Mock<ICheckGroundHandler> checkGroundMock,
             out Mock<IRigidbody> rigidBodyMock)
         {
@@ -40,7 +39,7 @@ namespace Assets.GameAssets.Player.FirstPersonModeSystem.Tests
         public void ShouldNotJumpWhenWasNotOnGround()
         {
             BuildFirstPersonModePlayer(
-                out FirstPersonMode firstPerson, 
+                out FirstPersonMode firstPerson,
                 out Mock<ICheckGroundHandler> checkGroundMock,
                 out Mock<IRigidbody> rigidBodyMock
             );
@@ -59,7 +58,7 @@ namespace Assets.GameAssets.Player.FirstPersonModeSystem.Tests
         public void ShouldJumpWhenWasOnGround()
         {
             BuildFirstPersonModePlayer(
-                out FirstPersonMode firstPerson, 
+                out FirstPersonMode firstPerson,
                 out Mock<ICheckGroundHandler> checkGroundMock,
                 out Mock<IRigidbody> rigidBodyMock
             );
@@ -77,6 +76,37 @@ namespace Assets.GameAssets.Player.FirstPersonModeSystem.Tests
                 rb => rb.AddForce(It.IsAny<Vector3>(), It.IsAny<ForceMode>()),
                 Times.Once
             );
+        }
+
+        [Test]
+        public void ShouldNotFailIfOnShotHitHasNoSubscribes()
+        {
+            BuildFirstPersonModePlayer(
+                out FirstPersonMode firstPerson,
+                out _,
+                out _
+            );
+
+            var randomPoint = Vector3Utils.RandomPoint();
+
+            Assert.DoesNotThrow(() => firstPerson.ShootHit(randomPoint));
+        }
+
+        [Test]
+        public void OnShootHitBehaviour()
+        {
+            BuildFirstPersonModePlayer(
+                out FirstPersonMode firstPerson,
+                out _,
+                out _
+            );
+
+            var randomPoint = Vector3Utils.RandomPoint();
+
+            void expected(Vector3 point) => Assert.AreEqual(randomPoint, point);
+            firstPerson.OnShotHit += expected;
+
+            firstPerson.ShootHit(randomPoint);
         }
     }
 }

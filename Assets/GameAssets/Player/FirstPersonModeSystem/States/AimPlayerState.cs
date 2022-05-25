@@ -79,7 +79,7 @@ namespace Assets.GameAssets.FirstPersonModeSystem
                 if(damageable != null)
                 {
                     damageable.Damage(5f);
-                    player.ShootHit();
+                    player.ShootHit(hit.point);
                 }
             }
         }

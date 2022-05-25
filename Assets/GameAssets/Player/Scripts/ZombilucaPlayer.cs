@@ -27,7 +27,12 @@ namespace Assets.GameAssets.Player
             Health.OnDied += OnDied;
 
             FirstPersonMode.Rigidbody = new RidigbodyDecorator(GetComponent<Rigidbody>());
-            FirstPersonMode.OnShotHit += () => SignalBus.Fire<PlayerHitShotSignal>();
+            FirstPersonMode.OnShotHit += (point) => {
+                var blood = Instantiate(Settings.BloodVFX, point, Quaternion.identity);
+                blood.transform.LookAt(transform.position);
+                Destroy(blood, 0.5f);
+                SignalBus.Fire<PlayerHitShotSignal>();
+            };
         }
 
         private void OnDied(object sender, System.EventArgs e)

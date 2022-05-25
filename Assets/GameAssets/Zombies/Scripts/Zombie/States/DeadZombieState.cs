@@ -44,7 +44,11 @@ namespace Assets.GameAssets.Zombies
             var go = Object.Instantiate(
                 zombie.Config.RagdollPrefab, zombie.transform.position, zombie.transform.rotation
             );
-            go.transform.FindComponent<Rigidbody>("Hips").AddForce(go.transform.forward * 4000);
+
+            var direction = zombie.PlayerRef.transform.position - zombie.transform.position;
+
+            go.transform.FindComponent<Rigidbody>("Hips")
+                .AddForce(-direction.normalized * 10000);
 
             Object.Destroy(zombie.gameObject);
         }

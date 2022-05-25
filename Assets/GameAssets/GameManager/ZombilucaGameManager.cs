@@ -20,7 +20,7 @@ namespace Assets.GameAssets.GameManager
         private readonly CursorLockHandler cursorLockHandler;
         private readonly GameOverMenu gameOverMenu;
         private readonly RadarView radar;
-        private CompassView compass;
+        private readonly CompassView compass;
 
         public ZombilucaGameManager(
             ZombilucaPlayer player,

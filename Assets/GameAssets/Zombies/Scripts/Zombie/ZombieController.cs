@@ -23,6 +23,7 @@ namespace Assets.GameAssets.Zombies
         public ChaseZombieState ChaseState { get; private set; }
         public AttackZombieState AttackState { get; private set; }
         public DeadZombieState DeadState { get; private set; }
+        public GameObject PlayerRef { get; private set; }
 
         [Inject]
         public ZombieController Setup(
@@ -59,6 +60,7 @@ namespace Assets.GameAssets.Zombies
 
         public void SetPlayerRef(GameObject player)
         {
+            PlayerRef = player;
             Brain.SetPlayer(player);
         }
 

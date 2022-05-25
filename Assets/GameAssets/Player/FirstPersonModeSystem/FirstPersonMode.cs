@@ -22,7 +22,10 @@ namespace Assets.GameAssets.FirstPersonModeSystem
         public IdlePlayerState IdlePlayerState;
         public AimPlayerState AimState;
 
-        public event Action OnShotHit;
+        /// <summary>
+        /// Returns as a parameter the shot hit point
+        /// </summary>
+        public Action<Vector3> OnShotHit { get; set; }
 
         private Camera mainCamera;
         private Timer walkStepTimer;
@@ -96,9 +99,9 @@ namespace Assets.GameAssets.FirstPersonModeSystem
             return true;
         }
 
-        public void ShootHit()
+        public void ShootHit(Vector3 point)
         {
-            OnShotHit?.Invoke();
+            OnShotHit?.Invoke(point);
         }
 
         public void Rotate()
