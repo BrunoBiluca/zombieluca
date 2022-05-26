@@ -8,7 +8,7 @@
         "UnityFoundation.Code",
         "UnityFoundation.HealthSystem",
         "UnityFoundation.UnityAdapter",
-        "AmmoStorageSystem"
+        "UnityFoundation.AmmoStorageSystem"
     ],
     "includePlatforms": [
         "Editor"

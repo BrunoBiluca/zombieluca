@@ -1,5 +1,5 @@
-using Assets.GameAssets.FirstPersonModeSystem;
 using UnityEngine;
+using UnityFoundation.FirstPersonModeSystem;
 using Zenject;
 
 [CreateAssetMenu(

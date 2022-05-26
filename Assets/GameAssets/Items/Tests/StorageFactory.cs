@@ -1,7 +1,7 @@
-﻿using Assets.GameAssets.AmmoStorageSystem;
-using Moq;
+﻿using Moq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityFoundation.AmmoStorageSystem;
 
 namespace Assets.GameAssets.Items.Tests
 {

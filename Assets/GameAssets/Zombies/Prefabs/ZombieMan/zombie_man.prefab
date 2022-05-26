@@ -1704,7 +1704,7 @@ GameObject:
   - component: {fileID: -5586478978008040399}
   - component: {fileID: 707907378267013394}
   - component: {fileID: 3569433290777653673}
-  - component: {fileID: 8373880739960864152}
+  - component: {fileID: 3367839290659969229}
   m_Layer: 6
   m_Name: zombie_man
   m_TagString: Untagged
@@ -1961,7 +1961,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8373880739960864152
+--- !u!114 &3367839290659969229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1970,9 +1970,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5176861845160572960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 152109d125120dc48802c4821f3df2b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 754ad7d60816d174e9e5009c61c88009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <RadarView>k__BackingField: {fileID: 0}
   objRefPrefab: {fileID: 6981702772789566305, guid: 1d306df98aeca40478a5ef63146b7db1, type: 3}
 --- !u!1 &5215620285009353330
 GameObject:

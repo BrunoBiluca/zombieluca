@@ -1,8 +1,8 @@
-using Assets.GameAssets.AmmoStorageSystem;
-using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
+using UnityFoundation.AmmoStorageSystem;
+using UnityFoundation.FirstPersonModeSystem;
 using Zenject;
 
 namespace Assets.GameAssets.Player

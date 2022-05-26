@@ -3,8 +3,8 @@ using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using Zenject;
-using Assets.GameAssets.FirstPersonModeSystem;
-using Assets.GameAssets.AmmoStorageSystem;
+using UnityFoundation.FirstPersonModeSystem;
+using UnityFoundation.AmmoStorageSystem;
 
 namespace Assets.GameAssets.Player
 {

@@ -1,7 +1,7 @@
-using Assets.GameAssets.Radar;
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
 using UnityFoundation.Code;
+using UnityFoundation.Radar;
 
 namespace Assets.GameAssets.Zombies
 {

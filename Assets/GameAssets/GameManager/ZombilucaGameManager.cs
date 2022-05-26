@@ -1,7 +1,4 @@
-using Assets.GameAssets.Compass;
-using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.Player;
-using Assets.GameAssets.Radar;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UI.Menus.GameOverMenu;
 using Cinemachine;
@@ -9,6 +6,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityFoundation.Code;
+using UnityFoundation.Compass;
+using UnityFoundation.FirstPersonModeSystem;
+using UnityFoundation.Radar;
 using Zenject;
 
 namespace Assets.GameAssets.GameManager

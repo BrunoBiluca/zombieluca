@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 6401360823947634082}
   - component: {fileID: 85352444157437083}
   - component: {fileID: 5710403498816469945}
-  - component: {fileID: -6416768177707371169}
+  - component: {fileID: 4864699795762031552}
   m_Layer: 0
   m_Name: ammo_box_pf
   m_TagString: Untagged
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupAmmoSFX: {fileID: 8300000, guid: aeaf5e33e8f40d44dbbab2cf3a4ecd6f, type: 3}
---- !u!114 &-6416768177707371169
+--- !u!114 &4864699795762031552
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,9 +140,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4022638654510473881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 152109d125120dc48802c4821f3df2b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 754ad7d60816d174e9e5009c61c88009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <RadarView>k__BackingField: {fileID: 0}
   objRefPrefab: {fileID: 6981702772789566305, guid: 0b4b966d9dffa6246a06f77b4b6c1e67, type: 3}
 --- !u!1 &4022848710415164492
 GameObject:

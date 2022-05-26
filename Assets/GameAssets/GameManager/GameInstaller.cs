@@ -1,5 +1,3 @@
-using Assets.GameAssets.Compass;
-using Assets.GameAssets.FirstPersonModeSystem;
 using Assets.GameAssets.GameManager;
 using Assets.GameAssets.Items;
 using Assets.GameAssets.Player;
@@ -7,6 +5,7 @@ using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using Cinemachine;
 using UnityEngine;
+using UnityFoundation.FirstPersonModeSystem;
 using Zenject;
 
 public class GameInstaller : MonoInstaller

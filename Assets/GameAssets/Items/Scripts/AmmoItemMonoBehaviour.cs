@@ -1,6 +1,6 @@
-using Assets.GameAssets.AmmoStorageSystem;
 using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
+using UnityFoundation.AmmoStorageSystem;
 using Zenject;
 
 namespace Assets.GameAssets.Items
