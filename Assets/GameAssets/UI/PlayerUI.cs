@@ -1,16 +1,20 @@
 using Assets.GameAssets.Player;
+using Assets.UnityFoundation.Systems.HealthSystem;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityFoundation.Code;
+using UnityFoundation.UI;
 using Zenject;
 
 namespace Assets.GameAssets.UI
 {
     public class PlayerUI : MonoBehaviour
     {
+        [SerializeField] private BloodSplatter bloodSplatterPrefab;
+
         private Image hitShotImage;
         private TextMeshProUGUI ammoCount;
         private ZombilucaPlayer player;
@@ -29,7 +33,14 @@ namespace Assets.GameAssets.UI
         )
         {
             this.player = player;
+            player.GetComponent<IHasHealth>().OnTakeDamage += OnPlayerTakeDamage;
             signalBus.Subscribe<PlayerHitShotSignal>(() => ShowHitShotImage());
+        }
+
+        private void OnPlayerTakeDamage(object sender, EventArgs e)
+        {
+            Instantiate(bloodSplatterPrefab, transform)
+                .Setup(2f, GetComponent<RectTransform>().rect.size);
         }
 
         public void Update()

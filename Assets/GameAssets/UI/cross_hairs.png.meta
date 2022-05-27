@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1300,6 +1301,63 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      cross_hairs_29: 7312306045584596275
+      cross_hairs_32: -2666936929482021808
+      cross_hairs_45: -6152220222938657739
+      cross_hairs_4: -3456328707358236827
+      cross_hairs_36: 7924126808983088024
+      cross_hairs_30: 5130405933133572342
+      cross_hairs_2: -5616687468182685562
+      cross_hairs_37: -1041111748597477628
+      cross_hairs_17: -4048448705286462271
+      cross_hairs_10: -6597845959597399958
+      cross_hairs_15: -7373403020490657961
+      cross_hairs_39: 7522916917051692028
+      cross_hairs_19: 3882594322129851000
+      cross_hairs_25: 3418035145821450325
+      cross_hairs_47: -3242090464649558209
+      cross_hairs_50: -4474754224743579993
+      cross_hairs_54: -1694102902763555866
+      cross_hairs_35: 2237447631852856226
+      cross_hairs_34: 2134685260587633484
+      cross_hairs_23: 5408133414679405568
+      cross_hairs_51: -6808126258923651603
+      cross_hairs_44: 130207789617379931
+      cross_hairs_26: 7232580214003646791
+      cross_hairs_12: -3156453314843539057
+      cross_hairs_53: 5976913556120303401
+      cross_hairs_21: 6115492974505078839
+      cross_hairs_1: 6597106420073205640
+      cross_hairs_42: -5561226636805162685
+      cross_hairs_48: -6681767000899347302
+      cross_hairs_5: 6478340129049635304
+      cross_hairs_6: -5002867881758426620
+      cross_hairs_18: 1186183929817197439
+      cross_hairs_38: 1408794996813342755
+      cross_hairs_20: 8076974585675679165
+      cross_hairs_16: 5751015623506832040
+      cross_hairs_41: -6615148759254081827
+      cross_hairs_43: 2584096579847802930
+      cross_hairs_7: 5089519326177175626
+      cross_hairs_40: -7159950260837181169
+      cross_hairs_49: 7727651912320550938
+      cross_hairs_52: 4171746356150173306
+      cross_hairs_0: 2512823203795726497
+      cross_hairs_55: -2149575692661271154
+      cross_hairs_11: 1982713439566820140
+      cross_hairs_14: -8953409196357590284
+      cross_hairs_24: -1641644474102424003
+      cross_hairs_8: 5303110249073937195
+      cross_hairs_9: -5527627204462859711
+      cross_hairs_31: 2394416475768266029
+      cross_hairs_46: 4365119570685078875
+      cross_hairs_13: 2712163694227187123
+      cross_hairs_28: 2215143518932453188
+      cross_hairs_33: -4645382850504097132
+      cross_hairs_3: -2224092941171419812
+      cross_hairs_27: 245147029063829775
+      cross_hairs_22: 4168153097737445983
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

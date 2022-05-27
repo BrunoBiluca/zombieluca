@@ -16,11 +16,17 @@ MonoBehaviour:
     MinDistanceForChasePlayer: 20
     WanderingDistance: 5
     MinAttackDistance: 1
-    MinNextAttackDelay: 3
+    MinNextAttackDelay: 1.5
+    WanderingReevaluateTime: 0
   zombieSettings:
     WanderingSpeed: 0.45
     ChasingSpeed: 4
     ChasingTurnSpeed: 10
+    AttackRange: 0
+    AttackDamage: 0
     DebugMode: 0
     BaseHealth: 10
     RagdollPrefab: {fileID: 0}
+    AttackSFX: []
+    WanderingSFX: {fileID: 0}
+    ChasingSFX: []
