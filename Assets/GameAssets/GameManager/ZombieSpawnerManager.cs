@@ -2,20 +2,44 @@
 using Assets.GameAssets.Zombies;
 using Zenject;
 
-public class ZombieSpawnerManager : IInitializable
+namespace Assets.GameAssets.GameManager
 {
-    private readonly ZombilucaPlayer player;
-    public ZombieController[] Zombies { get; }
+    public class OnZombiesDied { }
 
-    public ZombieSpawnerManager(ZombieController[] zombies, ZombilucaPlayer player)
+    public class ZombieSpawnerManager : IInitializable
     {
-        Zombies = zombies;
-        this.player = player;
-    }
+        private readonly ZombilucaPlayer player;
+        private readonly SignalBus signalBus;
 
-    public void Initialize()
-    {
-        foreach(var zombie in Zombies)
-            zombie.SetPlayerRef(player.gameObject);
+        public ZombieController[] Zombies { get; }
+
+        public int currentZombieDeadCount = 0;
+        public int ZombieCount { get; private set; }
+
+        public ZombieSpawnerManager(
+            ZombieController[] zombies,
+            ZombilucaPlayer player,
+            SignalBus signalBus
+        )
+        {
+            Zombies = zombies;
+            ZombieCount = zombies.Length;
+            this.player = player;
+            this.signalBus = signalBus;
+        }
+
+        public void Initialize()
+        {
+            foreach(var zombie in Zombies)
+            {
+                zombie.SetPlayerRef(player.gameObject);
+                zombie.Health.OnDied += (sender, args) => {
+                    currentZombieDeadCount++;
+                    if(currentZombieDeadCount == ZombieCount)
+                        signalBus.Fire<OnZombiesDied>();
+                };
+            }
+
+        }
     }
 }

@@ -1,7 +1,7 @@
 using Assets.GameAssets.Player;
 using Assets.UnityFoundation.Systems.HealthSystem;
-using Assets.UnityFoundation.UI.Menus.GameOverMenu;
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +9,7 @@ using UnityFoundation.Code;
 using UnityFoundation.Compass;
 using UnityFoundation.FirstPersonModeSystem;
 using UnityFoundation.Radar;
+using UnityFoundation.UI.Menus.GameOverMenu;
 using Zenject;
 
 namespace Assets.GameAssets.GameManager
@@ -21,6 +22,8 @@ namespace Assets.GameAssets.GameManager
         private readonly GameOverMenu gameOverMenu;
         private readonly RadarView radar;
         private readonly CompassView compass;
+        private readonly GameFinishPoint finishPoint;
+        private readonly SignalBus signalBus;
 
         public ZombilucaGameManager(
             ZombilucaPlayer player,
@@ -28,7 +31,9 @@ namespace Assets.GameAssets.GameManager
             CursorLockHandler cursorLockHandler,
             GameOverMenu gameOverMenu,
             RadarView radar,
-            CompassView compass
+            CompassView compass,
+            GameFinishPoint finishPoint,
+            SignalBus signalBus
         )
         {
             this.player = player;
@@ -37,6 +42,8 @@ namespace Assets.GameAssets.GameManager
             this.gameOverMenu = gameOverMenu;
             this.radar = radar;
             this.compass = compass;
+            this.finishPoint = finishPoint;
+            this.signalBus = signalBus;
         }
 
         public void Initialize()
@@ -50,7 +57,6 @@ namespace Assets.GameAssets.GameManager
 
             player.GetComponent<IHealable>().OnDied
                 += (args, sender) => {
-                    Camera.main.gameObject.SetActive(false);
                     AsyncProcessor.Instance.StartCoroutine(GameOverAsync());
                 };
 
@@ -62,7 +68,24 @@ namespace Assets.GameAssets.GameManager
             radar.Setup(player.transform);
 
             compass.Setup(player.transform);
+
+            finishPoint.Hide();
+
+            signalBus.Subscribe<OnGameFinished>(VictoryGameOver);
         }
+
+        private void VictoryGameOver()
+        {
+            AsyncProcessor.Instance.StartCoroutine(VictoryGameOverAsync());
+        }
+
+        private IEnumerator VictoryGameOverAsync()
+        {
+            yield return new WaitForSeconds(6f);
+            cursorLockHandler.Disable();
+            gameOverMenu.Show("Victory");
+        }
+
 
         private IEnumerator GameOverAsync()
         {

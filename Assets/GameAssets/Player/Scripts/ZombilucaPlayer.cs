@@ -1,5 +1,6 @@
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
+using System;
 using UnityEngine;
 using UnityFoundation.AmmoStorageSystem;
 using UnityFoundation.FirstPersonModeSystem;
@@ -16,6 +17,7 @@ namespace Assets.GameAssets.Player
         [Inject] public SignalBus SignalBus { get; private set; }
         [Inject] public IHealthBar HealthBar { get; private set; }
         [Inject] public IAmmoStorage AmmoStorage { get; private set; }
+        [Inject] public Camera MainCamera { get; private set; }
 
         protected void Start()
         {
@@ -35,7 +37,19 @@ namespace Assets.GameAssets.Player
             };
         }
 
-        private void OnDied(object sender, System.EventArgs e)
+        public void VictoryDance()
+        {
+            MainCamera.gameObject.SetActive(false);
+            InstantiatePlayerFullModal("Dance");
+        }
+
+        private void OnDied(object sender, EventArgs e)
+        {
+            MainCamera.gameObject.SetActive(false);
+            InstantiatePlayerFullModal("Death");
+        }
+
+        private void InstantiatePlayerFullModal(string animationTrigger)
         {
             var model = Instantiate(
                 Settings.PlayerFullModel,
@@ -47,9 +61,8 @@ namespace Assets.GameAssets.Player
                 transform.rotation
             );
 
-            model.GetComponent<Animator>().SetTrigger("Death");
+            model.GetComponent<Animator>().SetTrigger(animationTrigger);
             Destroy(gameObject);
         }
-
     }
 }

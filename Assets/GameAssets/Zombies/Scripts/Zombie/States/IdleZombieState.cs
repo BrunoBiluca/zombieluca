@@ -17,6 +17,15 @@ namespace Assets.GameAssets.Zombies
         {
             zombie.Animator.SetBool(ZombieAnimParams.Walking, false);
             zombie.Animator.SetBool(ZombieAnimParams.Running, false);
+
+            zombie.AudioSource.Volume = 0.2f;
+            zombie.AudioSource.Loop = true;
+            zombie.AudioSource.Play(zombie.Config.WanderingSFX);
+        }
+
+        public override void ExitState()
+        {
+            zombie.AudioSource.ResetAudio();
         }
 
         public override void Update()

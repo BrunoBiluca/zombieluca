@@ -41,6 +41,10 @@ namespace Assets.GameAssets.UI
         {
             Instantiate(bloodSplatterPrefab, transform)
                 .Setup(2f, GetComponent<RectTransform>().rect.size);
+            Instantiate(bloodSplatterPrefab, transform)
+                .Setup(2f, GetComponent<RectTransform>().rect.size);
+            Instantiate(bloodSplatterPrefab, transform)
+                .Setup(2f, GetComponent<RectTransform>().rect.size);
         }
 
         public void Update()

@@ -51,5 +51,7 @@ public class GameInstaller : MonoInstaller
         SignalBusInstaller.Install(Container);
 
         Container.DeclareSignal<PlayerHitShotSignal>();
+        Container.DeclareSignal<OnZombiesDied>();
+        Container.DeclareSignal<OnGameFinished>();
     }
 }

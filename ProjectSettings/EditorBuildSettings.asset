@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Build/main_menu_scene.unity
+    guid: d4ac90c530a39194aa2ee0d0b23af141
+  - enabled: 1
+    path: Assets/Scenes/Demo/PlayerGameplay/player_gameplay_demo.unity
+    guid: 8b46ef9db9eabe64fb660489946dec47
+  - enabled: 1
+    path: Assets/Scenes/Prototype/zombie_pong.unity
+    guid: c4439848199ad1f42b0a8fe01f65e31a
   m_configObjects: {}

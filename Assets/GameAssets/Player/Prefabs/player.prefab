@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.465, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4874480355813262104}
   m_RootOrder: 0
@@ -64,6 +65,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4874480355395636558}
   - {fileID: 7917496596983326439}
@@ -590,11 +592,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3334136219685349559, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.992
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3334136219685349559, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.096
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3334136219685349559, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1059,19 +1061,9 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1737935232781064868, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
   m_PrefabInstance: {fileID: 4874480355976269392}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7917496596983326439 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3334136219685349559, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
-  m_PrefabInstance: {fileID: 4874480355976269392}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8923053095304356228 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4066943484899438548, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
-  m_PrefabInstance: {fileID: 4874480355976269392}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &4874480355976269397
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1084,6 +1076,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -1101,6 +1094,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseCharacter: {fileID: 5244889820492981977}
+--- !u!4 &7917496596983326439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3334136219685349559, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
+  m_PrefabInstance: {fileID: 4874480355976269392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8923053095304356228 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4066943484899438548, guid: c356d39725bcc4ec0925ab50a3cf6a42, type: 3}
+  m_PrefabInstance: {fileID: 4874480355976269392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7204372051414869781
 PrefabInstance:
   m_ObjectHideFlags: 0

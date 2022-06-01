@@ -1,7 +1,6 @@
 using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using Assets.UnityFoundation.UnityAdapter;
-using System;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +8,7 @@ namespace Assets.GameAssets.Zombies
 {
     [RequireComponent(typeof(CapsuleCollider))]
     [RequireComponent(typeof(AudioSource))]
-    public class ZombieController : BaseCharacter3D
+    public partial class ZombieController : BaseCharacter3D
     {
         public Settings Config { get; private set; }
 
@@ -23,6 +22,7 @@ namespace Assets.GameAssets.Zombies
         public ChaseZombieState ChaseState { get; private set; }
         public AttackZombieState AttackState { get; private set; }
         public DeadZombieState DeadState { get; private set; }
+        public IHasHealth Health { get; private set; }
         public GameObject PlayerRef { get; private set; }
 
         [Inject]
@@ -51,6 +51,7 @@ namespace Assets.GameAssets.Zombies
             AttackState = new AttackZombieState(this);
             DeadState = new DeadZombieState(this);
 
+            Health = hasHealth;
             hasHealth.Setup(config.BaseHealth);
             hasHealth.OnDied += (sender, args) => TransitionToStateForce(DeadState);
 
@@ -70,25 +71,6 @@ namespace Assets.GameAssets.Zombies
 
             if(Brain.IsChasing)
                 TransitionToStateIfDifferent(ChaseState);
-        }
-
-        [Serializable]
-        public class Settings
-        {
-            public float WanderingSpeed;
-            public float ChasingSpeed;
-            public float ChasingTurnSpeed;
-
-            public float AttackRange;
-            public float AttackDamage;
-
-            public bool DebugMode;
-            public float BaseHealth;
-            public GameObject RagdollPrefab;
-            public AudioClip[] AttackSFX;
-
-            public AudioClip WanderingSFX;
-            public AudioClip[] ChasingSFX;
         }
     }
 }
