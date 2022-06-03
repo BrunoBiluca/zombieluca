@@ -9,7 +9,8 @@
         "UnityFoundation.Code",
         "UnityFoundation.Character3D",
         "UnityFoundation.HealthSystem",
-        "UnityFoundation.TestUtility"
+        "UnityFoundation.TestUtility",
+        "UnityFoundation.BaseCharacter"
     ],
     "includePlatforms": [
         "Editor"

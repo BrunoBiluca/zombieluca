@@ -1,6 +1,6 @@
 ﻿using Assets.UnityFoundation.Systems.Character3D.Scripts;
 using UnityEngine;
-using UnityFoundation.Code.TimeUtils;
+using UnityFoundation.Tools.TimeUtils;
 
 namespace Assets.GameAssets.Zombies
 {
