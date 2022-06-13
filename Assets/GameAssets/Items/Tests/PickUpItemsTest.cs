@@ -103,10 +103,9 @@ namespace Assets.GameAssets.Items.Tests
             );
         }
 
-        [UnityTest]
-        [RequiresPlayMode]
+        [Test]
         [TestCaseSource(nameof(MockConsumableItems))]
-        public IEnumerator ItemXBehaviour_WhenCollideWithY(
+        public void ItemXBehaviour_WhenCollideWithY(
             IConsumableItemFactory itemFactory,
             IItemUserFactory itemUserFactory,
             bool expectedConsume
@@ -125,39 +124,31 @@ namespace Assets.GameAssets.Items.Tests
 
             itemFactory.Destroy();
             itemUserFactory.Destroy();
-
-            yield return null;
         }
 
         public static IEnumerable<TestCaseData> MockConsumableItems()
         {
             yield return new TestCaseData(new AmmoItemFactory(), new StorageFactory(), true)
-                .SetName("Ammo Item should be used when collide with Ammo Storage")
-                .Returns(null);
+                .SetName("Ammo Item should be used when collide with Ammo Storage");
 
             yield return new TestCaseData(
                     new AmmoItemFactory(), new StorageFactory().Full(), false
                 )
-                .SetName("Ammo Item should not be used when collide with Ammo Storage maxed")
-                .Returns(null);
+                .SetName("Ammo Item should not be used when collide with Ammo Storage maxed");
 
             yield return new TestCaseData(new AmmoItemFactory(), new HealthSystemFactory(), false)
-                .SetName("Ammo Item should not be used when collide with Health System")
-                .Returns(null);
+                .SetName("Ammo Item should not be used when collide with Health System");
 
             yield return new TestCaseData(new HealItemFactory(), new StorageFactory(), false)
-                .SetName("Heal item should not be used when collide with Ammo Storage")
-                .Returns(null);
+                .SetName("Heal item should not be used when collide with Ammo Storage");
 
             yield return new TestCaseData(new HealItemFactory(), new HealthSystemFactory(), true)
-                .SetName("Heal item should be used when collide with Healable")
-                .Returns(null);
+                .SetName("Heal item should be used when collide with Healable");
 
             yield return new TestCaseData(
                     new HealItemFactory(), new HealthSystemFactory().Full(), false
                 )
-                .SetName("Heal item should not be used when collide with Healable full")
-                .Returns(null);
+                .SetName("Heal item should not be used when collide with Healable full");
         }
     }
 }

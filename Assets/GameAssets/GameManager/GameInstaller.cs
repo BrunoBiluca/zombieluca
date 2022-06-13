@@ -2,9 +2,9 @@ using Assets.GameAssets.GameManager;
 using Assets.GameAssets.Items;
 using Assets.GameAssets.Player;
 using Assets.UnityFoundation.Systems.HealthSystem;
-using Assets.UnityFoundation.UnityAdapter;
 using Cinemachine;
 using UnityEngine;
+using UnityFoundation.Code.UnityAdapter;
 using UnityFoundation.FirstPersonModeSystem;
 using Zenject;
 
@@ -20,9 +20,6 @@ public class GameInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<CursorLockHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<ZombilucaGameManager>().AsSingle().NonLazy();
 
-        // TODO: criar subcontaine para o player, 
-        // encapsulando assim todas as instancias de um player 
-        // possibilitando um coop split/screen
         Container.Bind<Camera>().FromComponentInHierarchy().AsCached();
         Container.Bind<CinemachineVirtualCamera>().FromComponentInHierarchy().AsCached();
 

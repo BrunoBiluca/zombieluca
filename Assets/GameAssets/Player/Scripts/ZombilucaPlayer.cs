@@ -1,8 +1,8 @@
 using Assets.UnityFoundation.Systems.HealthSystem;
-using Assets.UnityFoundation.UnityAdapter;
 using System;
 using UnityEngine;
 using UnityFoundation.AmmoStorageSystem;
+using UnityFoundation.Code.UnityAdapter;
 using UnityFoundation.FirstPersonModeSystem;
 using Zenject;
 

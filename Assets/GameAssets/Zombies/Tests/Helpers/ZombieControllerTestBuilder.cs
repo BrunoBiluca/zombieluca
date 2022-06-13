@@ -1,8 +1,9 @@
 ﻿using Assets.UnityFoundation.Systems.HealthSystem;
-using Assets.UnityFoundation.UnityAdapter;
 using Moq;
-using System;
 using UnityEngine;
+using UnityFoundation.Code.UnityAdapter;
+using UnityFoundation.Zombies;
+using UnityFoundation.Zombies.Tests;
 
 namespace Assets.GameAssets.Zombies.Tests
 {

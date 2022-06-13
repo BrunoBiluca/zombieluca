@@ -1,7 +1,7 @@
-﻿using Assets.UnityFoundation.UnityAdapter;
-using Moq;
+﻿using Moq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityFoundation.Code.UnityAdapter;
 
 namespace Assets.GameAssets.Items.Tests
 {

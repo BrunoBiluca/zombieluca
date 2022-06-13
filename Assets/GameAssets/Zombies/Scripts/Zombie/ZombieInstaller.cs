@@ -1,7 +1,8 @@
 using Assets.UnityFoundation.Systems.HealthSystem;
-using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityFoundation.Code.UnityAdapter;
+using UnityFoundation.Zombies;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies

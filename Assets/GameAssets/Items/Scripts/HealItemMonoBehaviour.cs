@@ -1,10 +1,11 @@
 using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
+using UnityFoundation.Code.UnityAdapter;
 using Zenject;
 
 namespace Assets.GameAssets.Items
 {
-    public class HealItemMonoBehaviour : MonoBehaviour, ICollisionObject
+    public class HealItemMonoBehaviour : BilucaMonoBehaviour, ICollisionObject
     {
         private HealItem healItem;
 
@@ -23,7 +24,11 @@ namespace Assets.GameAssets.Items
             healItem.SetHealable(healable).Use();
 
             if(healItem.WasConsumed)
+#if UNITY_EDITOR
+                DestroyImmediate(gameObject);
+#else
                 Destroy(gameObject);
+#endif
         }
     }
 }

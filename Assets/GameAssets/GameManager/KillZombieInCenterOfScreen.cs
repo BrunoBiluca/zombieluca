@@ -1,5 +1,4 @@
 using Assets.GameAssets.Zombies;
-using Assets.UnityFoundation.CameraScripts;
 using Assets.UnityFoundation.Systems.HealthSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;

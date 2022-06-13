@@ -5,12 +5,13 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Zombies",
-        "UnityFoundation.UnityAdapter",
         "UnityFoundation.Code",
         "UnityFoundation.Character3D",
         "UnityFoundation.HealthSystem",
         "UnityFoundation.TestUtility",
-        "UnityFoundation.BaseCharacter"
+        "UnityFoundation.BaseCharacter",
+        "UnityFoundation",
+        "UnityFoundation.Zombies.Tests"
     ],
     "includePlatforms": [
         "Editor"

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityFoundation.Zombies;
 using Zenject;
 
 namespace Assets.GameAssets.Zombies

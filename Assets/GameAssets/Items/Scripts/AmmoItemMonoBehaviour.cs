@@ -1,11 +1,11 @@
-using Assets.UnityFoundation.UnityAdapter;
 using UnityEngine;
 using UnityFoundation.AmmoStorageSystem;
+using UnityFoundation.Code.UnityAdapter;
 using Zenject;
 
 namespace Assets.GameAssets.Items
 {
-    public class AmmoItemMonoBehaviour : MonoBehaviour, ICollisionObject
+    public class AmmoItemMonoBehaviour : BilucaMonoBehaviour, ICollisionObject
     {
         [SerializeField] private AudioClip pickupAmmoSFX;
 
